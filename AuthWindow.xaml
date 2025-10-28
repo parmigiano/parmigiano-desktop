@@ -1,0 +1,196 @@
+﻿<Window x:Class="Parmigiano.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Parmigiano"
+        xmlns:controllers="clr-namespace:Parmigiano.UI.Controllers"
+        mc:Ignorable="d"
+        Icon="pack://application:,,,/Public/assets/logo-ico.ico"
+        Title="Auth client" 
+        Height="700" Width="1100" MinHeight="550" MinWidth="410"
+        WindowStartupLocation="CenterScreen"
+        Background="#000">
+
+    <Window.Resources>
+        <controllers:WidthToVisibilityConverter x:Key="WidthToVisibilityConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="20,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition x:Name="RightColumn"
+                              Width="{Binding ActualWidth,
+                                              RelativeSource={RelativeSource AncestorType=Window},
+                                              Converter={StaticResource WidthToVisibilityConverter}}" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Register auth -->
+        <StackPanel x:Name="RegisterPanel"
+                    Grid.Column="0"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    MaxWidth="450">
+
+            <TextBlock Text="Создайте аккаунт"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Margin="0,0,0,15"/>
+
+            <TextBlock Text="Чтобы начать общение и пользоваться всеми возможностями нашего чата, создайте свой аккаунт."
+                       Foreground="#888"
+                       Margin="0,0,0,30"
+                       TextWrapping="Wrap"
+                       FontSize="14"/>
+
+            <!-- Поля регистрации -->
+            <TextBlock Text="Имя пользователя" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+            <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                <TextBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+            </Border>
+
+            <TextBlock Text="Адрес электронной почты" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+            <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                <TextBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+            </Border>
+
+            <TextBlock Text="Пароль" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+            <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                <PasswordBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3 3 0 4" CaretBrush="White"/>
+            </Border>
+
+            <Button Content="Создать аккаунт"
+                    Height="40"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Margin="0,0,0,15"
+                    Cursor="Hand"
+                    Foreground="#fff">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="#3ba7f5"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5cb8fa"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Ссылка на вход -->
+            <TextBlock Text="Уже есть аккаунт? Войти"
+                       Foreground="#8A8A8A"
+                       FontSize="13"
+                       Margin="0,5,0,0"
+                       Cursor="Hand"
+                       MouseLeftButtonUp="LoginLink_Click">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="#8A8A8A" />
+                        <Setter Property="TextDecorations" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#3ba7f5"/>
+                                <Setter Property="TextDecorations" Value="Underline"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>
+        
+        <!-- Login auth -->
+        <StackPanel x:Name="LoginPanel"
+                    Grid.Column="0"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    MaxWidth="450"
+                    Visibility="Collapsed">
+
+            <TextBlock Text="Войти в аккаунт"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Margin="0,0,0,15"/>
+
+            <TextBlock Text="Введите свой email и пароль, чтобы войти в чат и продолжить общение."
+                       Foreground="#888"
+                       Margin="0,0,0,30"
+                       TextWrapping="Wrap"
+                       FontSize="14"/>
+
+            <TextBlock Text="Адрес электронной почты" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+            <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                <TextBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+            </Border>
+
+            <TextBlock Text="Пароль" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+            <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                <PasswordBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3 3 0 4" CaretBrush="White"/>
+            </Border>
+
+            <Button Content="Войти"
+                    Height="40"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Margin="0,0,0,15"
+                    Cursor="Hand"
+                    Foreground="#fff">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="#3ba7f5"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#5cb8fa"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <TextBlock Text="Нет аккаунта? Создать"
+                       Foreground="#8A8A8A"
+                       FontSize="13"
+                       Margin="0,5,0,0"
+                       Cursor="Hand"
+                       MouseLeftButtonUp="RegisterLink_Click">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="#8A8A8A" />
+                        <Setter Property="TextDecorations" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#3ba7f5"/>
+                                <Setter Property="TextDecorations" Value="Underline"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>
+
+        <Viewbox Grid.Column="1"
+                 x:Name="RightImageContainer"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Stretch="Uniform"
+                 Margin="75,0,75,0">
+            <Image Source="pack://application:,,,/Public/assets/logo-bg-none.png"
+                   MaxWidth="250"/>
+        </Viewbox>
+    </Grid>
+</Window>
