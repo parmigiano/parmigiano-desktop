@@ -1,4 +1,6 @@
-﻿using Parmigiano.Models;
+﻿using Parmigiano.Interface;
+using Parmigiano.Models;
+using Parmigiano.Repository;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -11,6 +13,7 @@ namespace Parmigiano.Services
     public class HttpClientService
     {
         private readonly HttpClient _httpClient;
+        private readonly IUserConfigRepository _userConf = new UserConfigRepository();
 
         public HttpClientService(string baseUrl)
         {
@@ -18,6 +21,8 @@ namespace Parmigiano.Services
             {
                 BaseAddress = new Uri(baseUrl)
             };
+
+            this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.Load());
         }
 
         public async Task<T?> GetAsync<T>(string endpoint) where T : class

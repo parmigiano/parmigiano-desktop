@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Parmigiano.UI.Components.UserMeCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Parmigiano.UI.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="300">
+
+    <Grid Margin="10" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0">
+            <Grid Width="55" Height="54">
+                <Ellipse x:Name="AvatarCircle" StrokeThickness="1" Stroke="#222">
+                    <Ellipse.Fill>
+                        <ImageBrush x:Name="AvatarImage" Stretch="UniformToFill"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <TextBlock x:Name="InitialText"
+                           Visibility="Collapsed"
+                           Foreground="White"
+                           FontWeight="Bold"
+                           FontSize="20"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+            </Grid>
+
+            <TextBlock Text="Гость"
+                   x:Name="UsernameText"
+                   VerticalAlignment="Center"
+                   Foreground="White"
+                   FontWeight="SemiBold"
+                   FontSize="15"
+                   Margin="15,0,0,0"/>
+        </StackPanel>
+
+        <Image Source="pack://application:,,,/Public/ico/ellipsis-vertical.png"
+           Grid.Column="1"
+           MaxWidth="17"
+           VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>

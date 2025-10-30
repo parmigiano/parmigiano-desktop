@@ -4,13 +4,42 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Parmigiano"
+        xmlns:components="clr-namespace:Parmigiano.UI.Components"
+        xmlns:controllers="clr-namespace:Parmigiano.UI.Controllers"
         mc:Ignorable="d"
         Icon="pack://application:,,,/Public/assets/logo-ico.ico"
-        Title="Parmigiano Chat" 
+        Title="{Binding WindowTitle}"
         Height="700" Width="1100" MinHeight="550" MinWidth="410"
         WindowStartupLocation="CenterScreen"
         Background="#000">
-    <Grid>
 
+    <Window.Resources>
+        <controllers:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="410" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0">
+            <components:UsersList />
+        </Border>
+
+        <Border Grid.Column="1" Margin="10">
+            <TextBlock Text="Выберите, кому хотели бы написать"
+                       Foreground="#666"
+                       FontSize="14"
+                       FontWeight="Medium"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Visibility="{Binding SelectedUser, 
+                                    Converter={StaticResource NullToVisibilityConverter}, 
+                                    ConverterParameter=Inverse}" />
+
+            <!-- <components:Chat Visibility="{Binding SelectedUser,
+                                    Converter={StaticResource NullToVisibilityConverter}}" /> -->
+        </Border>
     </Grid>
 </Window>

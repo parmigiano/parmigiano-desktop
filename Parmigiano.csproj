@@ -237,21 +237,42 @@
     </Compile>
     <Compile Include="Core\Config.cs" />
     <Compile Include="Interface\IAuthApiRepository.cs" />
+    <Compile Include="Interface\IUserApiRepository.cs" />
     <Compile Include="Models\ApiResponseModel.cs" />
     <Compile Include="Models\AuthCreateModel.cs" />
     <Compile Include="Models\AuthLoginModel.cs" />
+    <Compile Include="Models\MessageEditModel.cs" />
+    <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\MessageStatusModel.cs" />
+    <Compile Include="Models\UserCoreModel.cs" />
+    <Compile Include="Models\UserInfoModel.cs" />
+    <Compile Include="Models\UserMassModel.cs" />
+    <Compile Include="Models\UserProfileModel.cs" />
     <Compile Include="Repository\AuthApiRepository.cs" />
+    <Compile Include="Repository\UserApiRepository.cs" />
     <Compile Include="Repository\UserConfigRepository.cs" />
     <Compile Include="Services\HttpClientService.cs" />
     <Compile Include="Services\Logger.cs" />
     <Compile Include="Services\ToastService.cs" />
+    <Compile Include="UI\Components\Chat.xaml.cs">
+      <DependentUpon>Chat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Components\Loader.xaml.cs">
       <DependentUpon>Loader.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Components\ToastControl.xaml.cs">
       <DependentUpon>ToastControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Components\UserMeCard.xaml.cs">
+      <DependentUpon>UserMeCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\UsersList.xaml.cs">
+      <DependentUpon>UsersList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\WidthToVisibilityConverter.cs" />
+    <Compile Include="Utilities\MouseUtilities.cs" />
+    <Compile Include="ViewModel\UsersViewModel.cs" />
     <Page Include="AuthWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -269,11 +290,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Components\Chat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Components\Loader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Components\ToastControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Components\UserMeCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Components\UsersList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,7 +339,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Public\ico\" />
     <Folder Include="UI\Pages\" />
     <Folder Include="UI\Styles\" />
   </ItemGroup>
@@ -315,6 +347,9 @@
     <Resource Include="Public\assets\logo-bg.png" />
     <Resource Include="Public\assets\logo-ico.ico" />
     <Resource Include="Public\assets\logo-ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\ellipsis-vertical.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
