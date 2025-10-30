@@ -10,7 +10,7 @@ namespace Parmigiano.Core
     public class AppConfig
     {
         [Newtonsoft.Json.JsonProperty("TYPE_RELEASE")]
-        public string TYPE_RELEASE { get; } = "dev";
+        public string TYPE_RELEASE { get; } = "prod";
 
         [Newtonsoft.Json.JsonProperty("APP_NAME")]
         public string APP_NAME { get; } = "Parmigiano";
@@ -21,23 +21,46 @@ namespace Parmigiano.Core
         [Newtonsoft.Json.JsonProperty("CONFIG_USER_PATH")]
         public string CONFIG_USER_PATH { get; }
 
-        public string SERVER_ADDR
+        [Newtonsoft.Json.JsonProperty("LOGS_PATH")]
+        public string LOGS_PATH { get; }
+
+        [Newtonsoft.Json.JsonProperty("HTTP_SERVER_ADDR")]
+        public string HTTP_SERVER_ADDR
         {
             get
             {
-                if (TYPE_RELEASE == "dev")
+                if (this.TYPE_RELEASE == "dev")
                 {
-                    return "http://localhost:8080/api/v1";
+                    return "http://localhost:8080/api/v1/";
                 } else
                 {
-                    return "http://77.222.54.211/api/v1";
+                    return "https://parmigianochat.ru/api/v1/";
                 }
             }
         }
 
+        [Newtonsoft.Json.JsonProperty("TCP_SERVER_ADDR")]
+        public string TCP_SERVER_ADDR
+        {
+            get
+            {
+                if (this.TYPE_RELEASE == "dev")
+                {
+                    return "localhost";
+                } else
+                {
+                    return "77.222.54.211";
+                }
+            }
+        }
+
+        [Newtonsoft.Json.JsonProperty("TCP_SERVER_PORT")]
+        public short TCP_SERVER_PORT = 5462;
+
         public AppConfig()
         {
-            CONFIG_USER_PATH = Path.Combine(APP_FOLDER_PATH, "user.conf");
+            this.CONFIG_USER_PATH = Path.Combine(APP_FOLDER_PATH, "user.conf");
+            this.LOGS_PATH = Path.Combine(APP_FOLDER_PATH, "Logs", "app.log");
         }
     }
 

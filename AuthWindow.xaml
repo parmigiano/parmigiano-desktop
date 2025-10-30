@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Parmigiano"
         xmlns:controllers="clr-namespace:Parmigiano.UI.Controllers"
+        xmlns:components="clr-namespace:Parmigiano.UI.Components"
         mc:Ignorable="d"
         Icon="pack://application:,,,/Public/assets/logo-ico.ico"
         Title="Auth client" 
@@ -48,42 +49,48 @@
             <!-- Поля регистрации -->
             <TextBlock Text="Имя пользователя" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
             <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
-                <TextBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+                <TextBox x:Name="UsernameBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
             </Border>
 
             <TextBlock Text="Адрес электронной почты" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
             <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
-                <TextBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+                <TextBox x:Name="EmailBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
             </Border>
 
             <TextBlock Text="Пароль" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
             <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
-                <PasswordBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3 3 0 4" CaretBrush="White"/>
+                <PasswordBox x:Name="PasswordBbox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3 3 0 4" CaretBrush="White"/>
             </Border>
 
-            <Button Content="Создать аккаунт"
-                    Height="40"
-                    FontSize="13"
-                    FontWeight="SemiBold"
-                    Margin="0,0,0,15"
-                    Cursor="Hand"
-                    Foreground="#fff">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border"
-                                Background="#3ba7f5"
-                                CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#5cb8fa"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <Grid>
+                <Button Content="Создать аккаунт"
+                        x:Name="RegisterButton"
+                        Height="40"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,15"
+                        Cursor="Hand"
+                        Foreground="#fff"
+                        Click="RegisterButton_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border"
+                                    Background="#3ba7f5"
+                                    CornerRadius="8">   
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#5cb8fa"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <components:Loader x:Name="LoaderRegister" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,11" />
+            </Grid>
 
             <!-- Ссылка на вход -->
             <TextBlock Text="Уже есть аккаунт? Войти"
@@ -130,37 +137,43 @@
 
             <TextBlock Text="Адрес электронной почты" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
             <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
-                <TextBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+                <TextBox x:Name="EmailLoginBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
             </Border>
 
             <TextBlock Text="Пароль" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
             <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
-                <PasswordBox Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3 3 0 4" CaretBrush="White"/>
+                <PasswordBox x:Name="PasswordLoginBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3 3 0 4" CaretBrush="White"/>
             </Border>
 
-            <Button Content="Войти"
-                    Height="40"
-                    FontSize="13"
-                    FontWeight="SemiBold"
-                    Margin="0,0,0,15"
-                    Cursor="Hand"
-                    Foreground="#fff">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border"
-                                Background="#3ba7f5"
-                                CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#5cb8fa"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <Grid>
+                <Button Content="Войти"
+                        Height="40"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,15"
+                        Cursor="Hand"
+                        Foreground="#fff"
+                        x:Name="LoginButton"
+                        Click="LoginButton_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border"
+                                    Background="#3ba7f5"
+                                    CornerRadius="8">       
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#5cb8fa"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <components:Loader x:Name="LoaderLogin" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,11" />
+            </Grid>
 
             <TextBlock Text="Нет аккаунта? Создать"
                        Foreground="#8A8A8A"
