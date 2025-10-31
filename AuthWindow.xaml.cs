@@ -69,7 +69,7 @@ namespace Parmigiano
 
                 if (!string.IsNullOrEmpty(result))
                 {
-                    this._userConfig.Save(result);
+                    this._userConfig.Set("access_token", result);
 
                     var mainWindow = new MainWindow();
                     mainWindow.Show();
@@ -105,7 +105,7 @@ namespace Parmigiano
 
                 if (!string.IsNullOrEmpty(result))
                 {
-                    this._userConfig.Save(result);
+                    this._userConfig.Set("access_token", result);
 
                     var mainWindow = new MainWindow();
                     mainWindow.Show();

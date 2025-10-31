@@ -2,6 +2,7 @@
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -15,6 +16,8 @@ namespace Parmigiano.Services
         private readonly HttpClient _httpClient;
         private readonly IUserConfigRepository _userConf = new UserConfigRepository();
 
+        private static bool _isAuthWindowOpen = false;
+
         public HttpClientService(string baseUrl)
         {
             this._httpClient = new HttpClient
@@ -22,7 +25,7 @@ namespace Parmigiano.Services
                 BaseAddress = new Uri(baseUrl)
             };
 
-            this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.Load());
+            this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.Get("access_token"));
         }
 
         public async Task<T?> GetAsync<T>(string endpoint) where T : class
@@ -68,6 +71,45 @@ namespace Parmigiano.Services
             }
 
             return default;
+        }
+
+        public async Task<string?> UploadFile(string endpoint, string filePath)
+        {
+            try
+            {
+                using var form = new MultipartFormDataContent();
+
+                var stream = File.OpenRead(filePath);
+                var fileContent = new StreamContent(stream);
+
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+
+                form.Add(fileContent, "avatar", Path.GetFileName(filePath));
+
+                var response = await this._httpClient.PostAsync(endpoint, form);
+                var text = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Logger.Error($"Ошибка загрузки: {response.StatusCode} — {text}");
+                    ShowError($"Ошибка загрузки ({response.StatusCode})");
+                    return null;
+                }
+
+                using var doc = JsonDocument.Parse(text);
+                if (doc.RootElement.TryGetProperty("message", out var msgProp))
+                {
+                    return msgProp.GetString();
+                }
+
+                return doc.RootElement.GetProperty("url").GetString();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Ошибка загрузки: {ex.Message}");
+                ShowError($"Ошибка загрузки ({ex.Message})");
+                return null;
+            }
         }
 
         public async Task<T?> HandleResponse<T>(HttpResponseMessage response, string method, string endpoint) where T : class
@@ -139,6 +181,9 @@ namespace Parmigiano.Services
 
         private void HandleUnauthorized()
         {
+            if (_isAuthWindowOpen) return;
+            _isAuthWindowOpen = true;
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 foreach (Window window in Application.Current.Windows)
@@ -151,6 +196,8 @@ namespace Parmigiano.Services
                 }
 
                 var authWindow = new AuthWindow();
+
+                authWindow.Closed += (_, _) => _isAuthWindowOpen = false;
                 authWindow.Show();
             });
         }

@@ -59,7 +59,7 @@ namespace Parmigiano.Core
 
         public AppConfig()
         {
-            this.CONFIG_USER_PATH = Path.Combine(APP_FOLDER_PATH, "user.conf");
+            this.CONFIG_USER_PATH = Path.Combine(APP_FOLDER_PATH, "user.config");
             this.LOGS_PATH = Path.Combine(APP_FOLDER_PATH, "Logs", "app.log");
         }
     }

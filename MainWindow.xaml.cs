@@ -1,4 +1,5 @@
 ﻿using Parmigiano.Interface;
+using Parmigiano.Models;
 using Parmigiano.Repository;
 using System;
 using System.Collections.Generic;
@@ -25,13 +26,25 @@ namespace Parmigiano
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private readonly IUserApiRepository _userApi = new UserApiRepository();
+
         private string _windowTitle = "Chat (Гость)";
         public string WindowTitle
         {
-            get => _windowTitle;
+            get => this._windowTitle;
             set
             {
-                _windowTitle = value;
+                this._windowTitle = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private UserInfoModel? _selectedUser;
+        public UserInfoModel? SelectedUser
+        {
+            get => _selectedUser;
+            set
+            {
+                _selectedUser = value;
                 OnPropertyChanged();
             }
         }
@@ -41,6 +54,8 @@ namespace Parmigiano
         {
             InitializeComponent();
             DataContext = this;
+
+            UsersListControl.UserSelected += OnUserSelected;
 
             _ = LoadUserAsync();
         }
@@ -56,6 +71,11 @@ namespace Parmigiano
             {
                 WindowTitle = "Chat (Гость)";
             }
+        }
+
+        private void OnUserSelected(UserInfoModel user)
+        {
+            this.SelectedUser = user;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

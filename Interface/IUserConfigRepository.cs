@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Parmigiano.Interface
 {
     public interface IUserConfigRepository
     {
-        void Save(string data);
+        string Get(string key);
 
-        string? Load();
+        void Set(string key, string value);
 
-        void Delete();
+        void DeleteKey(string key);
     }
 }

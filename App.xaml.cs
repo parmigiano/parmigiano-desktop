@@ -19,7 +19,7 @@ namespace Parmigiano
             base.OnStartup(e);
 
             var userConfigRepo = new UserConfigRepository();
-            string userData = userConfigRepo.Load();
+            string userData = userConfigRepo.Get("access_token");
 
             if (!string.IsNullOrWhiteSpace(userData))
             {

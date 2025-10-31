@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Parmigiano.Models
 {
-    public class UserMassModel
+    public class UserMinimalWithLMessageModel
     {
         [JsonPropertyName("id")]
         public ulong Id { get; set; }
@@ -18,10 +18,13 @@ namespace Parmigiano.Models
         [JsonPropertyName("avatar")]
         public string? Avatar { get; set; }
 
+        [JsonPropertyName("user_uid")]
+        public long UserUid { get; set; }
+
         [JsonPropertyName("last_message")]
-        public string LastMessage { get; set; }
+        public string? LastMessage { get; set; }
 
         [JsonPropertyName("last_message_date")]
-        public string LastMessageDate { get; set; }
+        public string? LastMessageDate { get; set; }
     }
 }

@@ -14,8 +14,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0">
-            <Grid Width="55" Height="54">
-                <Ellipse x:Name="AvatarCircle" StrokeThickness="1" Stroke="#222">
+            <Grid Width="52" Height="52" Cursor="Hand" MouseLeftButtonUp="AvatarGrid_MouseLeftButtonUp">
+                <Ellipse x:Name="AvatarCircle" RenderOptions.BitmapScalingMode="HighQuality">
                     <Ellipse.Fill>
                         <ImageBrush x:Name="AvatarImage" Stretch="UniformToFill"/>
                     </Ellipse.Fill>
@@ -28,6 +28,46 @@
                            FontSize="20"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
+
+                <Rectangle x:Name="HoverOverlay"
+                           Fill="Black"
+                           Opacity="0"
+                           RadiusX="26"
+                           RadiusY="26"/>
+
+                <Image x:Name="CameraIcon" Opacity="0" Source="pack://application:,,,/Public/ico/camera.png" MaxWidth="21" RenderOptions.BitmapScalingMode="HighQuality" />
+
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0.5"
+                                     Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetName="CameraIcon"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="1"
+                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0"
+                                     Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetName="CameraIcon"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0"
+                                     Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
             </Grid>
 
             <TextBlock Text="Гость"
@@ -40,8 +80,10 @@
         </StackPanel>
 
         <Image Source="pack://application:,,,/Public/ico/ellipsis-vertical.png"
-           Grid.Column="1"
-           MaxWidth="17"
-           VerticalAlignment="Center"/>
+               Grid.Column="1"
+               MaxWidth="17"
+               VerticalAlignment="Center"
+               RenderOptions.BitmapScalingMode="HighQuality"
+               Cursor="Hand"/>
     </Grid>
 </UserControl>

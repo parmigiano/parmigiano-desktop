@@ -10,5 +10,9 @@ namespace Parmigiano.Interface
     public interface IUserApiRepository
     {
         Task<UserInfoModel?> GetUserMe();
+
+        Task<List<UserMinimalWithLMessageModel>?> GetUsersMinimalWithLMessage();
+
+        Task<string?> UploadAvatar(string filePath);
     }
 }

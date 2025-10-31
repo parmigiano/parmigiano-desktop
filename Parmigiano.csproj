@@ -246,7 +246,7 @@
     <Compile Include="Models\MessageStatusModel.cs" />
     <Compile Include="Models\UserCoreModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
-    <Compile Include="Models\UserMassModel.cs" />
+    <Compile Include="Models\UserMinimalWithLMessageModel.cs" />
     <Compile Include="Models\UserProfileModel.cs" />
     <Compile Include="Repository\AuthApiRepository.cs" />
     <Compile Include="Repository\UserApiRepository.cs" />
@@ -269,7 +269,11 @@
     <Compile Include="UI\Components\UsersList.xaml.cs">
       <DependentUpon>UsersList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controllers\LastMessageConverter.cs" />
     <Compile Include="UI\Controllers\NullToVisibilityConverter.cs" />
+    <Compile Include="UI\Controllers\StringToVisibilityConverter.cs" />
+    <Compile Include="UI\Controllers\UsernameToColorConverter.cs" />
+    <Compile Include="UI\Controllers\UsernameToInitialConverter.cs" />
     <Compile Include="UI\Controllers\WidthToVisibilityConverter.cs" />
     <Compile Include="Utilities\MouseUtilities.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
@@ -350,6 +354,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Public\ico\ellipsis-vertical.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\camera.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
