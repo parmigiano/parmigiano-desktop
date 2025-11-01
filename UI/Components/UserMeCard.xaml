@@ -47,7 +47,7 @@
                                      Duration="0:0:0.1"/>
                                 <DoubleAnimation Storyboard.TargetName="CameraIcon"
                                      Storyboard.TargetProperty="Opacity"
-                                     To="1"
+                                     To="0.855"
                                      Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>

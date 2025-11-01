@@ -25,8 +25,8 @@ namespace Parmigiano.Models
         public string NewContent { get; set; }
 
 
-        [JsonPropertyName("editor_uuid")]
-        public string? EditorUUID { get; set; }
+        [JsonPropertyName("editor_uid")]
+        public long? EditorUid { get; set; }
 
 
         [JsonPropertyName("edited_at")]

@@ -10,7 +10,7 @@ namespace Parmigiano.Core
     public class AppConfig
     {
         [Newtonsoft.Json.JsonProperty("TYPE_RELEASE")]
-        public string TYPE_RELEASE { get; } = "dev";
+        public string TYPE_RELEASE { get; } = "prod";
 
         [Newtonsoft.Json.JsonProperty("APP_NAME")]
         public string APP_NAME { get; } = "Parmigiano";
@@ -35,6 +35,22 @@ namespace Parmigiano.Core
                 } else
                 {
                     return "https://parmigianochat.ru/api/v1/";
+                }
+            }
+        }
+
+        [Newtonsoft.Json.JsonProperty("WSOCKET_SERVER_ADDR")]
+        public string WSOCKET_SERVER_ADDR
+        {
+            get
+            {
+                if (this.TYPE_RELEASE == "dev")
+                {
+                    return "ws://localhost:8080";
+                }
+                else
+                {
+                    return "wss://parmigianochat.ru";
                 }
             }
         }

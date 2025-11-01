@@ -19,6 +19,7 @@
         <controllers:StringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" Inverse="True"/>
         <controllers:UsernameToInitialConverter x:Key="UsernameToInitialConverter"/>
         <controllers:UsernameToColorConverter x:Key="UsernameToColorConverter"/>
+        <controllers:AsyncImageConverter x:Key="AsyncImageConverter" />
     </UserControl.Resources>
 
     <Border BorderThickness="0,0,1,0"
@@ -103,10 +104,10 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Ellipse Width="54" Height="54" StrokeThickness="1" Stroke="#222" 
+                                <Ellipse Width="54" Height="54"
                                          Visibility="{Binding Avatar, Converter={StaticResource StringToVisibilityConverter}}" RenderOptions.BitmapScalingMode="HighQuality">
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding Avatar}" Stretch="UniformToFill"/>
+                                        <Binding Path="Avatar" Converter="{StaticResource AsyncImageConverter}" />
                                     </Ellipse.Fill>
                                 </Ellipse>
 

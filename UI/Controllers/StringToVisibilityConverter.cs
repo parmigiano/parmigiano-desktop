@@ -15,15 +15,14 @@ namespace Parmigiano.UI.Controllers
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool isNullOrEmpty = string.IsNullOrWhiteSpace(value as string);
-            if (Inverse)
-            {
-                return isNullOrEmpty ? Visibility.Visible : Visibility.Collapsed;
-            }
-            else
-            {
-                return isNullOrEmpty ? Visibility.Collapsed : Visibility.Visible;
-            }
+            bool inverse = parameter?.ToString()?.Equals("Inverse", StringComparison.OrdinalIgnoreCase) == true || Inverse;
+
+            bool hasValue = !string.IsNullOrWhiteSpace(value?.ToString());
+
+            if (inverse)
+                hasValue = !hasValue;
+
+            return hasValue ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();

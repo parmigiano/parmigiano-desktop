@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Parmigiano.Core
+{
+    public static class Events
+    {
+        public static string EVENT_USER_NEW_REGISTER = "user_new_register";
+        public static string EVENT_USER_AVATAR_UPDATED = "user_avatar_updated";
+    }
+}

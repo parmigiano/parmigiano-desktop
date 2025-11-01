@@ -223,6 +223,9 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>packages\WebSocketSharp.1.0.3-rc11\lib\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -236,6 +239,7 @@
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Config.cs" />
+    <Compile Include="Core\Events.cs" />
     <Compile Include="Interface\IAuthApiRepository.cs" />
     <Compile Include="Interface\IUserApiRepository.cs" />
     <Compile Include="Models\ApiResponseModel.cs" />
@@ -254,11 +258,15 @@
     <Compile Include="Services\HttpClientService.cs" />
     <Compile Include="Services\Logger.cs" />
     <Compile Include="Services\ToastService.cs" />
+    <Compile Include="Services\WSocketClientService.cs" />
     <Compile Include="UI\Components\Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Components\Loader.xaml.cs">
-      <DependentUpon>Loader.xaml</DependentUpon>
+    <Compile Include="UI\Components\SkeletonMainWindow.xaml.cs">
+      <DependentUpon>SkeletonMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\Spinner.xaml.cs">
+      <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Components\ToastControl.xaml.cs">
       <DependentUpon>ToastControl.xaml</DependentUpon>
@@ -269,12 +277,16 @@
     <Compile Include="UI\Components\UsersList.xaml.cs">
       <DependentUpon>UsersList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controllers\AsyncImageConverter.cs" />
+    <Compile Include="UI\Controllers\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\LastMessageConverter.cs" />
+    <Compile Include="UI\Controllers\LastOnlineConverter.cs" />
     <Compile Include="UI\Controllers\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToColorConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToInitialConverter.cs" />
     <Compile Include="UI\Controllers\WidthToVisibilityConverter.cs" />
+    <Compile Include="Utilities\ImageUtilities.cs" />
     <Compile Include="Utilities\MouseUtilities.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
     <Page Include="AuthWindow.xaml">
@@ -298,7 +310,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Components\Loader.xaml">
+    <Page Include="UI\Components\SkeletonMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Components\Spinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -357,6 +373,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Public\ico\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\assets\error-fallback-img.jpg" />
+    <Resource Include="Public\assets\loading-fallback-img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\send-horizontal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\send.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\assets\chat-wallpaper.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

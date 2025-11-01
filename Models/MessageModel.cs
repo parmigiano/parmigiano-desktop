@@ -25,12 +25,12 @@ namespace Parmigiano.Models
         public DateTime? DeletedAt { get; set; }
 
 
-        [JsonPropertyName("sender_uuid")]
-        public string SenderUUID { get; set; }
+        [JsonPropertyName("sender_uid")]
+        public long SenderUid { get; set; }
 
 
-        [JsonPropertyName("receiver_uuid")]
-        public string ReceiverUUID { get; set; }
+        [JsonPropertyName("receiver_uid")]
+        public long ReceiverUid { get; set; }
 
 
         [JsonPropertyName("content")]

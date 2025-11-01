@@ -35,8 +35,9 @@
                       ResizeBehavior="PreviousAndNext"
                       ResizeDirection="Columns"/>
 
-        <Border Grid.Column="2" Margin="10">
+        <Grid Grid.Column="2">
             <TextBlock Text="Выберите, кому хотели бы написать"
+                       x:Name="PlaceholderText"
                        Foreground="#666"
                        FontSize="14"
                        FontWeight="Medium"
@@ -46,8 +47,18 @@
                                     Converter={StaticResource NullToVisibilityConverter}, 
                                     ConverterParameter=Inverse}" />
 
-            <!-- <components:Chat Visibility="{Binding SelectedUser,
-                                    Converter={StaticResource NullToVisibilityConverter}}" /> -->
-        </Border>
+            <components:Chat x:Name="ChatControl" 
+                             Visibility="Collapsed"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"/>
+        </Grid>
+
+        <components:SkeletonMainWindow x:Name="SkeletonOverlay" 
+                                       Grid.ColumnSpan="3"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       Visibility="Collapsed"
+                                       Panel.ZIndex="100"
+                                       Background="#000"/>
     </Grid>
 </Window>

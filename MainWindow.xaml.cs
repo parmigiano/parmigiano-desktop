@@ -1,22 +1,13 @@
 ﻿using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
+using Parmigiano.Services;
+using Parmigiano.UI.Components;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Parmigiano
 {
@@ -27,7 +18,7 @@ namespace Parmigiano
     {
         private readonly IUserApiRepository _userApi = new UserApiRepository();
 
-        private string _windowTitle = "Chat (Гость)";
+        private string _windowTitle = "Гость";
         public string WindowTitle
         {
             get => this._windowTitle;
@@ -38,14 +29,17 @@ namespace Parmigiano
             }
         }
 
-        private UserInfoModel? _selectedUser;
-        public UserInfoModel? SelectedUser
+        private UserMinimalWithLMessageModel? _selectedUser;
+        public UserMinimalWithLMessageModel? SelectedUser
         {
             get => _selectedUser;
             set
             {
                 _selectedUser = value;
-                OnPropertyChanged();
+
+                ChatControl.DataContext = value;
+                ChatControl.Visibility = value != null ? Visibility.Visible : Visibility.Collapsed;
+                PlaceholderText.Visibility = value == null ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -62,18 +56,32 @@ namespace Parmigiano
 
         private async Task LoadUserAsync()
         {
-            var user = await this._userApi.GetUserMe();
-            if (user != null)
+            try
             {
-                WindowTitle = $"Chat ({user.Username.ToLower()})";
+                SkeletonOverlay.Visibility = Visibility.Visible;
+
+                var user = await this._userApi.GetUserMe();
+                if (user != null)
+                {
+                    WindowTitle = $"{user.Username.ToLower()}";
+                }
+                else
+                {
+                    WindowTitle = "Гость";
+                }
+
+                await UsersListControl.ViewModel.LoadUsersAsync();
+
+                SkeletonOverlay.Visibility = Visibility.Collapsed;
             }
-            else
+            catch (Exception ex)
             {
-                WindowTitle = "Chat (Гость)";
+                Logger.Error($"Ошибка загрузки данных: {ex.Message}");
+                SkeletonOverlay.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void OnUserSelected(UserInfoModel user)
+        private void OnUserSelected(UserMinimalWithLMessageModel user)
         {
             this.SelectedUser = user;
         }

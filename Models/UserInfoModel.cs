@@ -21,8 +21,8 @@ namespace Parmigiano.Models
         public DateTime UpdatedAt { get; set; }
 
 
-        [JsonPropertyName("user_uuid")]
-        public string UserUUID { get; set; }
+        [JsonPropertyName("user_uid")]
+        public long UserUid { get; set; }
 
 
         [JsonPropertyName("avatar")]

@@ -184,6 +184,8 @@ namespace Parmigiano.Services
             if (_isAuthWindowOpen) return;
             _isAuthWindowOpen = true;
 
+            this._userConf.DeleteKey("access_token");
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 foreach (Window window in Application.Current.Windows)

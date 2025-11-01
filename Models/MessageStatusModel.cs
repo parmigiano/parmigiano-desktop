@@ -17,8 +17,8 @@ namespace Parmigiano.Models
         public long MessageId { get; set; }
 
 
-        [JsonPropertyName("user_uuid")]
-        public string UserUUID { get; set; }
+        [JsonPropertyName("receiver_uid")]
+        public long ReceiverUid { get; set; }
 
 
         [JsonPropertyName("delivered_at")]

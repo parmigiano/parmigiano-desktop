@@ -89,7 +89,7 @@
                     </Button.Template>
                 </Button>
 
-                <components:Loader x:Name="LoaderRegister" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,11" />
+                <components:Spinner x:Name="LoaderRegister" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,11" />
             </Grid>
 
             <!-- Ссылка на вход -->
@@ -172,7 +172,7 @@
                     </Button.Template>
                 </Button>
 
-                <components:Loader x:Name="LoaderLogin" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,11" />
+                <components:Spinner x:Name="LoaderLogin" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,11" />
             </Grid>
 
             <TextBlock Text="Нет аккаунта? Создать"

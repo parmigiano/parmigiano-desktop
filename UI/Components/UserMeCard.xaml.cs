@@ -2,6 +2,7 @@
 using Parmigiano.Interface;
 using Parmigiano.Repository;
 using Parmigiano.Services;
+using Parmigiano.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace Parmigiano.UI.Components
     public partial class UserMeCard : UserControl
     {
         private readonly IUserApiRepository _userApi = new UserApiRepository();
+        private readonly ImageUtilities _imageUtilities = new ImageUtilities();
 
         public UserMeCard()
         {
@@ -50,7 +52,7 @@ namespace Parmigiano.UI.Components
 
                 if (!string.IsNullOrEmpty(user.Avatar))
                 {
-                    AvatarImage.ImageSource = new ImageSourceConverter().ConvertFromString(user.Avatar) as ImageSource;
+                    this._imageUtilities.LoadImageAsync(user.Avatar, AvatarImage);
                     InitialText.Visibility = Visibility.Collapsed;
                 }
                 else
@@ -105,7 +107,11 @@ namespace Parmigiano.UI.Components
                     bitmap.UriSource = new Uri(url);
                     bitmap.EndInit();
 
-                    AvatarImage.ImageSource = bitmap;
+                    AvatarCircle.Fill = new ImageBrush(bitmap)
+                    {
+                        Stretch = Stretch.UniformToFill
+                    };
+
                     InitialText.Visibility = Visibility.Collapsed;
                 }
             }
