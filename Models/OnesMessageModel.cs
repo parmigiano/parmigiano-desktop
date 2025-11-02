@@ -7,22 +7,10 @@ using System.Threading.Tasks;
 
 namespace Parmigiano.Models
 {
-    public class MessageModel
+    public class OnesMessageModel
     {
         [JsonPropertyName("id")]
         public ulong Id { get; set; }
-
-
-        [JsonPropertyName("created_at")]
-        public DateTime CreatedAt { get; set; }
-
-
-        [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt { get; set; }
-
-
-        [JsonPropertyName("deleted_at")]
-        public DateTime? DeletedAt { get; set; }
 
 
         [JsonPropertyName("sender_uid")]
@@ -34,26 +22,32 @@ namespace Parmigiano.Models
 
 
         [JsonPropertyName("content")]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
 
         [JsonPropertyName("content_type")]
-        public string ContentType { get; set; } = "text"; // text, image, video, file, etc.
-
-
-        [JsonPropertyName("attachments")]
-        public Dictionary<string, object>? Attachments { get; set; }
+        public string ContentType { get; set; } = "text";
 
 
         [JsonPropertyName("is_edited")]
         public bool IsEdited { get; set; }
 
 
-        [JsonPropertyName("is_deleted")]
-        public bool IsDeleted { get; set; }
-
-
         [JsonPropertyName("is_pinned")]
         public bool IsPinned { get; set; }
+
+
+        [JsonPropertyName("delivered_at")]
+        public DateTime DeliveredAt { get; set; }
+
+
+        [JsonPropertyName("read_at")]
+        public DateTime? ReadAt { get; set; }
+
+
+        [JsonPropertyName("edit_content")]
+        public string? EditContent { get; set; }
+
+        public bool IsMine { get; set; }
     }
 }

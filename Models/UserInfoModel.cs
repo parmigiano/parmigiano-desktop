@@ -22,7 +22,7 @@ namespace Parmigiano.Models
 
 
         [JsonPropertyName("user_uid")]
-        public long UserUid { get; set; }
+        public ulong UserUid { get; set; }
 
 
         [JsonPropertyName("avatar")]
@@ -37,8 +37,8 @@ namespace Parmigiano.Models
         public string Email { get; set; }
 
 
-        [JsonPropertyName("password")]
-        public string Password { get; set; }
+        [JsonPropertyName("email_confirmed")]
+        public bool EmailConfirmed { get; set; }
 
 
         [JsonPropertyName("access_token")]

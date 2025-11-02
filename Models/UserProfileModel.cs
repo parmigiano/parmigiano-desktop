@@ -22,7 +22,7 @@ namespace Parmigiano.Models
 
 
         [JsonPropertyName("user_uid")]
-        public long UserUid { get; set; }
+        public ulong UserUid { get; set; }
 
 
         [JsonPropertyName("avatar")]

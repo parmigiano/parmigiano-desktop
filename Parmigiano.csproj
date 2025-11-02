@@ -238,8 +238,12 @@
     <Compile Include="AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\AppSession.cs" />
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\Events.cs" />
+    <Compile Include="EmailConfirmedWindow.xaml.cs">
+      <DependentUpon>EmailConfirmedWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interface\IAuthApiRepository.cs" />
     <Compile Include="Interface\IUserApiRepository.cs" />
     <Compile Include="Models\ApiResponseModel.cs" />
@@ -248,6 +252,7 @@
     <Compile Include="Models\MessageEditModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\MessageStatusModel.cs" />
+    <Compile Include="Models\OnesMessageModel.cs" />
     <Compile Include="Models\UserCoreModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\UserMinimalWithLMessageModel.cs" />
@@ -255,6 +260,7 @@
     <Compile Include="Repository\AuthApiRepository.cs" />
     <Compile Include="Repository\UserApiRepository.cs" />
     <Compile Include="Repository\UserConfigRepository.cs" />
+    <Compile Include="Services\ConnectionService.cs" />
     <Compile Include="Services\HttpClientService.cs" />
     <Compile Include="Services\Logger.cs" />
     <Compile Include="Services\ToastService.cs" />
@@ -280,16 +286,22 @@
     <Compile Include="UI\Controllers\AsyncImageConverter.cs" />
     <Compile Include="UI\Controllers\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\LastMessageConverter.cs" />
-    <Compile Include="UI\Controllers\LastOnlineConverter.cs" />
+    <Compile Include="UI\Controllers\LastOnlineMultiConverter.cs" />
     <Compile Include="UI\Controllers\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToColorConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToInitialConverter.cs" />
+    <Compile Include="UI\Controllers\WidthLimitConverter.cs" />
     <Compile Include="UI\Controllers\WidthToVisibilityConverter.cs" />
     <Compile Include="Utilities\ImageUtilities.cs" />
     <Compile Include="Utilities\MouseUtilities.cs" />
+    <Compile Include="ViewModel\ChatViewModel.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
     <Page Include="AuthWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EmailConfirmedWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -386,6 +398,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Public\assets\chat-wallpaper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\assets\chat-bg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\log-out.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

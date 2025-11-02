@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Icon="pack://application:,,,/Public/assets/logo-ico.ico"
         Title="{Binding WindowTitle}"
-        Height="700" Width="1100" MinHeight="550" MinWidth="410"
+        Height="700" Width="1100" MinHeight="550" MinWidth="910"
         WindowStartupLocation="CenterScreen"
         Background="#000">
 
@@ -19,7 +19,7 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="410" MinWidth="300" MaxWidth="700"/>
+            <ColumnDefinition Width="410" MinWidth="300" MaxWidth="550"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -31,9 +31,14 @@
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch"
                       Background="#111"
-                      ShowsPreview="True"
                       ResizeBehavior="PreviousAndNext"
-                      ResizeDirection="Columns"/>
+                      ResizeDirection="Columns">
+            <GridSplitter.Template>
+                <ControlTemplate TargetType="GridSplitter">
+                    <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True" />
+                </ControlTemplate>
+            </GridSplitter.Template>
+        </GridSplitter>
 
         <Grid Grid.Column="2">
             <TextBlock Text="Выберите, кому хотели бы написать"

@@ -16,16 +16,14 @@
     <UserControl.Resources>
         <controllers:LastMessageConverter x:Key="LastMessageConverter"/>
         <controllers:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
-        <controllers:StringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" Inverse="True"/>
+        <controllers:StringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" Inverse="True" />
         <controllers:UsernameToInitialConverter x:Key="UsernameToInitialConverter"/>
         <controllers:UsernameToColorConverter x:Key="UsernameToColorConverter"/>
         <controllers:AsyncImageConverter x:Key="AsyncImageConverter" />
+        <controllers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
 
-    <Border BorderThickness="0,0,1,0"
-            BorderBrush="#555"
-            Background="#111111">
-
+    <Border Background="#111111">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -104,24 +102,38 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Ellipse Width="54" Height="54"
-                                         Visibility="{Binding Avatar, Converter={StaticResource StringToVisibilityConverter}}" RenderOptions.BitmapScalingMode="HighQuality">
-                                    <Ellipse.Fill>
-                                        <Binding Path="Avatar" Converter="{StaticResource AsyncImageConverter}" />
-                                    </Ellipse.Fill>
-                                </Ellipse>
+                                <Grid Width="54" Height="54" ClipToBounds="False">
+                                    <Ellipse Width="54" Height="54"
+                                             Panel.ZIndex="1"
+                                             Visibility="{Binding Avatar, Converter={StaticResource StringToVisibilityConverter}}" 
+                                             RenderOptions.BitmapScalingMode="HighQuality">
+                                        <Ellipse.Fill>
+                                            <Binding Path="Avatar" Converter="{StaticResource AsyncImageConverter}" />
+                                        </Ellipse.Fill>
+                                    </Ellipse>
 
-                                <Border Width="54" Height="54" CornerRadius="27" 
-                                        Background="{Binding Username, Converter={StaticResource UsernameToColorConverter}}"
-                                        Visibility="{Binding Avatar, Converter={StaticResource InverseStringToVisibilityConverter}}"
-                                        VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="{Binding Username, Converter={StaticResource UsernameToInitialConverter}}"
-                                               Foreground="White"
-                                               FontWeight="Bold"
-                                               FontSize="20"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"/>
-                                </Border>
+                                    <Border Width="54" Height="54" CornerRadius="27" 
+                                            Background="{Binding Username, Converter={StaticResource UsernameToColorConverter}}"
+                                            Visibility="{Binding Avatar, Converter={StaticResource InverseStringToVisibilityConverter}}"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Username, Converter={StaticResource UsernameToInitialConverter}}"
+                                                   Foreground="White"
+                                                   FontWeight="Bold"
+                                                   FontSize="20"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                    </Border>
+
+                                    <Ellipse Width="12" Height="12"
+                                             Stroke="#fff"
+                                             StrokeThickness="2"
+                                             Fill="#156fd6"
+                                             VerticalAlignment="Bottom"
+                                             HorizontalAlignment="Right"
+                                             Margin="2"
+                                             Panel.ZIndex="2"
+                                             Visibility="{Binding Online, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                </Grid>
 
                                 <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
                                     <TextBlock Text="{Binding Username}"

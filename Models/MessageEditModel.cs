@@ -14,7 +14,7 @@ namespace Parmigiano.Models
 
 
         [JsonPropertyName("message_id")]
-        public long MessageId { get; set; }
+        public ulong MessageId { get; set; }
 
 
         [JsonPropertyName("old_content")]
@@ -26,7 +26,7 @@ namespace Parmigiano.Models
 
 
         [JsonPropertyName("editor_uid")]
-        public long? EditorUid { get; set; }
+        public ulong? EditorUid { get; set; }
 
 
         [JsonPropertyName("edited_at")]

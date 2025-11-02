@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Parmigiano.Core;
 using Parmigiano.Interface;
 using Parmigiano.Repository;
 using Parmigiano.Services;
@@ -28,6 +29,7 @@ namespace Parmigiano.UI.Components
     {
         private readonly IUserApiRepository _userApi = new UserApiRepository();
         private readonly ImageUtilities _imageUtilities = new ImageUtilities();
+        private readonly IUserConfigRepository _userConfig = new UserConfigRepository();
 
         public UserMeCard()
         {
@@ -128,6 +130,16 @@ namespace Parmigiano.UI.Components
             byte g = (byte)((hash >> 8) & 0xFF);
             byte b = (byte)((hash >> 16) & 0xFF);
             return Color.FromRgb(r, g, b);
+        }
+
+        private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            this._userConfig.DeleteKey("access_token");
+
+            var authWindow = new AuthWindow();
+            authWindow.Show();
+
+            Window.GetWindow(this)?.Close();
         }
     }
 }

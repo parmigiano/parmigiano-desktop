@@ -5,21 +5,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Documents;
 
 namespace Parmigiano.UI.Controllers
 {
-    public class LastOnlineConverter : IValueConverter
+    public class LastOnlineMultiConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
+            if (values == null || values.Length < 2)
+                return "был(а) недавно";
+
+            var lastOnlineObj = values[0];
+            var isOnlineObj = values[1];
+
+            bool isOnline = isOnlineObj is bool b && b;
+
+            if (isOnline)
+                return "в сети";
+
+            if (lastOnlineObj == null || lastOnlineObj == DBNull.Value)
                 return "был(а) давно";
 
-            if (value is not DateTime lastOnline)
+            if (lastOnlineObj is not DateTime lastOnline)
                 return "был(а) недавно";
 
             lastOnline = DateTime.SpecifyKind(lastOnline, DateTimeKind.Utc);
-
             var now = DateTime.UtcNow;
             var diff = now - lastOnline;
 
@@ -44,6 +55,9 @@ namespace Parmigiano.UI.Controllers
             return $"был(а) {Math.Floor(diff.TotalDays / 30)} мес. назад";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

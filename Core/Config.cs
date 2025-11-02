@@ -10,7 +10,7 @@ namespace Parmigiano.Core
     public class AppConfig
     {
         [Newtonsoft.Json.JsonProperty("TYPE_RELEASE")]
-        public string TYPE_RELEASE { get; } = "prod";
+        public string TYPE_RELEASE { get; } = "dev";
 
         [Newtonsoft.Json.JsonProperty("APP_NAME")]
         public string APP_NAME { get; } = "Parmigiano";

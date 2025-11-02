@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Icon="pack://application:,,,/Public/assets/logo-ico.ico"
         Title="Auth client" 
-        Height="700" Width="1100" MinHeight="550" MinWidth="410"
+        Height="700" Width="1100" MinHeight="550" MinWidth="910"
         WindowStartupLocation="CenterScreen"
         Background="#000">
 

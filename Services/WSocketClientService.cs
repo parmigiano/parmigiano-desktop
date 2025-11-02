@@ -20,6 +20,11 @@ namespace Parmigiano.Services
 
             this._wsocket = new WebSocket(url);
 
+            // tls
+            this._wsocket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+            this._wsocket.SslConfiguration.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
+
             this._wsocket.OnOpen += (s, e) =>
             {
                 Logger.Info("WebSocket connected");

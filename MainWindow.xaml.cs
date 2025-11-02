@@ -1,4 +1,5 @@
-﻿using Parmigiano.Interface;
+﻿using Parmigiano.Core;
+using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
@@ -35,9 +36,9 @@ namespace Parmigiano
             get => _selectedUser;
             set
             {
-                _selectedUser = value;
+                this._selectedUser = value;
+                ChatControl.ViewModel.SelectedUser = value;
 
-                ChatControl.DataContext = value;
                 ChatControl.Visibility = value != null ? Visibility.Visible : Visibility.Collapsed;
                 PlaceholderText.Visibility = value == null ? Visibility.Visible : Visibility.Collapsed;
             }
@@ -63,6 +64,9 @@ namespace Parmigiano
                 var user = await this._userApi.GetUserMe();
                 if (user != null)
                 {
+                    // set uid in session
+                    AppSession.CurrentUserUid = user.UserUid;
+
                     WindowTitle = $"{user.Username.ToLower()}";
                 }
                 else

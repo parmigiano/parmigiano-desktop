@@ -35,7 +35,7 @@
                            RadiusX="26"
                            RadiusY="26"/>
 
-                <Image x:Name="CameraIcon" Opacity="0" Source="pack://application:,,,/Public/ico/camera.png" MaxWidth="21" RenderOptions.BitmapScalingMode="HighQuality" />
+                <Image x:Name="CameraIcon" Opacity="0" Source="pack://application:,,,/Public/ico/camera.png" MaxWidth="20" RenderOptions.BitmapScalingMode="HighQuality" />
 
                 <Grid.Triggers>
                     <EventTrigger RoutedEvent="MouseEnter">
@@ -47,7 +47,7 @@
                                      Duration="0:0:0.1"/>
                                 <DoubleAnimation Storyboard.TargetName="CameraIcon"
                                      Storyboard.TargetProperty="Opacity"
-                                     To="0.855"
+                                     To="1"
                                      Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
@@ -76,14 +76,27 @@
                    Foreground="White"
                    FontWeight="SemiBold"
                    FontSize="15"
-                   Margin="15,0,0,0"/>
+                   Margin="15,0,0,0"
+                   Cursor="Hand"/>
         </StackPanel>
 
-        <Image Source="pack://application:,,,/Public/ico/ellipsis-vertical.png"
+        <Image Source="pack://application:,,,/Public/ico/log-out.png"
                Grid.Column="1"
-               MaxWidth="17"
+               MaxWidth="16"
                VerticalAlignment="Center"
                RenderOptions.BitmapScalingMode="HighQuality"
-               Cursor="Hand"/>
+               Cursor="Hand"
+               MouseLeftButtonUp="Logout_MouseLeftButtonUp">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
     </Grid>
 </UserControl>

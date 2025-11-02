@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Parmigiano.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,41 @@ namespace Parmigiano.UI.Components
     /// </summary>
     public partial class Chat : UserControl
     {
+        public ChatViewModel ViewModel { get; } = new ChatViewModel();
+
         public Chat()
         {
             InitializeComponent();
+            DataContext = ViewModel;
+
+            this.Loaded += Chat_Loaded;
+        }
+
+        private void Chat_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is Parmigiano.ViewModel.ChatViewModel vm)
+            {
+                ((INotifyCollectionChanged)vm.Messages).CollectionChanged += (s, ev) =>
+                {
+                    ChatScrollViewer?.ScrollToEnd();
+                };
+            }
+        }
+
+        private void MessageBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.Enter)
+            {
+                int caret = MessageBox.CaretIndex;
+                MessageBox.Text = MessageBox.Text.Insert(caret, Environment.NewLine);
+                MessageBox.CaretIndex = caret + Environment.NewLine.Length;
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                // send to TCP
+            }
         }
     }
 }

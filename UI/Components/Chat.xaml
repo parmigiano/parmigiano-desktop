@@ -5,15 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Parmigiano.UI.Components"
              xmlns:controllers="clr-namespace:Parmigiano.UI.Controllers"
+             xmlns:vm="clr-namespace:Parmigiano.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <controllers:StringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" Inverse="False"/>
+        <controllers:StringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" Inverse="True"/>
         <controllers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <controllers:LastOnlineConverter x:Key="LastOnlineConverter"/>
+        <controllers:LastOnlineMultiConverter x:Key="LastOnlineConverter"/>
+        <controllers:WidthLimitConverter x:Key="WidthLimitConverter"/>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -23,60 +25,117 @@
 
         <Border Grid.Row="0" Background="#111" Padding="20,5,20,10">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding Username}" Grid.Row="1"
+                <TextBlock Text="{Binding SelectedUser.Username}" Grid.Row="1"
                            Foreground="White"
                            FontWeight="SemiBold"
-                           FontSize="15"/>
+                           FontSize="15"
+                           Cursor="Hand"/>
 
-                <TextBlock Text="{Binding LastOnlineDate, Converter={StaticResource LastOnlineConverter}}"
-                           Grid.Row="1"
+                <TextBlock Grid.Row="1"
                            Foreground="#999"
                            FontWeight="Normal"
                            FontSize="12"
-                           Margin="0,3,0,0"/>
+                           Margin="0,3,0,0">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource LastOnlineConverter}">
+                            <Binding Path="SelectedUser.LastOnlineDate"/>
+                            <Binding Path="SelectedUser.Online"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </StackPanel>
         </Border>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-            <ScrollViewer.Background>
-                <ImageBrush ImageSource="pack://application:,,,/Public/assets/chat-wallpaper.png"
-                    Stretch="UniformToFill"
-                    Opacity="0.2"/>
-            </ScrollViewer.Background>
+        <ScrollViewer x:Name="ChatScrollViewer"
+                      HorizontalScrollBarVisibility="Hidden"
+                      VerticalScrollBarVisibility="Hidden"
+                      Grid.Row="1" Margin="0,0,0,45" Grid.RowSpan="2"
+                      Background="#121212">
 
-            <ItemsControl ItemsSource="{Binding SelectedUser.Messages}">
+            <!-- <ScrollViewer.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Public/assets/chat-bg.jpg"
+                    Stretch="UniformToFill"
+                    Opacity="0.4"/>
+            </ScrollViewer.Background> -->
+
+            <ItemsControl ItemsSource="{Binding Messages}" Margin="0,12,0,12">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,6">
+                        <Grid Margin="15,4">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Сообщение собеседника -->
-                            <Border Grid.Column="0"
-                            Background="#222"
-                            CornerRadius="15"
-                            Padding="10"
-                            HorizontalAlignment="Left"
-                            MaxWidth="300"
-                            Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
-                                <TextBlock Text="{Binding Text}"
-                                           Foreground="White"
-                                           TextWrapping="Wrap"/>
+                            <Border Background="#222"
+                                    CornerRadius="15,17,17,4"
+                                    Padding="13,4,15,4"
+                                    HorizontalAlignment="Left"
+                                    MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth, Converter={StaticResource WidthLimitConverter}}"
+                                    Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox Grid.Column="0"
+                                             Text="{Binding Content}"
+                                             Cursor="IBeam"
+                                             Foreground="White"
+                                             FontSize="13"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             IsReadOnly="True"
+                                             TextWrapping="Wrap"
+                                             Padding="0"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Left"
+                                             Focusable="True"
+                                             IsTabStop="False"/>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding DeliveredAt, StringFormat={}{0:HH:mm}}"
+                                               Foreground="#888"
+                                               FontSize="12"
+                                               Margin="14,9,0,0"
+                                               VerticalAlignment="Bottom"/>
+                                </Grid>
                             </Border>
 
-                            <!-- Мое сообщение -->
-                            <Border Grid.Column="1"
-                                    Background="#7B61FF"
-                                    CornerRadius="15"
-                                    Padding="10"
+                            <Border Background="#004594"
+                                    CornerRadius="17,15,4,17"
+                                    Padding="10,4,13,4"
                                     HorizontalAlignment="Right"
-                                    MaxWidth="300"
+                                    MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth, Converter={StaticResource WidthLimitConverter}}"
                                     Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Text}"
-                                   Foreground="White"
-                                   TextWrapping="Wrap"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox Grid.Column="0"
+                                             Text="{Binding Content}"
+                                             Cursor="IBeam"
+                                             Foreground="White"
+                                             FontSize="13"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             IsReadOnly="True"
+                                             TextWrapping="Wrap"
+                                             Padding="0"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Left"
+                                             Focusable="True"
+                                             IsTabStop="False"/>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding DeliveredAt, StringFormat={}{0:HH:mm}}"
+                                               Foreground="#ccc"
+                                               FontSize="12"
+                                               Margin="14,9,0,0"
+                                               VerticalAlignment="Bottom"/>
+                                </Grid>
                             </Border>
                         </Grid>
                     </DataTemplate>
@@ -97,7 +156,9 @@
                         Foreground="White"
                         BorderThickness="0"
                         TextWrapping="Wrap"
-                        AcceptsReturn="True"/>
+                        AcceptsReturn="True"
+                        MaxHeight="120"
+                        PreviewKeyDown="MessageBox_PreviewKeyDown"/>
 
                 <TextBlock Text="Сообщение..."
                            Foreground="#999"

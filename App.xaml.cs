@@ -1,4 +1,7 @@
-﻿using Parmigiano.Repository;
+﻿using Parmigiano.Interface;
+using Parmigiano.Models;
+using Parmigiano.Repository;
+using Parmigiano.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,7 +17,9 @@ namespace Parmigiano
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        private readonly IUserApiRepository _userApi = new UserApiRepository();
+
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -23,14 +28,50 @@ namespace Parmigiano
 
             if (!string.IsNullOrWhiteSpace(userData))
             {
-                MainWindow mainWindow = new();
-                mainWindow.Show();
+                try
+                {
+                    // connect to websocket
+                    ConnectionService.Instance.ConnectWSocket();
+
+                    UserInfoModel user = await this._userApi.GetUserMe();
+
+                    if (user == null)
+                    {
+                        AuthWindow authWindow = new();
+                        authWindow.Show();
+                        return;
+                    }
+
+                    if (!user.EmailConfirmed)
+                    {
+                        EmailConfirmedWindow emailConfirmedWindow = new();
+                        emailConfirmedWindow.Show();
+                        return;
+                    }
+
+                    MainWindow mainWindow = new();
+                    mainWindow.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при загрузке профиля: " + ex.Message);
+
+                    AuthWindow authWindow = new();
+                    authWindow.Show();
+                }
             }
             else
             {
                 AuthWindow authWindow = new();
                 authWindow.Show();
             }
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            ConnectionService.Instance.DisconnectAll();
+
+            base.OnExit(e);
         }
     }
 }

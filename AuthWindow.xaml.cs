@@ -71,8 +71,8 @@ namespace Parmigiano
                 {
                     this._userConfig.Set("access_token", result);
 
-                    var mainWindow = new MainWindow();
-                    mainWindow.Show();
+                    var emailConfirmWindow = new EmailConfirmedWindow();
+                    emailConfirmWindow.Show();
 
                     this.Close();
                 }

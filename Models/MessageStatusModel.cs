@@ -14,11 +14,11 @@ namespace Parmigiano.Models
 
 
         [JsonPropertyName("message_id")]
-        public long MessageId { get; set; }
+        public ulong MessageId { get; set; }
 
 
         [JsonPropertyName("receiver_uid")]
-        public long ReceiverUid { get; set; }
+        public ulong ReceiverUid { get; set; }
 
 
         [JsonPropertyName("delivered_at")]

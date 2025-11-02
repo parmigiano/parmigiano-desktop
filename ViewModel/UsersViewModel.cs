@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,7 +17,6 @@ namespace Parmigiano.ViewModel
     public class UsersViewModel
     {
         private readonly IUserApiRepository _userApi = new UserApiRepository();
-        private readonly WSocketClientService _wsocketClient = new WSocketClientService();
 
         public ObservableCollection<UserMinimalWithLMessageModel> Users { get; set; }
 
@@ -26,21 +24,15 @@ namespace Parmigiano.ViewModel
         {
             Users = new ObservableCollection<UserMinimalWithLMessageModel>();
 
-            InitWSocket();
-        }
-
-        private void InitWSocket()
-        {
-            this._wsocketClient.OnEventReceived += HandleServerEvent;
-            this._wsocketClient.Connect();
+            ConnectionService.Instance.OnWsEvent += HandleServerEvent;
         }
 
         private void HandleServerEvent(string evt, JObject data)
         {
             if (evt == Events.EVENT_USER_AVATAR_UPDATED)
             {
-                long uid = 0;
-                long.TryParse(data["user_uid"]?.ToString(), out uid);
+                ulong uid = 0;
+                ulong.TryParse(data["user_uid"]?.ToString(), out uid);
 
                 var avatarUrl = data["url"]?.ToString();
 

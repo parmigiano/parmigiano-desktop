@@ -21,5 +21,10 @@ namespace Parmigiano.Repository
         {
             return this._httpClient.PostAsync<string>($"{this._apiPath}/login", model);
         }
+
+        public Task<string?> AuthEmailConfirmReq()
+        {
+            return this._httpClient.GetAsync<string>($"{this._apiPath}/confirm/req");
+        }
     }
 }
