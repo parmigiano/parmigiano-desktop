@@ -16,7 +16,7 @@ namespace Parmigiano.Core
         public string APP_NAME { get; } = "Parmigiano";
 
         [Newtonsoft.Json.JsonProperty("APP_FOLDER")]
-        public string APP_FOLDER_PATH { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Parmigiano");
+        public string APP_FOLDER_PATH { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Parmigiano");
 
         [Newtonsoft.Json.JsonProperty("CONFIG_USER_PATH")]
         public string CONFIG_USER_PATH { get; }
