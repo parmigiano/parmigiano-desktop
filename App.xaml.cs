@@ -30,9 +30,6 @@ namespace Parmigiano
             {
                 try
                 {
-                    // connect to websocket
-                    ConnectionService.Instance.ConnectWSocket();
-
                     UserInfoModel user = await this._userApi.GetUserMe();
 
                     if (user == null)

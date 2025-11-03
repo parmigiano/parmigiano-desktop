@@ -14,16 +14,14 @@
     </UserControl.DataContext>
 
     <UserControl.Resources>
-        <controllers:LastMessageConverter x:Key="LastMessageConverter"/>
-        <controllers:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
-        <controllers:StringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" Inverse="True" />
-        <controllers:UsernameToInitialConverter x:Key="UsernameToInitialConverter"/>
-        <controllers:UsernameToColorConverter x:Key="UsernameToColorConverter"/>
-        <controllers:AsyncImageConverter x:Key="AsyncImageConverter" />
-        <controllers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UI/Resources/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Background="#111111">
+    <Border Background="#111">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -38,6 +36,27 @@
                        FontWeight="SemiBold"
                        FontSize="17"
                        Margin="13,10,10,13"/>
+
+            <TextBlock Text="В чате пока нет ни одного пользователя"
+                       Grid.Row="2"
+                       Foreground="#666"
+                       FontSize="13"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Panel.ZIndex="10"
+                       Margin="0,-130,0,0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasUsers}" Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
 
             <ListBox ItemsSource="{Binding Users}" Grid.Row="2"
                         Background="#111111"
@@ -64,11 +83,11 @@
                                     <Border x:Name="Bd"
                                             Background="{TemplateBinding Background}"
                                             BorderThickness="0"
-                                            SnapsToDevicePixels="True"> 
+                                            SnapsToDevicePixels="True">
                                         <ContentPresenter
                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>   
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                     </Border>
 
                                     <ControlTemplate.Triggers>
@@ -125,7 +144,7 @@
                                     </Border>
 
                                     <Ellipse Width="12" Height="12"
-                                             Stroke="#fff"
+                                             Stroke="#111111"
                                              StrokeThickness="2"
                                              Fill="#156fd6"
                                              VerticalAlignment="Bottom"

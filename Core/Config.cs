@@ -10,7 +10,7 @@ namespace Parmigiano.Core
     public class AppConfig
     {
         [Newtonsoft.Json.JsonProperty("TYPE_RELEASE")]
-        public string TYPE_RELEASE { get; } = "dev";
+        public string TYPE_RELEASE { get; } = "prod";
 
         [Newtonsoft.Json.JsonProperty("APP_NAME")]
         public string APP_NAME { get; } = "Parmigiano";
@@ -76,7 +76,7 @@ namespace Parmigiano.Core
         public AppConfig()
         {
             this.CONFIG_USER_PATH = Path.Combine(APP_FOLDER_PATH, "user.config");
-            this.LOGS_PATH = Path.Combine(APP_FOLDER_PATH, "Logs", "app.log");
+            this.LOGS_PATH = Path.Combine(APP_FOLDER_PATH, "Logs");
         }
     }
 

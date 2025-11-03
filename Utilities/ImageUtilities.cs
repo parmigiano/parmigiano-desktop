@@ -44,7 +44,7 @@ namespace Parmigiano.Utilities
             try
             {
                 using var httpClient = new HttpClient();
-                httpClient.Timeout = TimeSpan.FromSeconds(15);
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
 
                 var response = await httpClient.GetAsync(url);
                 if (!response.IsSuccessStatusCode)

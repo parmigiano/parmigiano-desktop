@@ -64,9 +64,6 @@ namespace Parmigiano
                 var user = await this._userApi.GetUserMe();
                 if (user != null)
                 {
-                    // set uid in session
-                    AppSession.CurrentUserUid = user.UserUid;
-
                     WindowTitle = $"{user.Username.ToLower()}";
                 }
                 else

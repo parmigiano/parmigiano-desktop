@@ -43,6 +43,14 @@ namespace Parmigiano.UI.Components
             }
         }
 
+        private void MessageContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            if (sender is ContextMenu menu && DataContext is Parmigiano.ViewModel.ChatViewModel vm)
+            {
+                menu.DataContext = vm;
+            }
+        }
+
         private void MessageBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.Enter)
@@ -51,11 +59,17 @@ namespace Parmigiano.UI.Components
                 MessageBox.Text = MessageBox.Text.Insert(caret, Environment.NewLine);
                 MessageBox.CaretIndex = caret + Environment.NewLine.Length;
                 e.Handled = true;
+                return;
             }
-            else if (e.Key == Key.Enter)
+
+            if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.None)
             {
                 e.Handled = true;
-                // send to TCP
+
+                if (DataContext is Parmigiano.ViewModel.ChatViewModel vm && vm.SendMessageCommand.CanExecute(null))
+                {
+                    vm.SendMessageCommand.Execute(null);
+                }
             }
         }
     }

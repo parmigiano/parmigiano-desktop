@@ -263,6 +263,8 @@
     <Compile Include="Services\ConnectionService.cs" />
     <Compile Include="Services\HttpClientService.cs" />
     <Compile Include="Services\Logger.cs" />
+    <Compile Include="Services\Wpf\BaseView.cs" />
+    <Compile Include="Services\Wpf\RelayCommand.cs" />
     <Compile Include="Services\ToastService.cs" />
     <Compile Include="Services\WSocketClientService.cs" />
     <Compile Include="UI\Components\Chat.xaml.cs">
@@ -287,7 +289,9 @@
     <Compile Include="UI\Controllers\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\LastMessageConverter.cs" />
     <Compile Include="UI\Controllers\LastOnlineMultiConverter.cs" />
+    <Compile Include="UI\Controllers\MessageContentConverter.cs" />
     <Compile Include="UI\Controllers\NullToVisibilityConverter.cs" />
+    <Compile Include="UI\Controllers\ReadAtToIconConverter.cs" />
     <Compile Include="UI\Controllers\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToColorConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToInitialConverter.cs" />
@@ -342,6 +346,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -370,10 +378,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Pages\" />
-    <Folder Include="UI\Styles\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Public\assets\logo-bg-none.png" />
     <Resource Include="Public\assets\logo-bg.png" />
@@ -404,6 +409,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Public\ico\log-out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\check-check-gray.png" />
+    <Resource Include="Public\ico\check-check-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\check.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

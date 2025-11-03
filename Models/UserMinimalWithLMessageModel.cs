@@ -17,6 +17,9 @@ namespace Parmigiano.Models
         [JsonPropertyName("username")]
         public string Username { get; set; }
 
+        [JsonPropertyName("email")]
+        public string Email { get; set; }
+
 
         [JsonPropertyName("avatar")]
         private string? _avatar;

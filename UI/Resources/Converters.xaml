@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controllers="clr-namespace:Parmigiano.UI.Controllers">
+
+    <controllers:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    <controllers:StringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" Inverse="True"/>
+
+    <controllers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <controllers:UsernameToInitialConverter x:Key="UsernameToInitialConverter"/>
+    <controllers:UsernameToColorConverter x:Key="UsernameToColorConverter"/>
+    <controllers:AsyncImageConverter x:Key="AsyncImageConverter"/>
+    <controllers:ReadAtToIconConverter x:Key="ReadAtToIconConverter"/>
+    <controllers:WidthLimitConverter x:Key="WidthLimitConverter"/>
+
+    <controllers:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    <controllers:WidthToVisibilityConverter x:Key="WidthToVisibilityConverter"/>
+    <controllers:LastMessageConverter x:Key="LastMessageConverter"/>
+
+    <controllers:MessageContentConverter x:Key="MessageContentConverter"/>
+
+    <controllers:LastOnlineMultiConverter x:Key="LastOnlineConverter"/>
+
+
+</ResourceDictionary>

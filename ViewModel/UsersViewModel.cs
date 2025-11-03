@@ -4,30 +4,49 @@ using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
+using Parmigiano.Services.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Parmigiano.ViewModel
 {
-    public class UsersViewModel
+    public class UsersViewModel : BaseView
     {
         private readonly IUserApiRepository _userApi = new UserApiRepository();
 
-        public ObservableCollection<UserMinimalWithLMessageModel> Users { get; set; }
+        private ObservableCollection<UserMinimalWithLMessageModel> _users;
+        public ObservableCollection<UserMinimalWithLMessageModel> Users
+        {
+            get => _users;
+            set
+            {
+                if (_users != value)
+                {
+                    _users = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(HasUsers));
+                }
+            }
+        }
+
+        public bool HasUsers => Users != null && Users.Count > 0;
 
         public UsersViewModel()
         {
             Users = new ObservableCollection<UserMinimalWithLMessageModel>();
+            Users.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasUsers));
 
-            ConnectionService.Instance.OnWsEvent += HandleServerEvent;
+            ConnectionService.Instance.OnWsEvent += HandleWebSocketEvent;
         }
 
-        private void HandleServerEvent(string evt, JObject data)
+        private void HandleWebSocketEvent(string evt, JObject data)
         {
             if (evt == Events.EVENT_USER_AVATAR_UPDATED)
             {
