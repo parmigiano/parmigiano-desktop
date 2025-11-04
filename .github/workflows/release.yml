@@ -91,7 +91,7 @@ jobs:
 
       - name: Replace Config.TYPE_RELEASE -> "prod"
         run: |
-          $file = 'parmigiano-desktop/Core/Config.cs'
+          $file = 'Core/Config.cs'
           Write-Host "Modifying $file"
           (Get-Content $file) -replace 'TYPE_RELEASE"\)\s*\{\s*get;\s*\}\s*=\s*".*?"', 'TYPE_RELEASE")\s*{ get; } = "prod"' | Set-Content $file
           Get-Content $file | Select-String 'TYPE_RELEASE' -Context 0,2
@@ -119,7 +119,7 @@ jobs:
           $text = Get-Content $src -Raw
 
           $text = [regex]::Replace($text, 'AppVersion\s*=\s*.*', "AppVersion=$tag")
-          
+
           $outfile = "ParmigianoChatSetup-$tag"
           $text = [regex]::Replace($text, 'OutputBaseFilename\s*=\s*.*', "OutputBaseFilename=$outfile")
 
