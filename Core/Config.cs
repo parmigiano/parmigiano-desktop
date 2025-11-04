@@ -10,7 +10,12 @@ namespace Parmigiano.Core
     public class AppConfig
     {
         [Newtonsoft.Json.JsonProperty("TYPE_RELEASE")]
-        public string TYPE_RELEASE { get; } = "prod";
+        public string TYPE_RELEASE { get; } =
+        #if DEBUG
+            "dev";
+        #else
+            "prod";
+        #endif
 
         [Newtonsoft.Json.JsonProperty("APP_NAME")]
         public string APP_NAME { get; } = "Parmigiano";
@@ -25,35 +30,20 @@ namespace Parmigiano.Core
         public string LOGS_PATH { get; }
 
         [Newtonsoft.Json.JsonProperty("HTTP_SERVER_ADDR")]
-        public string HTTP_SERVER_ADDR
-        {
-            get
-            {
-                if (this.TYPE_RELEASE == "dev")
-                {
-                    return "http://localhost:8080/api/v1/";
-                } else
-                {
-                    return "https://parmigianochat.ru/api/v1/";
-                }
-            }
-        }
+        public string HTTP_SERVER_ADDR { get; } =
+        #if DEBUG
+            "http://localhost:8080/api/v1/";
+        #else
+            "https://parmigianochat.ru/api/v1/";
+        #endif
 
         [Newtonsoft.Json.JsonProperty("WSOCKET_SERVER_ADDR")]
-        public string WSOCKET_SERVER_ADDR
-        {
-            get
-            {
-                if (this.TYPE_RELEASE == "dev")
-                {
-                    return "ws://localhost:8080";
-                }
-                else
-                {
-                    return "wss://parmigianochat.ru";
-                }
-            }
-        }
+        public string WSOCKET_SERVER_ADDR { get; } =
+        #if DEBUG
+            "ws://localhost:8080";
+        #else
+            "wss://parmigianochat.ru";
+        #endif
 
         [Newtonsoft.Json.JsonProperty("TCP_SERVER_ADDR")]
         public string TCP_SERVER_ADDR { get; set; } = "77.222.54.211";

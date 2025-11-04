@@ -10,7 +10,7 @@ AppPublisher=Parmigiano
 DefaultDirName={pf}\Parmigiano
 DefaultGroupName=Parmigiano
 AllowNoIcons=yes
-SetupIconFile="D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-x500.ico"
+SetupIconFile="../Public/assets/logo-x500.ico"
 OutputDir=SetupOutput
 OutputBaseFilename=ParmigianoChatSetup-v0.4beta
 Compression=lzma
@@ -18,7 +18,7 @@ SolidCompression=yes
 WizardStyle=modern
 PrivilegesRequired=admin
 UninstallDisplayIcon={app}\Parmigiano.exe
-LicenseFile="D:\Projects\parmigiano\parmigiano-desktop\LICENSE"
+LicenseFile="../LICENSE"
 AppCopyright=© 2025 Parmigiano
 AppContact=parmigianochat@gmail.com
 
@@ -31,11 +31,11 @@ Name: "desktopicon"; Description: "Создать ярлык на рабочем
 Name: "autostart"; Description: "Запускать вместе с Windows"; GroupDescription: "Дополнительно:"
 
 [Files]
-Source: "D:\Projects\parmigiano\parmigiano-desktop\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "../bin/Release/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: "D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-x500.ico"; WorkingDir: "{app}"
-Name: "{userdesktop}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: "D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-x500.ico"; WorkingDir: "{app}"
+Name: "{group}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: "../Public/assets/logo-x500.ico"; WorkingDir: "{app}"
+Name: "{userdesktop}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: "../Public/assets/logo-x500.ico"; WorkingDir: "{app}"
 
 [Registry]
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Parmigiano Desktop"; ValueData: """{app}\Parmigiano.exe"""; Tasks: autostart; Flags: uninsdeletevalue
