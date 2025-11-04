@@ -79,16 +79,6 @@ jobs:
           fetch-depth: 0
           tags: true
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "8.0.x" # при необходимости поменяйте на вашу версию
-
-      - name: Restore NuGet packages
-        run: |
-          dotnet restore ./parmigiano-desktop/Parmigiano.Desktop.sln || true
-        shell: pwsh
-
       - name: Replace Config.TYPE_RELEASE -> "prod"
         run: |
           $file = 'Core/Config.cs'
@@ -97,11 +87,18 @@ jobs:
           Get-Content $file | Select-String 'TYPE_RELEASE' -Context 0,2
         shell: pwsh
 
-      - name: Build (publish) WPF Release x64
+      - name: Build WPF project (.NET Framework 4.8)
         run: |
-          dotnet publish ./parmigiano-desktop/Parmigiano.Desktop.csproj -c Release -r win-x64 --self-contained false -o ./parmigiano-desktop/bin/Release
+          # Укажи точное имя твоего .csproj файла
+          $project = 'parmigiano-desktop\\Parmigiano.csproj'
+          if (!(Test-Path $project)) {
+            Write-Error "Project not found: $project"
+            exit 1
+          }
+          & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe" `
+            $project /p:Configuration=Release /p:Platform=\"Any CPU\" /t:Rebuild
         shell: pwsh
-
+        
       - name: Prepare Inno script (substitute version and paths)
         id: prepare_iss
         run: |
