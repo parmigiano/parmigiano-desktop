@@ -90,7 +90,7 @@ jobs:
       - name: Build WPF project (.NET Framework 4.8)
         run: |
           # Укажи точное имя твоего .csproj файла
-          $project = 'parmigiano-desktop\\Parmigiano.csproj'
+          $project = 'Parmigiano.csproj'
           if (!(Test-Path $project)) {
             Write-Error "Project not found: $project"
             exit 1
@@ -98,7 +98,7 @@ jobs:
           & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe" `
             $project /p:Configuration=Release /p:Platform=\"Any CPU\" /t:Rebuild
         shell: pwsh
-        
+
       - name: Prepare Inno script (substitute version and paths)
         id: prepare_iss
         run: |
