@@ -245,6 +245,7 @@
       <DependentUpon>EmailConfirmedWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interface\IAuthApiRepository.cs" />
+    <Compile Include="Interface\IMessageApiRepository.cs" />
     <Compile Include="Interface\IUserApiRepository.cs" />
     <Compile Include="Models\ApiResponseModel.cs" />
     <Compile Include="Models\AuthCreateModel.cs" />
@@ -253,16 +254,20 @@
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\MessageStatusModel.cs" />
     <Compile Include="Models\OnesMessageModel.cs" />
+    <Compile Include="Models\ReqEmailConfirmModel.cs" />
     <Compile Include="Models\UserCoreModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\UserMinimalWithLMessageModel.cs" />
     <Compile Include="Models\UserProfileModel.cs" />
     <Compile Include="Repository\AuthApiRepository.cs" />
+    <Compile Include="Repository\MessageApiRepository.cs" />
     <Compile Include="Repository\UserApiRepository.cs" />
     <Compile Include="Repository\UserConfigRepository.cs" />
     <Compile Include="Services\ConnectionService.cs" />
     <Compile Include="Services\HttpClientService.cs" />
+    <Compile Include="Services\KeyService.cs" />
     <Compile Include="Services\Logger.cs" />
+    <Compile Include="Services\TcpClientService.cs" />
     <Compile Include="Services\Wpf\BaseView.cs" />
     <Compile Include="Services\Wpf\RelayCommand.cs" />
     <Compile Include="Services\ToastService.cs" />
@@ -378,7 +383,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Public\assets\chat-bg-1.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Public\assets\logo-bg-none.png" />
     <Resource Include="Public\assets\logo-bg.png" />
@@ -402,12 +409,6 @@
     <Resource Include="Public\ico\send.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Public\assets\chat-wallpaper.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Public\assets\chat-bg.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Public\ico\log-out.png" />
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +417,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Public\ico\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\assets\chat-bg-2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

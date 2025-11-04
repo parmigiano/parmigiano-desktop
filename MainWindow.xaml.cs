@@ -6,6 +6,7 @@ using Parmigiano.Services;
 using Parmigiano.UI.Components;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace Parmigiano
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private readonly IUserApiRepository _userApi = new UserApiRepository();
+        private readonly IUserConfigRepository _userConfig = new UserConfigRepository();
 
         private string _windowTitle = "Гость";
         public string WindowTitle
@@ -53,6 +55,18 @@ namespace Parmigiano
             UsersListControl.UserSelected += OnUserSelected;
 
             _ = LoadUserAsync();
+
+            ConnectionService.Instance.EnsureConnectedWSocket();
+            ConnectionService.Instance.ConnectTcp();
+
+            // new task
+            _ = Task.Run(() =>
+            {
+                if (!File.Exists(this._userConfig.Get("rsa_private_key")) || !File.Exists(this._userConfig.Get("rsa_public_key")))
+                {
+                    var keyService = new KeyService();
+                }
+            });
         }
 
         private async Task LoadUserAsync()

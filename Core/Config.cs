@@ -56,19 +56,7 @@ namespace Parmigiano.Core
         }
 
         [Newtonsoft.Json.JsonProperty("TCP_SERVER_ADDR")]
-        public string TCP_SERVER_ADDR
-        {
-            get
-            {
-                if (this.TYPE_RELEASE == "dev")
-                {
-                    return "localhost";
-                } else
-                {
-                    return "77.222.54.211";
-                }
-            }
-        }
+        public string TCP_SERVER_ADDR { get; set; } = "77.222.54.211";
 
         [Newtonsoft.Json.JsonProperty("TCP_SERVER_PORT")]
         public short TCP_SERVER_PORT = 5462;

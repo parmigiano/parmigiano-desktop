@@ -13,6 +13,6 @@ namespace Parmigiano.Interface
 
         Task<string?> AuthLogin(AuthLoginModel model);
 
-        Task<string?> AuthEmailConfirmReq();
+        Task<string?> AuthEmailConfirmReq(ReqEmailConfirmModel model);
     }
 }

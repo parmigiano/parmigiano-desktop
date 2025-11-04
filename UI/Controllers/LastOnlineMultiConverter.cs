@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Documents;
 
 namespace Parmigiano.UI.Controllers
 {
@@ -30,9 +25,22 @@ namespace Parmigiano.UI.Controllers
             if (lastOnlineObj is not DateTime lastOnline)
                 return "был(а) недавно";
 
-            lastOnline = DateTime.SpecifyKind(lastOnline, DateTimeKind.Utc);
-            var now = DateTime.UtcNow;
-            var diff = now - lastOnline;
+            if (lastOnline.Kind == DateTimeKind.Unspecified)
+            {
+                lastOnline = DateTime.SpecifyKind(lastOnline, DateTimeKind.Local);
+                lastOnline = lastOnline.ToUniversalTime();
+            }
+            else if (lastOnline.Kind == DateTimeKind.Local)
+            {
+                lastOnline = lastOnline.ToUniversalTime();
+            }
+
+            var diff = DateTime.UtcNow - lastOnline;
+
+            if (diff.TotalSeconds < 0)
+            {
+                diff = TimeSpan.Zero;
+            }
 
             if (diff.TotalSeconds < 60)
                 return "был(а) только что";

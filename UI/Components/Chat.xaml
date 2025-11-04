@@ -33,7 +33,6 @@
                            Cursor="Hand"/>
 
                 <TextBlock Grid.Row="1"
-                           Foreground="#999"
                            FontWeight="Normal"
                            FontSize="12"
                            Margin="0,3,0,0">
@@ -43,6 +42,17 @@
                             <Binding Path="SelectedUser.Online"/>
                         </MultiBinding>
                     </TextBlock.Text>
+
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#999"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedUser.Online}" Value="True">
+                                    <Setter Property="Foreground" Value="#2499ff"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
                 </TextBlock>
             </StackPanel>
         </Border>
@@ -50,16 +60,25 @@
         <ScrollViewer x:Name="ChatScrollViewer"
                       HorizontalScrollBarVisibility="Hidden"
                       VerticalScrollBarVisibility="Hidden"
-                      Grid.Row="1" Margin="0,0,0,45" Grid.RowSpan="2"
-                      Background="#121212">
+                      Grid.Row="1" Margin="0,0,0,45" Grid.RowSpan="2">
 
-            <!-- <ScrollViewer.Background>
-                <ImageBrush ImageSource="pack://application:,,,/Public/assets/chat-bg.jpg"
-                    Stretch="UniformToFill"
-                    Opacity="0.4"/>
-            </ScrollViewer.Background> -->
+            <ScrollViewer.Background>
+                <VisualBrush Opacity="0.07" Stretch="UniformToFill">
+                    <VisualBrush.Visual>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-            <StackPanel VerticalAlignment="Center" MaxWidth="1000">
+                            <Image Grid.Column="0" Source="pack://application:,,,/Public/assets/chat-bg-1.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image Grid.Column="1" Source="pack://application:,,,/Public/assets/chat-bg-1.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Grid>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </ScrollViewer.Background>
+
+            <StackPanel VerticalAlignment="Center" MaxWidth="1100">
                 <StackPanel Orientation="Vertical"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -75,7 +94,7 @@
                             </Ellipse.Fill>
                         </Ellipse>
 
-                        <Border Width="54" Height="54" CornerRadius="27" 
+                        <Border Width="90" Height="90" CornerRadius="1000" 
                                 Background="{Binding SelectedUser.Username, Converter={StaticResource UsernameToColorConverter}}"
                                 Visibility="{Binding SelectedUser.Avatar, Converter={StaticResource InverseStringToVisibilityConverter}}"
                                 VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -83,7 +102,7 @@
                             <TextBlock Text="{Binding SelectedUser.Username, Converter={StaticResource UsernameToInitialConverter}}"
                                        Foreground="White"
                                        FontWeight="Bold"
-                                       FontSize="20"
+                                       FontSize="30"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"/>
                         </Border>
@@ -149,8 +168,10 @@
                                         <MenuItem Header="Удалить"
                                                   Command="{Binding DeleteMessageCommand}"
                                                   CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                        <MenuItem Header="Закрепить" />
-                                        <MenuItem Header="Копировать" />
+                                        <MenuItem Header="Закрепить"/>
+                                        <MenuItem Header="Копировать"
+                                                  Command="{Binding CopyMessageCommand}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 
@@ -190,13 +211,6 @@
                                                 </MultiBinding>
                                             </TextBox.Text>
                                         </TextBox>
-
-                                        <!-- <TextBlock Grid.Column="1"
-                                                   Text="{Binding DeliveredAt, StringFormat={}{0:HH:mm}}"
-                                                   Foreground="#888"
-                                                   FontSize="12"
-                                                   Margin="14,9,0,0"
-                                                   VerticalAlignment="Bottom"/> -->
 
                                         <StackPanel Grid.Column="1" 
                                                     Orientation="Horizontal" 

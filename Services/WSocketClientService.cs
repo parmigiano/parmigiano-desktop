@@ -14,8 +14,16 @@ namespace Parmigiano.Services
         private WebSocket _wsocket;
         public event Action<string, JObject> OnEventReceived;
 
+        public bool IsConnected => this._wsocket != null && this._wsocket.IsAlive;
+
         public void Connect(string token = null)
         {
+            if (IsConnected)
+            {
+                Logger.Info("WSocketClientService: уже подключено, пропускаем повторное подключение.");
+                return;
+            }
+
             string url = $"{Config.Current.WSOCKET_SERVER_ADDR}/wsocket";
 
             this._wsocket = new WebSocket(url);
@@ -27,7 +35,7 @@ namespace Parmigiano.Services
 
             this._wsocket.OnOpen += (s, e) =>
             {
-                Logger.Info("WebSocket connected");
+                Logger.Info($"WebSocket connected to {url}");
             };
 
             this._wsocket.OnMessage += (s, e) =>
@@ -57,6 +65,7 @@ namespace Parmigiano.Services
             if (this._wsocket != null && this._wsocket.IsAlive)
             {
                 this._wsocket.Close();
+                Logger.Info("WebSocket manually closed");
             }
         }
     }

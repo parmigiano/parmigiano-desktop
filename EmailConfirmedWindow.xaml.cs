@@ -4,6 +4,7 @@ using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,6 +17,8 @@ namespace Parmigiano
     {
         private readonly IAuthApiRepository _authApi = new AuthApiRepository();
         private readonly IUserApiRepository _userApi = new UserApiRepository();
+
+        private bool _isConfirmStage = false;
 
         public EmailConfirmedWindow()
         {
@@ -39,7 +42,33 @@ namespace Parmigiano
 
         private async void EmailConfirmReq_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _ = await this._authApi.AuthEmailConfirmReq();
+            try
+            {
+                if (!this._isConfirmStage)
+                {
+                    EmailConfirm.Visibility = Visibility.Visible;
+                    ReqConfirm.Text = "Отправить";
+                    
+                    this._isConfirmStage = true;
+                    return;
+                }
+
+                ReqEmailConfirmModel model = new()
+                {
+                    Email = EmailBox.Text,
+                };
+
+                _ = await this._authApi.AuthEmailConfirmReq(model);
+
+                EmailConfirm.Visibility = Visibility.Collapsed;
+                ReqConfirm.Visibility = Visibility.Collapsed;
+
+                MessageBox.Show("Письмо с подтверждением отправлено!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void HandleWebSocketEvent(string evt, JObject data)
