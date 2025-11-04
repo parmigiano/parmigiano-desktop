@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package ClientRequestStruct;
+
+message FileInfo {
+	string pame = 1; // rename FileName to name
+	string path = 2; // rename FilePath to path
+	string hash = 3; // rename Filehash to hash
+}
+
+message FieldOfRequestData {
+	string key = 1;
+	string value = 2;
+}
+
+message RequestInfo {
+	enum requestTypes{
+		unknown = 0;
+		fileHashRequest = 1;
+		downloadFile = 2;
+		sendMessage = 3;
+		readMessage = 4;
+		editMessage = 5;
+		deleteMessage = 6;
+		userTyping = 7;
+		userOnlineStatus = 8;
+		getUnreadMessageCount = 9;
+	}
+
+	requestTypes type = 1;
+}
+
+// MAIN
+message Request {
+	// PERMANENT NECESSARY FIELDS
+	RequestInfo requestInfo = 1; // important field of request info
+	repeated FieldOfRequestData requestData = 2; // main field/s of data
+
+	// OPTIONAL UPDATE FIELDS
+	repeated FileInfo fileInfo = 3; // usage while checking update and updating
+}

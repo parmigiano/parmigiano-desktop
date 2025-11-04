@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Grpc.Tools.2.76.0\build\Grpc.Tools.props" Condition="Exists('packages\Grpc.Tools.2.76.0\build\Grpc.Tools.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -16,6 +17,8 @@
     <Deterministic>true</Deterministic>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,6 +42,9 @@
   <ItemGroup>
     <Reference Include="DotNetEnv, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\DotNetEnv.3.1.1\lib\netstandard1.3\DotNetEnv.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.33.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>packages\Google.Protobuf.3.33.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.9.0.10\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -229,6 +235,17 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="Protos\ClientRequestStruct.proto"
+            ProtoRoot="Protos"
+            OutputDir="Generated"
+            GrpcServices="None" />
+
+    <Protobuf Include="Protos\ResponseStruct.proto"
+              ProtoRoot="Protos"
+              OutputDir="Generated"
+              GrpcServices="None" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -422,4 +439,12 @@
     <Resource Include="Public\assets\chat-bg-2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Grpc.Tools.2.76.0\build\Grpc.Tools.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Grpc.Tools.2.76.0\build\Grpc.Tools.props'))" />
+    <Error Condition="!Exists('packages\Grpc.Tools.2.76.0\build\Grpc.Tools.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Grpc.Tools.2.76.0\build\Grpc.Tools.targets'))" />
+  </Target>
+  <Import Project="packages\Grpc.Tools.2.76.0\build\Grpc.Tools.targets" Condition="Exists('packages\Grpc.Tools.2.76.0\build\Grpc.Tools.targets')" />
 </Project>
