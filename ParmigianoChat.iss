@@ -2,23 +2,33 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 [Setup]
+SignTool=MsSign $f
+AppId={{A4C5B89C-92D3-4AF9-BE3E-74B3D0C31402}}
 AppName=Parmigiano
-AppVersion=0.1.0
+AppVersion=0.4.0
+AppPublisher=Parmigiano
 DefaultDirName={pf}\Parmigiano
 DefaultGroupName=Parmigiano
+AllowNoIcons=yes
+SetupIconFile="D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-x500.ico"
 OutputDir=SetupOutput
-OutputBaseFilename=ParmigianoChatSetup
+OutputBaseFilename=ParmigianoChatSetup-v0.4beta
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 PrivilegesRequired=admin
 UninstallDisplayIcon={app}\Parmigiano.exe
+LicenseFile="D:\Projects\parmigiano\parmigiano-desktop\LICENSE"
+AppCopyright=© 2025 Parmigiano
+AppContact=parmigianochat@gmail.com
 
 [Languages]
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "Создать ярлык на рабочем столе"; GroupDescription: "Дополнительно:"; Flags: unchecked
+Name: "autostart"; Description: "Запускать вместе с Windows"; GroupDescription: "Дополнительно:"
 
 [Files]
 Source: "D:\Projects\parmigiano\parmigiano-desktop\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -26,6 +36,9 @@ Source: "D:\Projects\parmigiano\parmigiano-desktop\bin\Release\*"; DestDir: "{ap
 [Icons]
 Name: "{group}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: "D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-x500.ico"; WorkingDir: "{app}"
 Name: "{userdesktop}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: "D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-x500.ico"; WorkingDir: "{app}"
+
+[Registry]
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Parmigiano Desktop"; ValueData: """{app}\Parmigiano.exe"""; Tasks: autostart; Flags: uninsdeletevalue
 
 [Run]
 Filename: "{app}\Parmigiano.exe"; Description: "Запустить ParmigianoChat"; Flags: nowait postinstall skipifsilent
