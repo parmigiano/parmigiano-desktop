@@ -60,6 +60,7 @@ namespace Parmigiano
 
                 var model = new AuthCreateModel
                 {
+                    Name = NameBox.Text,
                     Username = UsernameBox.Text,
                     Email = EmailBox.Text,
                     Password = PasswordBbox.Password,

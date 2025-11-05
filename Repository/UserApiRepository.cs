@@ -21,9 +21,9 @@ namespace Parmigiano.Repository
             return await this._httpClient.GetAsync<UserInfoModel>($"{this._apiPath}/me");
         }
 
-        public async Task<List<UserMinimalWithLMessageModel>?> GetUsersMinimalWithLMessage()
+        public async Task<List<ChatMinimalWithLMessageModel>?> GetUsersFindByUsername(string username)
         {
-            return await this._httpClient.GetAsync<List<UserMinimalWithLMessageModel>>($"{this._apiPath}/last-messages");
+            return await this._httpClient.GetAsync<List<ChatMinimalWithLMessageModel>>($"{this._apiPath}/find/{username}");
         }
 
         public async Task<string?> UploadAvatar(string filePath)

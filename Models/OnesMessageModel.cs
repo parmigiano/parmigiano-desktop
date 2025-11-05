@@ -19,20 +19,20 @@ namespace Parmigiano.Models
             set => Set(ref _id, value);
         }
 
+        [JsonPropertyName("chat_id")]
+        private ulong _chatId;
+        public ulong ChatId
+        {
+            get => this._chatId;
+            set => Set(ref this._chatId, value);
+        }
+
         [JsonPropertyName("sender_uid")]
         private ulong _senderUid;
         public ulong SenderUid
         {
             get => _senderUid;
             set => Set(ref _senderUid, value);
-        }
-
-        [JsonPropertyName("receiver_uid")]
-        private ulong _receiverUid;
-        public ulong ReceiverUid
-        {
-            get => _receiverUid;
-            set => Set(ref _receiverUid, value);
         }
 
         [JsonPropertyName("content")]

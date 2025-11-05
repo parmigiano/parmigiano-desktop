@@ -27,7 +27,7 @@ namespace Parmigiano.UI.Components
 
         public UsersViewModel ViewModel { get; private set; }
 
-        public event Action<UserMinimalWithLMessageModel>? UserSelected;
+        public event Action<ChatMinimalWithLMessageModel>? UserSelected;
 
         public UsersList()
         {
@@ -39,7 +39,7 @@ namespace Parmigiano.UI.Components
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender is ListBox listBox && listBox.SelectedItem is UserMinimalWithLMessageModel user)
+            if (sender is ListBox listBox && listBox.SelectedItem is ChatMinimalWithLMessageModel user)
             {
                 UserSelected?.Invoke(user);
             }

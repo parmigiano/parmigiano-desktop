@@ -237,15 +237,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Protobuf Include="Protos\ClientRequestStruct.proto"
-            ProtoRoot="Protos"
-            OutputDir="Generated"
-            GrpcServices="None" />
-
-    <Protobuf Include="Protos\ResponseStruct.proto"
-              ProtoRoot="Protos"
-              OutputDir="Generated"
-              GrpcServices="None" />
+    <Protobuf Include="Protos\ClientRequestStruct.proto" ProtoRoot="Protos" OutputDir="Generated" GrpcServices="None" />
+    <Protobuf Include="Protos\ResponseStruct.proto" ProtoRoot="Protos" OutputDir="Generated" GrpcServices="None" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -262,6 +255,7 @@
       <DependentUpon>EmailConfirmedWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interface\IAuthApiRepository.cs" />
+    <Compile Include="Interface\IChatApiRepository.cs" />
     <Compile Include="Interface\IMessageApiRepository.cs" />
     <Compile Include="Interface\IUserApiRepository.cs" />
     <Compile Include="Models\ApiResponseModel.cs" />
@@ -274,9 +268,10 @@
     <Compile Include="Models\ReqEmailConfirmModel.cs" />
     <Compile Include="Models\UserCoreModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
-    <Compile Include="Models\UserMinimalWithLMessageModel.cs" />
+    <Compile Include="Models\ChatMinimalWithLMessageModel.cs" />
     <Compile Include="Models\UserProfileModel.cs" />
     <Compile Include="Repository\AuthApiRepository.cs" />
+    <Compile Include="Repository\ChatApiRepository.cs" />
     <Compile Include="Repository\MessageApiRepository.cs" />
     <Compile Include="Repository\UserApiRepository.cs" />
     <Compile Include="Repository\UserConfigRepository.cs" />

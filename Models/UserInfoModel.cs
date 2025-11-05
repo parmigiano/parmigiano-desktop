@@ -28,6 +28,9 @@ namespace Parmigiano.Models
         [JsonPropertyName("avatar")]
         public string? Avatar { get; set; }
 
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
 
         [JsonPropertyName("username")]
         public string Username { get; set; }

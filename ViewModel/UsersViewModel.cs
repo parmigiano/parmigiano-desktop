@@ -19,10 +19,43 @@ namespace Parmigiano.ViewModel
 {
     public class UsersViewModel : BaseView
     {
+        private System.Threading.CancellationTokenSource _searchCts;
+
+        private readonly IChatApiRepository _chatApi = new ChatApiRepository();
         private readonly IUserApiRepository _userApi = new UserApiRepository();
 
-        private ObservableCollection<UserMinimalWithLMessageModel> _users;
-        public ObservableCollection<UserMinimalWithLMessageModel> Users
+        private string _searchText;
+        public string SearchText
+        {
+            get => this._searchText;
+            set
+            {
+                if (this._searchText != value)
+                {
+                    this._searchText = value;
+                    OnPropertyChanged();
+
+                    this.StartSearchDebounce();
+                }
+            }
+        }
+
+        private bool _hasSearchResults = true;
+        public bool HasSearchResults
+        {
+            get => this._hasSearchResults;
+            set
+            {
+                if (this._hasSearchResults != value)
+                {
+                    this._hasSearchResults = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private ObservableCollection<ChatMinimalWithLMessageModel> _users;
+        public ObservableCollection<ChatMinimalWithLMessageModel> Users
         {
             get => _users;
             set
@@ -40,7 +73,7 @@ namespace Parmigiano.ViewModel
 
         public UsersViewModel()
         {
-            Users = new ObservableCollection<UserMinimalWithLMessageModel>();
+            Users = new ObservableCollection<ChatMinimalWithLMessageModel>();
             Users.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasUsers));
 
             ConnectionService.Instance.OnWsEvent += HandleWebSocketEvent;
@@ -68,7 +101,7 @@ namespace Parmigiano.ViewModel
             {
                 try
                 {
-                    var userObj = data.ToObject<UserMinimalWithLMessageModel>();
+                    var userObj = data.ToObject<ChatMinimalWithLMessageModel>();
                     if (userObj != null)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -87,11 +120,56 @@ namespace Parmigiano.ViewModel
             }
         }
 
+        private void StartSearchDebounce()
+        {
+            this._searchCts?.Cancel();
+            this._searchCts = new System.Threading.CancellationTokenSource();
+
+            var token = this._searchCts.Token;
+
+            Task.Delay(700).ContinueWith(async t =>
+            {
+                if (token.IsCancellationRequested) return;
+
+                await this.SearchUsersAsync(this._searchText);
+            }, token, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
+        }
+
+        private async Task SearchUsersAsync(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                await this.LoadUsersAsync();
+                return;
+            }
+
+            try
+            {
+                var results = await this._userApi.GetUsersFindByUsername(query);
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Users.Clear();
+
+                    foreach (var user in results)
+                    {
+                        Users.Add(user);
+                    }
+
+                    HasSearchResults = Users.Count > 0;
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Ошибка поиска пользователей: {ex.Message}");
+            }
+        }
+
         public async Task LoadUsersAsync()
         {
             try
             {
-                List<UserMinimalWithLMessageModel> users = await this._userApi.GetUsersMinimalWithLMessage();
+                List<ChatMinimalWithLMessageModel> users = await this._chatApi.GetChats();
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {

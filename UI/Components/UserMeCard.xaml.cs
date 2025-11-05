@@ -46,11 +46,13 @@ namespace Parmigiano.UI.Components
 
                 if (user == null)
                 {
-                    UsernameText.Text = "Гость";
+                    NameText.Text = "Гость";
+                    UsernameText.Text = "@gost";
                     return;
                 }
 
-                UsernameText.Text = user.Username;
+                UsernameText.Text = $"@{user.Username}";
+                NameText.Text = user.Name;
 
                 if (!string.IsNullOrEmpty(user.Avatar))
                 {

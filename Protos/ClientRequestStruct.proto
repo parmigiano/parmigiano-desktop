@@ -13,8 +13,27 @@ message FieldOfRequestData {
 	string value = 2;
 }
 
+// 1. Приветственный пакет при первом подключении
+message ClientConnectedPacket {
+	uint64 uid = 1;
+    bytes public_key = 2;
+}
+
+// 2. Запрос асинхронного ключа шифрования от сервера (запрос идет когда пользователь открыл чат с другим пользователем)
+message RsaKeyRequestPacket {
+	uint64 uid = 1;
+    string algorithm = 2; // "RSA-2048" | "X25519" | ...
+}
+
+// 3. Пакет когда пользователь начал печатать
+message ClientTypingPacket {
+	uint64 uid = 1;
+    string chat_id = 2; // View -> UUID
+	bool is_typing = 3;
+}
+
 message RequestInfo {
-	enum requestTypes{
+	enum requestTypes {
 		unknown = 0;
 		fileHashRequest = 1;
 		downloadFile = 2;

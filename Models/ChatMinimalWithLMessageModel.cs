@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace Parmigiano.Models
 {
-    public class UserMinimalWithLMessageModel : INotifyPropertyChanged
+    public class ChatMinimalWithLMessageModel : INotifyPropertyChanged
     {
         [JsonPropertyName("id")]
         public ulong Id { get; set; }
 
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
         [JsonPropertyName("username")]
         public string Username { get; set; }
 
         [JsonPropertyName("email")]
         public string Email { get; set; }
-
 
         [JsonPropertyName("avatar")]
         private string? _avatar;
@@ -36,7 +37,6 @@ namespace Parmigiano.Models
             }
         }
 
-
         [JsonPropertyName("user_uid")]
         public ulong UserUid { get; set; }
 
@@ -46,16 +46,15 @@ namespace Parmigiano.Models
         [JsonPropertyName("last_online_date")]
         public DateTime? LastOnlineDate { get; set; }
 
-
         [JsonPropertyName("last_message")]
         public string? LastMessage { get; set; }
-
 
         [JsonPropertyName("last_message_date")]
         public DateTime? LastMessageDate { get; set; }
 
         [JsonPropertyName("unread_message_count")]
         public short UnreadMessageCount { get; set; }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

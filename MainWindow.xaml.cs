@@ -32,8 +32,8 @@ namespace Parmigiano
             }
         }
 
-        private UserMinimalWithLMessageModel? _selectedUser;
-        public UserMinimalWithLMessageModel? SelectedUser
+        private ChatMinimalWithLMessageModel? _selectedUser;
+        public ChatMinimalWithLMessageModel? SelectedUser
         {
             get => _selectedUser;
             set
@@ -96,7 +96,7 @@ namespace Parmigiano
             }
         }
 
-        private void OnUserSelected(UserMinimalWithLMessageModel user)
+        private void OnUserSelected(ChatMinimalWithLMessageModel user)
         {
             this.SelectedUser = user;
         }

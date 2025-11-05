@@ -11,7 +11,7 @@ namespace Parmigiano.Interface
     {
         Task<UserInfoModel?> GetUserMe();
 
-        Task<List<UserMinimalWithLMessageModel>?> GetUsersMinimalWithLMessage();
+        Task<List<ChatMinimalWithLMessageModel>?> GetUsersFindByUsername(string username);
 
         Task<string?> UploadAvatar(string filePath);
     }

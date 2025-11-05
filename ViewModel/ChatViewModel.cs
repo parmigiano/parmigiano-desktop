@@ -20,7 +20,7 @@ namespace Parmigiano.ViewModel
 {
     public class ChatViewModel : BaseView
     {
-        private readonly IMessageApiRepository _messageApi = new MessageApiRepository();
+        private readonly IChatApiRepository _chatApi = new ChatApiRepository();
 
         public ICommand SendMessageCommand { get; }
         public ICommand EditMessageCommand { get; }
@@ -62,8 +62,8 @@ namespace Parmigiano.ViewModel
 
         public ObservableCollection<OnesMessageModel> Messages { get; set; } = new();
 
-        private UserMinimalWithLMessageModel _selectedUser;
-        public UserMinimalWithLMessageModel SelectedUser
+        private ChatMinimalWithLMessageModel _selectedUser;
+        public ChatMinimalWithLMessageModel SelectedUser
         {
             get => this._selectedUser;
             set
@@ -95,7 +95,7 @@ namespace Parmigiano.ViewModel
 
             this.Messages.Clear();
 
-            List<OnesMessageModel> messages = await this._messageApi.GetMessagesHisotry(this.SelectedUser.UserUid);
+            List<OnesMessageModel> messages = await this._chatApi.GetHistory(this.SelectedUser.UserUid);
 
             foreach (var message in messages)
             {
@@ -129,7 +129,6 @@ namespace Parmigiano.ViewModel
                 this.Messages.Add(new OnesMessageModel
                 {
                     SenderUid = AppSession.CurrentUserUid,
-                    ReceiverUid = SelectedUser.UserUid,
                     Content = this.MessageText,
                     ContentType = "text",
                     IsEdited = false,

@@ -9,6 +9,9 @@ namespace Parmigiano.Models
 {
     public class AuthCreateModel
     {
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+
         [JsonPropertyName("username")]
         public string Username { get; set; } = string.Empty;
 

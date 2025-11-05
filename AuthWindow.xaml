@@ -51,10 +51,26 @@
                        FontSize="14"/>
 
             <!-- Поля регистрации -->
-            <TextBlock Text="Имя пользователя" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
-            <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
-                <TextBox x:Name="UsernameBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
-            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Имя" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+                    <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                        <TextBox x:Name="NameBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                    <TextBlock Text="Имя пользователя" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+                    <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                        <TextBox x:Name="UsernameBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
 
             <TextBlock Text="Адрес электронной почты" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
             <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">

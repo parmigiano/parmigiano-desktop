@@ -31,13 +31,30 @@
 
             <local:UserMeCard Grid.Row="0" />
 
-            <TextBlock Text="Сообщения" Grid.Row="1"
-                       Foreground="White"
-                       FontWeight="SemiBold"
-                       FontSize="17"
-                       Margin="13,10,10,13"/>
+            <Border Grid.Row="1" Background="#222" CornerRadius="17" Padding="10,5,10,5" Margin="10">
+                <Grid>
+                    <TextBox x:Name="SearchUsernameBox" 
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Background="Transparent" 
+                             Foreground="White"
+                             BorderThickness="0"
+                             FontSize="14" 
+                             Padding="3"
+                             CaretBrush="White"/>
 
-            <TextBlock Text="В чате пока нет ни одного пользователя"
+                    <TextBlock Text="Поиск"
+                               Foreground="#999"
+                               FontSize="14"
+                               Padding="8,0,8,0"
+                               IsHitTestVisible="False"
+                               VerticalAlignment="Center"
+                               Panel.ZIndex="1"
+                               Visibility="{Binding Text, ElementName=SearchUsernameBox, 
+                                            Converter={StaticResource InverseStringToVisibilityConverter}}"/>
+                </Grid>
+            </Border>
+
+            <TextBlock Text="У вас нет активных чатов"
                        Grid.Row="2"
                        Foreground="#666"
                        FontSize="13"
@@ -48,7 +65,7 @@
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Visibility" Value="Collapsed"/>
-                        
+
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding HasUsers}" Value="False">
                                 <Setter Property="Visibility" Value="Visible"/>
@@ -57,6 +74,27 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
+
+            <!-- <TextBlock Text="Нет результатов"
+                       Grid.Row="2"
+                       Foreground="#666"
+                       FontSize="13"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Panel.ZIndex="10"
+                       Margin="0,-130,0,0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasSearchResults}" Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock> -->
 
             <ListBox ItemsSource="{Binding Users}" Grid.Row="2"
                         Background="#111111"
@@ -155,7 +193,7 @@
                                 </Grid>
 
                                 <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Username}"
+                                    <TextBlock Text="{Binding Name}"
                                                Foreground="White"
                                                FontWeight="SemiBold"
                                                FontSize="15"/>
