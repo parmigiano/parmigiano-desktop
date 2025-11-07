@@ -3,12 +3,13 @@
 
 #define AppId "{{A4C5B89C-92D3-4AF9-BE3E-74B3D0C31402}}"
 #define AppName "Parmigiano"
-#define AppVersion "0.4.0"
-#define AppDisplayName "Parmigiano Chat v0.4.0"
+#define AppVersion "0.7.0"
+#define AppDisplayName "Parmigiano Chat v0.7.0"
 #define AppPublisher "Parmigiano"
 #define OutputDir "SetupOutput"
 #define ResourcesDir "Public\assets"
-#define AppIconName "logo-x500"
+#define AppIconName "D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-ico.ico"
+#define DesktopIconFile "D:\Projects\parmigiano\parmigiano-desktop\Public\assets\logo-x50.ico"
 #define AppContact "parmigianochat@gmail.com"
 
 [Setup]
@@ -20,7 +21,7 @@ AppPublisher={#AppPublisher}
 DefaultDirName={pf}\Parmigiano
 DefaultGroupName=Parmigiano
 AllowNoIcons=yes
-SetupIconFile=../{#ResourcesDir}/{#AppIconName}.ico
+SetupIconFile={#AppIconName}
 OutputDir={#OutputDir}
 OutputBaseFilename=ParmigianoChatSetup-v{#AppVersion}-beta
 Compression=lzma
@@ -42,17 +43,22 @@ Name: "desktopicon"; Description: "Создать ярлык на рабочем
 Name: "autostart"; Description: "Запускать вместе с Windows"; GroupDescription: "Дополнительно:"
 
 [Files]
-Source: "../bin/Release/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+; Основное приложение
+Source: "D:\Projects\parmigiano\parmigiano-desktop\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+
+; Фоновый listener
+Source: "D:\Projects\parmigiano\ParmigianoChatBroker\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: ../{#ResourcesDir}/{#AppIconName}.ico; WorkingDir: "{app}"
-Name: "{userdesktop}\ParmigianoChat"; Filename: "{app}\Parmigiano.exe"; IconFilename: ../{#ResourcesDir}/{#AppIconName}.ico; WorkingDir: "{app}"
+Name: "{group}\Parmigiano Chat"; Filename: "{app}\Parmigiano.exe"; IconFilename: {#DesktopIconFile}; WorkingDir: "{app}"
+Name: "{userdesktop}\Parmigiano Chat"; Filename: "{app}\Parmigiano.exe"; IconFilename: {#DesktopIconFile}; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Registry]
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Parmigiano Desktop"; ValueData: """{app}\Parmigiano.exe"""; Tasks: autostart; Flags: uninsdeletevalue
 
 [Run]
-Filename: "{app}\Parmigiano.exe"; Description: "Запустить ParmigianoChat"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\Parmigiano.exe"; Description: "Запустить Parmigiano Chat"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}"

@@ -24,20 +24,9 @@ namespace Parmigiano
         {
             InitializeComponent();
 
-            // get me info
-            LoadUser();
-
             // connect to websocket
             ConnectionService.Instance.ConnectWSocket();
             ConnectionService.Instance.OnWsEvent += HandleWebSocketEvent;
-        }
-
-        private async void LoadUser()
-        {
-            UserInfoModel user = await this._userApi.GetUserMe();
-
-            // set uid in session
-            AppSession.CurrentUserUid = user.UserUid;
         }
 
         private async void EmailConfirmReq_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

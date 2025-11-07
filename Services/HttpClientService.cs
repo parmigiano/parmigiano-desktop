@@ -25,7 +25,12 @@ namespace Parmigiano.Services
                 BaseAddress = new Uri(baseUrl)
             };
 
-            this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.Get("access_token"));
+            string? authToken = this._userConf.GetString("access_token");
+
+            if (authToken != null)
+            {
+                this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.GetString("access_token"));
+            }
         }
 
         public async Task<T?> GetAsync<T>(string endpoint) where T : class

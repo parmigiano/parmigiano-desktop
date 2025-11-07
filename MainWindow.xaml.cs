@@ -50,7 +50,9 @@ namespace Parmigiano
         public MainWindow()
         {
             InitializeComponent();
+
             DataContext = this;
+            this.StateChanged += MainWindow_StateChanged;
 
             UsersListControl.UserSelected += OnUserSelected;
 
@@ -59,10 +61,13 @@ namespace Parmigiano
             ConnectionService.Instance.EnsureConnectedWSocket();
             ConnectionService.Instance.ConnectTcp();
 
+            // notification
+            NotificationService.StartNotification();
+
             // new task
             _ = Task.Run(() =>
             {
-                if (!File.Exists(this._userConfig.Get("rsa_private_key")) || !File.Exists(this._userConfig.Get("rsa_public_key")))
+                if (!File.Exists(this._userConfig.GetString("rsa_private_key")) || !File.Exists(this._userConfig.GetString("rsa_public_key")))
                 {
                     var keyService = new KeyService();
                 }
@@ -99,6 +104,19 @@ namespace Parmigiano
         private void OnUserSelected(ChatMinimalWithLMessageModel user)
         {
             this.SelectedUser = user;
+        }
+
+        private async void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            bool userOnline = this.WindowState != WindowState.Minimized;
+
+            var packet = new ClientRequestStruct.ClientActivePacket
+            {
+                Uid = AppSession.CurrentUserUid,
+                Online = userOnline,
+            };
+
+            await ConnectionService.Instance.Tcp.SendProtoAsync(packet);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

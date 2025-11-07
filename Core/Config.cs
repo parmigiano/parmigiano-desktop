@@ -20,6 +20,12 @@ namespace Parmigiano.Core
         [Newtonsoft.Json.JsonProperty("APP_NAME")]
         public string APP_NAME { get; } = "Parmigiano";
 
+        [Newtonsoft.Json.JsonProperty("BROKER_APP_NAME")]
+        public string BROKER_APP_NAME { get; } = "ParmigianoChatBroker.exe";
+
+        [Newtonsoft.Json.JsonProperty("BROKER_PROCESS_NAME")]
+        public string BROKER_PROCESS_NAME { get; } = "ParmigianoChatNotify";
+
         [Newtonsoft.Json.JsonProperty("APP_FOLDER")]
         public string APP_FOLDER_PATH { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Parmigiano");
 

@@ -60,7 +60,7 @@ namespace Parmigiano.Repository
             }
         }
 
-        public string Get(string key)
+        public string? GetString(string key)
         {
             try
             {

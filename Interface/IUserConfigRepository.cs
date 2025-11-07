@@ -9,7 +9,7 @@ namespace Parmigiano.Interface
 {
     public interface IUserConfigRepository
     {
-        string Get(string key);
+        string? GetString(string key);
 
         void Set(string key, string value);
 

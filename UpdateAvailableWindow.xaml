@@ -1,0 +1,86 @@
+﻿<Window x:Class="Parmigiano.UpdateAvailableWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Parmigiano"
+        mc:Ignorable="d"
+        Title="Update available" 
+        Height="700" Width="1100" MinHeight="550" MinWidth="910"
+        WindowStartupLocation="CenterScreen"
+        Background="#000">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UI/Resources/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="20,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition x:Name="RightColumn"
+                      Width="{Binding ActualWidth,
+                                      RelativeSource={RelativeSource AncestorType=Window},
+                                      Converter={StaticResource WidthToVisibilityConverter}}" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    MaxWidth="450">
+
+            <TextBlock Text="Доступно обновление"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Margin="0,0,0,15"/>
+
+            <TextBlock Text="Новая версия Parmigiano Chat уже доступна! Обновите приложение, чтобы получить последние функции, улучшения производительности и исправления ошибок."
+                       Foreground="#888"
+                       Margin="0,0,0,20"
+                       TextWrapping="Wrap"
+                       FontSize="14"/>
+
+            <TextBlock Text="Рекомендуем всегда использовать актуальную версию для лучшего опыта."
+                       Foreground="#888"
+                       Margin="0,0,0,20"
+                       TextWrapping="Wrap"
+                       FontSize="14"/>
+
+            <TextBlock Text="Обновить приложение?"
+                       x:Name="UpdButton"
+                       Foreground="#8A8A8A"
+                       FontSize="13"
+                       Margin="0,5,0,0"
+                       Cursor="Hand"
+                       MouseLeftButtonUp="UpdButton_MouseLeftButtonUp">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="#8A8A8A" />
+                        <Setter Property="TextDecorations" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#3ba7f5"/>
+                                <Setter Property="TextDecorations" Value="Underline"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>
+
+        <Viewbox Grid.Column="1"
+                 x:Name="RightImageContainer"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Stretch="Uniform"
+                 Margin="75,0,75,0">
+            <Image Source="pack://application:,,,/Public/assets/logo-bg-none.png"
+           MaxWidth="250"/>
+        </Viewbox>
+    </Grid>
+</Window>

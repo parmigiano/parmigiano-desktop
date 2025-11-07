@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Google.Protobuf;
+using Newtonsoft.Json.Linq;
 using Parmigiano.Core;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,14 @@ namespace Parmigiano.Services
         private NetworkStream _stream;
         private CancellationTokenSource _cts;
 
-        public event Action<string, JObject> OnEventReceived;
+        public event Action<ClientRequestStruct.Request> OnEventReceived;
         public bool IsConnected => _tcpClient != null && _tcpClient.Connected;
 
         public async void Connect()
         {
             if (this.IsConnected)
             {
-                Logger.Info("TcpClientService: уже подключено, пропускаем повторное подключение.");
+                Logger.Tcp("TcpClientService: уже подключено, пропускаем повторное подключение.");
                 return;
             }
 
@@ -48,37 +49,39 @@ namespace Parmigiano.Services
 
         private async Task ListenAsync(CancellationToken token)
         {
-            var buffer = new byte[8192];
-
             while (!token.IsCancellationRequested)
             {
                 try
                 {
-                    int bytesRead = await this._stream.ReadAsync(buffer, 0, buffer.Length, token);
-                    if (bytesRead == 0)
+                    byte[] lengthBytes = await this.ReadExactAsync(4, token);
+                    if (lengthBytes == null)
                     {
                         break;
                     }
 
-                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
-                    try
+                    if (!BitConverter.IsLittleEndian)
                     {
-                        var json = JObject.Parse(message);
-                        var evt = json["event"]?.ToString();
-                        var data = (JObject)json["data"];
+                        Array.Reverse(lengthBytes);
+                    }
 
-                        OnEventReceived?.Invoke(evt, data);
-                    }
-                    catch
+                    int payloadLength = BitConverter.ToInt32(lengthBytes, 0);
+
+                    if (payloadLength <= 0)
                     {
-                        Logger.Tcp($"[INFO] bytes: {message.Length}: {message}");
+                        Logger.Tcp($"Invalid payload length: {payloadLength}");
+                        break;
                     }
-                }
-                catch (IOException)
-                {
-                    Logger.Tcp("[INFO] TCP connection closed");
-                    break;
+
+                    byte[] payload = await ReadExactAsync(payloadLength, token);
+                    if (payload == null)
+                    {
+                        break;
+                    }
+
+                    Logger.Tcp($"DATA[{payload.Length}] {BitConverter.ToString(payload).Replace("-", "")}");
+
+                    var request = ClientRequestStruct.Request.Parser.ParseFrom(payload);
+                    this.OnEventReceived?.Invoke(request);
                 }
                 catch (Exception ex)
                 {
@@ -90,24 +93,59 @@ namespace Parmigiano.Services
             this.Disconnect();
         }
 
-        public async Task SendAsync(object data)
+        public async Task SendProtoAsync(IMessage message)
         {
-            if (!IsConnected)
+            if (!this.IsConnected)
             {
-                Logger.Info("TCP: попытка отправки при отсутствии соединения");
+                Logger.Tcp("TCP: попытка отправки при отсутствии соединения");
                 return;
             }
 
             try
             {
-                string json = data is string s ? s : Newtonsoft.Json.JsonConvert.SerializeObject(data);
-                byte[] bytes = Encoding.UTF8.GetBytes(json + "\n");
-                await _stream.WriteAsync(bytes, 0, bytes.Length);
+                using var ms = new MemoryStream();
+                message.WriteTo(ms);
+                byte[] body = ms.ToArray();
+
+                int length = body.Length;
+                byte[] lengthBytes = BitConverter.GetBytes(length);
+                if (!BitConverter.IsLittleEndian)
+                {
+                    Array.Reverse(lengthBytes);
+                }
+
+                byte[] packet = new byte[lengthBytes.Length + body.Length];
+
+                Array.Copy(lengthBytes, 0, packet, 0, lengthBytes.Length);
+                Array.Copy(body, 0, packet, lengthBytes.Length, body.Length);
+
+                Logger.Tcp($"bytes {packet.Length}: {BitConverter.ToString(packet).Replace("-", "")}");
+
+                await this._stream.WriteAsync(packet, 0, packet.Length);
             }
             catch (Exception ex)
             {
                 Logger.Tcp("Failed send to TCP: " + ex.Message);
             }
+        }
+
+        private async Task<byte[]> ReadExactAsync(int length, CancellationToken token)
+        {
+            byte[] buffer = new byte[length];
+            int offset = 0;
+
+            while (offset < length)
+            {
+                int read = await this._stream.ReadAsync(buffer, offset, length - offset, token);
+                if (read == 0)
+                {
+                    return null;
+                }
+
+                offset += read;
+            }
+
+            return buffer;
         }
 
         public void Disconnect()

@@ -18,7 +18,15 @@ namespace Parmigiano.Repository
 
         public async Task<UserInfoModel?> GetUserMe()
         {
-            return await this._httpClient.GetAsync<UserInfoModel>($"{this._apiPath}/me");
+            UserInfoModel user = await this._httpClient.GetAsync<UserInfoModel>($"{this._apiPath}/me");
+
+            // set uid in session
+            if (user != null)
+            {
+                AppSession.CurrentUserUid = user.UserUid;
+            }
+
+            return user;
         }
 
         public async Task<List<ChatMinimalWithLMessageModel>?> GetUsersFindByUsername(string username)

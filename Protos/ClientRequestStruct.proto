@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package ClientRequestStruct;
 
+// ПЕРЕД ОТПРАВКОЙ ПАКЕТА, В НАЧАЛЕ ВСЕГДА 4 БАЙТА РАЗМЕРА ВСЕГО ПАКЕТА [lengthPrefix][protobuf]
+
 message FileInfo {
-	string pame = 1; // rename FileName to name
+	string name = 1; // rename FileName to name
 	string path = 2; // rename FilePath to path
 	string hash = 3; // rename Filehash to hash
 }
@@ -13,24 +15,62 @@ message FieldOfRequestData {
 	string value = 2;
 }
 
+// 0. Пакет уведомления сервера об активах пользователя
+message ClientActivePacket {
+	uint64 uid = 1; // мой uid
+    bool online = 2; // true/false
+}
+
 // 1. Приветственный пакет при первом подключении
 message ClientConnectedPacket {
-	uint64 uid = 1;
-    bytes public_key = 2;
+	uint64 uid = 1; // мой uid
+    bytes public_key = 2; // мой публичный ключ
 }
 
 // 2. Запрос асинхронного ключа шифрования от сервера (запрос идет когда пользователь открыл чат с другим пользователем)
 message RsaKeyRequestPacket {
-	uint64 uid = 1;
-    string algorithm = 2; // "RSA-2048" | "X25519" | ...
+	uint64 uid = 1; // мой uid
+	uint64 chat_id = 2; // какой чат открыл - (+по ниму найти второго пользователя)
+    string algorithm = 3; // ?? "RSA-2048" | "X25519" | ...
 }
 
 // 3. Пакет когда пользователь начал печатать
 message ClientTypingPacket {
-	uint64 uid = 1;
-    string chat_id = 2; // View -> UUID
+	uint64 uid = 1; // мой uid
+    uint64 chat_id = 2; // в каком чате
 	bool is_typing = 3;
 }
+
+// 4. Пакет когда пользователь отправляет сообщение
+message ClientSendMessagePacket {
+	uint64 uid = 1; // мой uid
+    uint64 chat_id = 2; // в каком чате
+	string content = 3; // Само сообщение
+	string content_type = 4; // Тип сообщения 'text', 'image', ...
+}
+
+// 5. Пакет когда пользователь прочитал сообщение
+message ClientReadMessagePacket {
+	uint64 uid = 1; // кто прочитал - uid
+    uint64 chat_id = 2; // в каком чате
+	uint64 message_id = 3; // id прочитанного сообщения
+}
+
+// 6. Пакет когда пользователь изменил сообщение
+message ClientEditMessagePacket {
+	uint64 uid = 1; // мой uid
+    uint64 chat_id = 2; // в каком чате
+	uint64 message_id = 3; // id измененного сообщения
+	string content = 4; // Новое сообщение
+}
+
+// 7. Пакет когда пользователь удалил сообщение
+message ClientDeleteMessagePacket {
+	uint64 uid = 1; // кто удалил uid
+    uint64 chat_id = 2; // в каком чате
+	uint64 message_id = 3; // id удаленного сообщения
+}
+
 
 message RequestInfo {
 	enum requestTypes {
