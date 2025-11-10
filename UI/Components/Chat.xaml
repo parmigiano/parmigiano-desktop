@@ -24,13 +24,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#111" Padding="20,5,20,10">
+        <Border Grid.Row="0" Background="#111" Padding="20,10,20,10" MouseLeftButtonUp="ProfileHeader_Click" Cursor="Hand">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding SelectedUser.Name}" Grid.Row="1"
                            Foreground="White"
                            FontWeight="SemiBold"
-                           FontSize="15"
-                           Cursor="Hand"/>
+                           FontSize="15"/>
 
                 <TextBlock Grid.Row="1"
                            FontWeight="Normal"

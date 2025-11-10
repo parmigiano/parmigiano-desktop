@@ -1,12 +1,9 @@
-﻿using Google.Protobuf;
-using Newtonsoft.Json.Linq;
+﻿using ClientRequestStruct;
+using Google.Protobuf;
 using Parmigiano.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

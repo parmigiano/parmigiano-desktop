@@ -41,7 +41,16 @@ namespace Parmigiano.Models
         public ulong UserUid { get; set; }
 
         [JsonPropertyName("online")]
-        public bool Online { get; set; }
+        private bool _online;
+        public bool Online
+        {
+            get => _online;
+            set
+            {
+                _online = value;
+                OnPropertyChanged(nameof(Online));
+            }
+        }
 
         [JsonPropertyName("last_online_date")]
         public DateTime? LastOnlineDate { get; set; }

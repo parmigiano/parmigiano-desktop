@@ -99,7 +99,7 @@ namespace Parmigiano.ViewModel
 
             foreach (var message in messages)
             {
-                message.IsMine = message.SenderUid == AppSession.CurrentUserUid;
+                message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
             }
 
             foreach (var message in messages)
@@ -128,7 +128,7 @@ namespace Parmigiano.ViewModel
 
                 this.Messages.Add(new OnesMessageModel
                 {
-                    SenderUid = AppSession.CurrentUserUid,
+                    SenderUid = AppSession.CurrentUser.UserUid,
                     Content = this.MessageText,
                     ContentType = "text",
                     IsEdited = false,

@@ -139,7 +139,7 @@ namespace Parmigiano.ViewModel
         {
             if (string.IsNullOrWhiteSpace(query))
             {
-                await this.LoadUsersAsync();
+                await this.LoadChatsAsync();
                 return;
             }
 
@@ -165,18 +165,18 @@ namespace Parmigiano.ViewModel
             }
         }
 
-        public async Task LoadUsersAsync()
+        public async Task LoadChatsAsync()
         {
             try
             {
-                List<ChatMinimalWithLMessageModel> users = await this._chatApi.GetChats();
+                List<ChatMinimalWithLMessageModel> chats = await this._chatApi.GetChats();
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     Users.Clear();
-                    foreach (var user in users)
+                    foreach (var chat in chats)
                     {
-                        Users.Add(user);
+                        Users.Add(chat);
                     }
                 });
             }

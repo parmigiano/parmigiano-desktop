@@ -18,12 +18,12 @@ namespace Parmigiano.Repository
 
         public async Task<UserInfoModel?> GetUserMe()
         {
-            UserInfoModel user = await this._httpClient.GetAsync<UserInfoModel>($"{this._apiPath}/me");
+            UserInfoModel? user = await this._httpClient.GetAsync<UserInfoModel?>($"{this._apiPath}/me");
 
             // set uid in session
             if (user != null)
             {
-                AppSession.CurrentUserUid = user.UserUid;
+                AppSession.CurrentUser = user;
             }
 
             return user;
@@ -31,7 +31,12 @@ namespace Parmigiano.Repository
 
         public async Task<List<ChatMinimalWithLMessageModel>?> GetUsersFindByUsername(string username)
         {
-            return await this._httpClient.GetAsync<List<ChatMinimalWithLMessageModel>>($"{this._apiPath}/find/{username}");
+            return await this._httpClient.GetAsync<List<ChatMinimalWithLMessageModel>?>($"{this._apiPath}/find/{username}");
+        }
+
+        public async Task<string> UpdateUserProfile(UserProfileUpdModel user)
+        {
+            return await this._httpClient.PatchAsync<string?>($"{this._apiPath}/me", user);
         }
 
         public async Task<string?> UploadAvatar(string filePath)

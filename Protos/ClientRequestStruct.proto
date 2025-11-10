@@ -1,89 +1,103 @@
+п»ї// РџР•Р Р•Р” РћРўРџР РђР’РљРћР™ РџРђРљР•РўРђ, Р’ РќРђР§РђР›Р• Р’РЎР•Р“Р”Рђ 4 Р‘РђР™РўРђ Р РђР—РњР•Р Рђ Р’РЎР•Р“Рћ РџРђРљР•РўРђ [lengthPrefix][protobuf]
+
 syntax = "proto3";
 
 package ClientRequestStruct;
 
-// ПЕРЕД ОТПРАВКОЙ ПАКЕТА, В НАЧАЛЕ ВСЕГДА 4 БАЙТА РАЗМЕРА ВСЕГО ПАКЕТА [lengthPrefix][protobuf]
-
 message FileInfo {
-	string name = 1; // rename FileName to name
-	string path = 2; // rename FilePath to path
-	string hash = 3; // rename Filehash to hash
+	string pame = 1;
+	string path = 2;
+	string hash = 3;
 }
 
-message FieldOfRequestData {
-	string key = 1;
-	string value = 2;
+message DirInfo {
+	string path = 1;
 }
 
-// 0. Пакет уведомления сервера об активах пользователя
+message NameOfMainExeFile {
+	string name = 1;
+}
+
+// 0. РџР°РєРµС‚ СѓРІРµРґРѕРјР»РµРЅРёСЏ СЃРµСЂРІРµСЂР° РѕР± Р°РєС‚РёРІР°С… РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 message ClientActivePacket {
-	uint64 uid = 1; // мой uid
+	uint64 uid = 1; // РјРѕР№ uid
     bool online = 2; // true/false
 }
 
-// 1. Приветственный пакет при первом подключении
+// 1. РџСЂРёРІРµС‚СЃС‚РІРµРЅРЅС‹Р№ РїР°РєРµС‚ РїСЂРё РїРµСЂРІРѕРј РїРѕРґРєР»СЋС‡РµРЅРёРё
 message ClientConnectedPacket {
-	uint64 uid = 1; // мой uid
-    bytes public_key = 2; // мой публичный ключ
+	uint64 uid = 1; // РјРѕР№ uid
+    bytes public_key = 2; // РјРѕР№ РїСѓР±Р»РёС‡РЅС‹Р№ РєР»СЋС‡
 }
 
-// 2. Запрос асинхронного ключа шифрования от сервера (запрос идет когда пользователь открыл чат с другим пользователем)
+// 2. Р—Р°РїСЂРѕСЃ Р°СЃРёРЅС…СЂРѕРЅРЅРѕРіРѕ РєР»СЋС‡Р° С€РёС„СЂРѕРІР°РЅРёСЏ РѕС‚ СЃРµСЂРІРµСЂР° (Р·Р°РїСЂРѕСЃ РёРґРµС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РѕС‚РєСЂС‹Р» С‡Р°С‚ СЃ РґСЂСѓРіРёРј РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј)
 message RsaKeyRequestPacket {
-	uint64 uid = 1; // мой uid
-	uint64 chat_id = 2; // какой чат открыл - (+по ниму найти второго пользователя)
+	uint64 uid = 1; // РјРѕР№ uid
+	uint64 chat_id = 2; // РєР°РєРѕР№ С‡Р°С‚ РѕС‚РєСЂС‹Р» - (+РїРѕ РЅРёРјСѓ РЅР°Р№С‚Рё РІС‚РѕСЂРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ)
     string algorithm = 3; // ?? "RSA-2048" | "X25519" | ...
 }
 
-// 3. Пакет когда пользователь начал печатать
+// 3. РџР°РєРµС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅР°С‡Р°Р» РїРµС‡Р°С‚Р°С‚СЊ
 message ClientTypingPacket {
-	uint64 uid = 1; // мой uid
-    uint64 chat_id = 2; // в каком чате
+	uint64 uid = 1; // РјРѕР№ uid
+    uint64 chat_id = 2; // РІ РєР°РєРѕРј С‡Р°С‚Рµ
 	bool is_typing = 3;
 }
 
-// 4. Пакет когда пользователь отправляет сообщение
+// 4. РџР°РєРµС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РѕС‚РїСЂР°РІР»СЏРµС‚ СЃРѕРѕР±С‰РµРЅРёРµ
 message ClientSendMessagePacket {
-	uint64 uid = 1; // мой uid
-    uint64 chat_id = 2; // в каком чате
-	string content = 3; // Само сообщение
-	string content_type = 4; // Тип сообщения 'text', 'image', ...
+	uint64 uid = 1; // РјРѕР№ uid
+    uint64 chat_id = 2; // РІ РєР°РєРѕРј С‡Р°С‚Рµ
+	string content = 3; // РЎР°РјРѕ СЃРѕРѕР±С‰РµРЅРёРµ
+	string content_type = 4; // РўРёРї СЃРѕРѕР±С‰РµРЅРёСЏ 'text', 'image', ...
 }
 
-// 5. Пакет когда пользователь прочитал сообщение
+// 5. РџР°РєРµС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РїСЂРѕС‡РёС‚Р°Р» СЃРѕРѕР±С‰РµРЅРёРµ
 message ClientReadMessagePacket {
-	uint64 uid = 1; // кто прочитал - uid
-    uint64 chat_id = 2; // в каком чате
-	uint64 message_id = 3; // id прочитанного сообщения
+	uint64 uid = 1; // РєС‚Рѕ РїСЂРѕС‡РёС‚Р°Р» - uid
+    uint64 chat_id = 2; // РІ РєР°РєРѕРј С‡Р°С‚Рµ
+	uint64 message_id = 3; // id РїСЂРѕС‡РёС‚Р°РЅРЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
 }
 
-// 6. Пакет когда пользователь изменил сообщение
+// 6. РџР°РєРµС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РёР·РјРµРЅРёР» СЃРѕРѕР±С‰РµРЅРёРµ
 message ClientEditMessagePacket {
-	uint64 uid = 1; // мой uid
-    uint64 chat_id = 2; // в каком чате
-	uint64 message_id = 3; // id измененного сообщения
-	string content = 4; // Новое сообщение
+	uint64 uid = 1; // РјРѕР№ uid
+    uint64 chat_id = 2; // РІ РєР°РєРѕРј С‡Р°С‚Рµ
+	uint64 message_id = 3; // id РёР·РјРµРЅРµРЅРЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
+	string content = 4; // РќРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
 }
 
-// 7. Пакет когда пользователь удалил сообщение
+// client pin message
+message ClientPinMessagePacket {
+	uint64 uid = 1; // РјРѕР№ uid
+    uint64 chat_id = 2; // РІ РєР°РєРѕРј С‡Р°С‚Рµ
+	uint64 message_id = 3; // id Р·Р°РєСЂРµРїР»РµРЅРЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
+}
+
+// 7. РџР°РєРµС‚ РєРѕРіРґР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓРґР°Р»РёР» СЃРѕРѕР±С‰РµРЅРёРµ
 message ClientDeleteMessagePacket {
-	uint64 uid = 1; // кто удалил uid
-    uint64 chat_id = 2; // в каком чате
-	uint64 message_id = 3; // id удаленного сообщения
+	uint64 uid = 1; // РєС‚Рѕ СѓРґР°Р»РёР» uid
+    uint64 chat_id = 2; // РІ РєР°РєРѕРј С‡Р°С‚Рµ
+	uint64 message_id = 3; // id СѓРґР°Р»РµРЅРЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
 }
 
+message ClientInfo{
+	uint64 uid = 1;
+}
 
 message RequestInfo {
 	enum requestTypes {
 		unknown = 0;
-		fileHashRequest = 1;
-		downloadFile = 2;
-		sendMessage = 3;
-		readMessage = 4;
-		editMessage = 5;
-		deleteMessage = 6;
-		userTyping = 7;
-		userOnlineStatus = 8;
-		getUnreadMessageCount = 9;
+		fileh_hash_request = 1;
+		download_file = 2;
+		send_message = 3;
+		read_message = 4;
+		edit_message = 5;
+		pin_message = 6;
+		delete_message = 7;
+		user_typing = 8;
+		user_online_status = 9;
+		get_unread_message_count = 10;
 	}
 
 	requestTypes type = 1;
@@ -93,8 +107,21 @@ message RequestInfo {
 message Request {
 	// PERMANENT NECESSARY FIELDS
 	RequestInfo requestInfo = 1; // important field of request info
-	repeated FieldOfRequestData requestData = 2; // main field/s of data
+	ClientInfo clientInfo = 2;
 
 	// OPTIONAL UPDATE FIELDS
-	repeated FileInfo fileInfo = 3; // usage while checking update and updating
+	// usage while checking update and updating
+	repeated FileInfo fileInfo = 3;
+	repeated DirInfo dirInfo = 4;
+	NameOfMainExeFile nameOfMainExeFile = 5;
+
+	// hz(hui znaet) fields
+	ClientActivePacket clientActivePacket = 6;
+	ClientConnectedPacket clientConnectedPacket = 7;
+	RsaKeyRequestPacket rsaKeyRequestPacket = 8;
+	ClientTypingPacket clientTypingPacket = 9;
+	ClientSendMessagePacket clientSendMessagePacket = 10;
+	ClientReadMessagePacket clientReadMessagePacket = 11;
+	ClientEditMessagePacket clientEditMessagePacket = 12;
+	ClientDeleteMessagePacket clientDeleteMessagePacket = 13;
 }

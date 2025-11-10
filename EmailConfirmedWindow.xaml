@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Parmigiano"
         xmlns:controllers="clr-namespace:Parmigiano.UI.Controllers"
+        xmlns:components="clr-namespace:Parmigiano.UI.Components"
         mc:Ignorable="d"
         Icon="pack://application:,,,/Public/assets/logo-ico.ico"
         Title="Email confirmation" 
         Height="700" Width="1100" MinHeight="550" MinWidth="910"
         WindowStartupLocation="CenterScreen"
-        Background="#000">
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -20,76 +23,164 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Margin="20,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition x:Name="RightColumn"
-                          Width="{Binding ActualWidth,
-                                          RelativeSource={RelativeSource AncestorType=Window},
-                                          Converter={StaticResource WidthToVisibilityConverter}}" />
-        </Grid.ColumnDefinitions>
+    <Border Background="#000" CornerRadius="13" BorderBrush="#333" BorderThickness="1">
+        <Grid>
+            <Border CornerRadius="13,13,0,0" Height="27" Background="#222" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Width="40"
+                            Cursor="Arrow"
+                            BorderThickness="0"
+                            Click="Minimize_Click">
 
-        <StackPanel Grid.Column="0"
-                Orientation="Vertical"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                MaxWidth="450">
+                        <Image Source="pack://application:,,,/Public/ico/minus.png" 
+                               MaxWidth="15" 
+                               Margin="0,7,0,0" 
+                               Opacity="0.8"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
 
-            <TextBlock Text="Подтвердите почту"
-                   FontSize="26"
-                   FontWeight="Bold"
-                   Foreground="White"
-                   Margin="0,0,0,15"/>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+                                        Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#333"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-            <TextBlock Text="Мы отправили письмо на вашу электронную почту, в письме содержится ссылка для подтверждения учётной записи."
-                        Foreground="#888"
-                        Margin="0,0,0,20"
-                        TextWrapping="Wrap"
-                        FontSize="14"/>
+                    <Button Width="40"
+                            Cursor="Arrow"
+                            BorderThickness="0"
+                            Click="Maximize_Click">
 
-            <TextBlock Text="Ссылка будет действительна в течение 30 минут. Пожалуйста, перейдите по ссылке, чтобы активировать свой аккаунт."
-                   Foreground="#888"
-                   Margin="0,0,0,20"
-                   TextWrapping="Wrap"
-                   FontSize="14"/>
+                        <Image Source="pack://application:,,,/Public/ico/squircle.png" 
+                               MaxWidth="13" 
+                               Opacity="0.8"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
 
-            <StackPanel Margin="0,10,0,0" x:Name="EmailConfirm" Visibility="Collapsed">
-                <TextBlock Text="Адрес электронной почты" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
-                <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
-                    <TextBox x:Name="EmailBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
-                </Border>
-            </StackPanel>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+                                        Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#333"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-            <TextBlock Text="Отправить еще раз?"
-                       x:Name="ReqConfirm"
-                       Foreground="#8A8A8A"
-                       FontSize="13"
-                       Margin="0,5,0,0"
-                       Cursor="Hand"
-                       MouseLeftButtonUp="EmailConfirmReq_MouseLeftButtonUp">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Foreground" Value="#8A8A8A" />
-                        <Setter Property="TextDecorations" Value="{x:Null}"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="#3ba7f5"/>
-                                <Setter Property="TextDecorations" Value="Underline"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-        </StackPanel>
+                    <Button Width="40"
+                            Cursor="Arrow"
+                            BorderThickness="0"
+                            Click="Close_Click">
 
-        <Viewbox Grid.Column="1"
-             x:Name="RightImageContainer"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center"
-             Stretch="Uniform"
-             Margin="75,0,75,0">
-            <Image Source="pack://application:,,,/Public/assets/logo-bg-none.png"
-               MaxWidth="250"/>
-        </Viewbox>
-    </Grid>
+                        <Image Source="pack://application:,,,/Public/ico/x.png" 
+                               MaxWidth="15" 
+                               Opacity="0.8"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+                                        Background="Transparent"
+                                        CornerRadius="0,13,0,0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="Red"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+            
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition x:Name="RightColumn"
+                      Width="{Binding ActualWidth,
+                                      RelativeSource={RelativeSource AncestorType=Window},
+                                      Converter={StaticResource WidthToVisibilityConverter}}" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Notification Toast-->
+                <components:Notification x:Name="Notification" Grid.ColumnSpan="2" Panel.ZIndex="10000" />
+
+                <StackPanel Grid.Column="0"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            MaxWidth="450">
+
+                    <TextBlock Text="Подтвердите почту"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Мы отправили письмо на вашу электронную почту, в письме содержится ссылка для подтверждения учётной записи."
+                                Foreground="#888"
+                                Margin="0,0,0,20"
+                                TextWrapping="Wrap"
+                                FontSize="14"/>
+
+                    <TextBlock Text="Ссылка будет действительна в течение 30 минут. Пожалуйста, перейдите по ссылке, чтобы активировать свой аккаунт."
+                               Foreground="#888"
+                               Margin="0,0,0,20"
+                               TextWrapping="Wrap"
+                               FontSize="14"/>
+
+                    <StackPanel Margin="0,10,0,0" x:Name="EmailConfirm" Visibility="Collapsed">
+                        <TextBlock Text="Адрес электронной почты" Foreground="#9C9C9C" FontSize="13" Margin="0,0,0,5"/>
+                        <Border Background="#111" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,15">
+                            <TextBox x:Name="EmailBox" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="14" Padding="3" CaretBrush="White"/>
+                        </Border>
+                    </StackPanel>
+
+                    <TextBlock Text="Отправить еще раз?"
+                               x:Name="ReqConfirm"
+                               Foreground="#8A8A8A"
+                               FontSize="13"
+                               Margin="0,5,0,0"
+                               Cursor="Hand"
+                               MouseLeftButtonUp="EmailConfirmReq_MouseLeftButtonUp">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#8A8A8A" />
+                                <Setter Property="TextDecorations" Value="{x:Null}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="#3ba7f5"/>
+                                        <Setter Property="TextDecorations" Value="Underline"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <Viewbox Grid.Column="1"
+                         x:Name="RightImageContainer"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Stretch="Uniform"
+                         Margin="75,0,75,0">
+                    <Image Source="pack://application:,,,/Public/assets/logo-bg-none.png"
+                            MaxWidth="250"/>
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

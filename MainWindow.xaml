@@ -11,7 +11,9 @@
         Title="{Binding WindowTitle}"
         Height="700" Width="1100" MinHeight="550" MinWidth="910"
         WindowStartupLocation="CenterScreen"
-        Background="#000">
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -20,54 +22,152 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="410" MinWidth="300" MaxWidth="550"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <components:UsersList x:Name="UsersListControl" Grid.Column="0" />
+    <Border Background="#000" CornerRadius="13" BorderBrush="#333" BorderThickness="1">
+        <Grid>
+            <Border CornerRadius="13,13,0,0" Height="27" Background="#222" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Width="40"
+                            Cursor="Arrow"
+                            BorderThickness="0"
+                            Click="Minimize_Click">
 
-        <GridSplitter Grid.Column="1"
-                      Width="3"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Stretch"
-                      Background="#111"
-                      ResizeBehavior="PreviousAndNext"
-                      ResizeDirection="Columns">
-            <GridSplitter.Template>
-                <ControlTemplate TargetType="GridSplitter">
-                    <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True" />
-                </ControlTemplate>
-            </GridSplitter.Template>
-        </GridSplitter>
+                        <Image Source="pack://application:,,,/Public/ico/minus.png" 
+                               MaxWidth="15" 
+                               Margin="0,7,0,0" 
+                               Opacity="0.8"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
 
-        <Grid Grid.Column="2">
-            <TextBlock Text="Выберите, кому хотели бы написать"
-                       x:Name="PlaceholderText"
-                       Foreground="#666"
-                       FontSize="14"
-                       FontWeight="Medium"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Visibility="{Binding SelectedUser, 
-                                    Converter={StaticResource NullToVisibilityConverter}, 
-                                    ConverterParameter=Inverse}" />
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+                                        Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#333"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-            <components:Chat x:Name="ChatControl" 
-                             Visibility="Collapsed"
-                             HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch"/>
+                    <Button Width="40"
+                            Cursor="Arrow"
+                            BorderThickness="0"
+                            Click="Maximize_Click">
+
+                        <Image Source="pack://application:,,,/Public/ico/squircle.png" 
+                               MaxWidth="13" 
+                               Opacity="0.8"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+                                        Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#333"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button Width="40"
+                            Cursor="Arrow"
+                            BorderThickness="0"
+                            Click="Close_Click">
+
+                        <Image Source="pack://application:,,,/Public/ico/x.png" 
+                               MaxWidth="15" 
+                               Opacity="0.8"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border"
+                                        Background="Transparent"
+                                        CornerRadius="0,13,0,0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="Red"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+
+            </Border>
+            
+            <Grid Margin="0,27,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="410" MinWidth="300" MaxWidth="550"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Notification Toast-->
+                <components:Notification x:Name="Notification" Grid.ColumnSpan="3" Panel.ZIndex="10000" />
+
+                <!-- User Profile -->
+                <components:UserProfileModal x:Name="UserProfileModal" Grid.ColumnSpan="3" Panel.ZIndex="1000" />
+
+                <!-- User My Profile -->
+                <components:UserMyProfileModal x:Name="UserMyProfileModal" Grid.ColumnSpan="3" Panel.ZIndex="1000" />
+
+                <!-- Chats lists -->
+                <components:UsersList x:Name="UsersListControl" Grid.Column="0" />
+
+                <GridSplitter Grid.Column="1"
+                              Width="3"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Stretch"
+                              Background="#111"
+                              ResizeBehavior="PreviousAndNext"
+                              ResizeDirection="Columns">
+                    <GridSplitter.Template>
+                        <ControlTemplate TargetType="GridSplitter">
+                            <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True" />
+                        </ControlTemplate>
+                    </GridSplitter.Template>
+                </GridSplitter>
+
+                <Grid Grid.Column="2">
+                    <TextBlock Text="Выберите, кому хотели бы написать"
+                               x:Name="PlaceholderText"
+                               Foreground="#666"
+                               FontSize="14"
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding SelectedUser, 
+                                            Converter={StaticResource NullToVisibilityConverter}, 
+                                            ConverterParameter=Inverse}" />
+
+                    <!-- Chat -->
+                    <components:Chat x:Name="ChatControl" 
+                                     Visibility="Collapsed"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"/>
+                </Grid>
+
+                <!-- Skeleton Loader -->
+                <components:SkeletonMainWindow x:Name="SkeletonOverlay" 
+                                               Grid.ColumnSpan="3"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch"
+                                               Visibility="Collapsed"
+                                               Panel.ZIndex="100"
+                                               Background="#000"/>
+            </Grid>
         </Grid>
-
-        <components:SkeletonMainWindow x:Name="SkeletonOverlay" 
-                                       Grid.ColumnSpan="3"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch"
-                                       Visibility="Collapsed"
-                                       Panel.ZIndex="100"
-                                       Background="#000"/>
-    </Grid>
+    </Border>
 </Window>

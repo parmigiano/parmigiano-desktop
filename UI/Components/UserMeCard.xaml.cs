@@ -1,24 +1,16 @@
 ﻿using Microsoft.Win32;
 using Parmigiano.Core;
 using Parmigiano.Interface;
+using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
 using Parmigiano.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Net.WebRequestMethods;
 
 namespace Parmigiano.UI.Components
 {
@@ -31,24 +23,34 @@ namespace Parmigiano.UI.Components
         private readonly ImageUtilities _imageUtilities = new ImageUtilities();
         private readonly IUserConfigRepository _userConfig = new UserConfigRepository();
 
+        private static UserMeCard? _instance;
+
         public UserMeCard()
         {
             InitializeComponent();
 
-            _ = this.LoadUserAsync();
+            _instance = this;
+
+            this.LoadUserAsync();
         }
 
-        private async Task LoadUserAsync()
+        private async void LoadUserAsync()
         {
             try
             {
-                var user = await this._userApi.GetUserMe();
+                UserInfoModel? user = AppSession.CurrentUser;
 
                 if (user == null)
                 {
-                    NameText.Text = "Гость";
-                    UsernameText.Text = "@gost";
-                    return;
+                    UserInfoModel? userPrepare = await this._userApi.GetUserMe();
+                    if (userPrepare == null)
+                    {
+                        Notification.Show("Ошибка получения профиля", "Профиль не найден, перезапустите приложение", NotificationType.Error);
+                        return;
+                    }
+
+                    AppSession.CurrentUser = userPrepare;
+                    user = userPrepare;
                 }
 
                 UsernameText.Text = $"@{user.Username}";
@@ -64,9 +66,9 @@ namespace Parmigiano.UI.Components
                     AvatarImage.ImageSource = null;
                     InitialText.Visibility = Visibility.Visible;
 
-                    if (!string.IsNullOrEmpty(user.Email))
+                    if (!string.IsNullOrEmpty(user.Username))
                     {
-                        InitialText.Text = user.Email.Substring(0, 1).ToUpper();
+                        InitialText.Text = user.Username.Substring(0, 1).ToUpper();
                     }
                     else
                     {
@@ -79,49 +81,6 @@ namespace Parmigiano.UI.Components
             catch (Exception ex)
             {
                 Logger.Error($"[UserMeCard] {ex.Message}");
-            }
-        }
-
-        private async void AvatarGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                var dialog = new OpenFileDialog
-                {
-                    Title = "Выберите фотографию",
-                    Filter = "Изображения|*.png;*.jpg;*.jpeg;*.gif;*.bmp",
-                    Multiselect = false
-                };
-
-                if (dialog.ShowDialog() != true)
-                {
-                    return;
-                }
-
-                string filePath = dialog.FileName;
-
-                string? url = await this._userApi.UploadAvatar(filePath);
-
-                if (url != null)
-                {
-                    var bitmap = new BitmapImage();
-
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.UriSource = new Uri(url);
-                    bitmap.EndInit();
-
-                    AvatarCircle.Fill = new ImageBrush(bitmap)
-                    {
-                        Stretch = Stretch.UniformToFill
-                    };
-
-                    InitialText.Visibility = Visibility.Collapsed;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Ошибка: {ex.Message}");
             }
         }
 
@@ -142,6 +101,21 @@ namespace Parmigiano.UI.Components
             authWindow.Show();
 
             Window.GetWindow(this)?.Close();
+        }
+
+        private void UserProfile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            UserMyProfileModal.ShowProfile(AppSession.CurrentUser);
+        }
+
+        public void ReloadUser()
+        {
+            LoadUserAsync();
+        }
+
+        public static void Reload()
+        {
+            _instance?.ReloadUser();
         }
     }
 }

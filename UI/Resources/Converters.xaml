@@ -19,6 +19,7 @@
     <controllers:MessageContentConverter x:Key="MessageContentConverter"/>
 
     <controllers:LastOnlineMultiConverter x:Key="LastOnlineConverter"/>
+    <controllers:EmailConfirmConverter x:Key="EmailConfirmConverter"/>
 
 
 </ResourceDictionary>

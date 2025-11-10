@@ -14,5 +14,7 @@ namespace Parmigiano.Interface
         Task<string?> AuthLogin(AuthLoginModel model);
 
         Task<string?> AuthEmailConfirmReq(ReqEmailConfirmModel model);
+
+        Task<string?> AuthDelete();
     }
 }

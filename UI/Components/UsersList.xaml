@@ -29,7 +29,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <local:UserMeCard Grid.Row="0" />
+            <local:UserMeCard x:Name="UserMeCard" Grid.Row="0" />
 
             <Border Grid.Row="1" Background="#222" CornerRadius="17" Padding="10,5,10,5" Margin="10">
                 <Grid>
@@ -96,16 +96,17 @@
                 </TextBlock.Style>
             </TextBlock> -->
 
-            <ListBox ItemsSource="{Binding Users}" Grid.Row="2"
-                        Background="#111111"
-                        HorizontalContentAlignment="Stretch"
-                        BorderThickness="0"
-                        PreviewMouseWheel="ListBox_PreviewMouseWheel"
-                        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedUser}"
-                        SelectionChanged="ListBox_SelectionChanged">
+            <ListBox ItemsSource="{Binding Users}" 
+                     Grid.Row="2"
+                     Background="#111111"
+                     HorizontalContentAlignment="Stretch"
+                     BorderThickness="0"
+                     PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     SelectionMode="Single"
+                     SelectedItem="{Binding SelectedUser}"
+                     SelectionChanged="ListBox_SelectionChanged">
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">

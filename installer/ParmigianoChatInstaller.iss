@@ -60,5 +60,21 @@ Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: 
 [Run]
 Filename: "{app}\Parmigiano.exe"; Description: "Запустить Parmigiano Chat"; Flags: nowait postinstall skipifsilent
 
+[Code]
+procedure KillBroker();
+var
+  ErrorCode: Integer;
+begin
+  Exec('taskkill', '/F /IM ParmigianoChatBroker.exe', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+end;
+
+procedure CurUninstallStepChanged(CurStep: TUninstallStep);
+begin
+  if CurStep = usUninstall then
+  begin
+    KillBroker();
+  end;
+end;
+
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}"

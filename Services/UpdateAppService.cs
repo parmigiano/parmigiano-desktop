@@ -14,20 +14,27 @@ namespace Parmigiano.Services
     {
         public static async Task <(bool isUpdateAvailable, string downloadUrl)> CheckForUpdateAsync(string currentVersion)
         {
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("ParmigianoChat");
-
-            var response = await client.GetStringAsync("https://api.github.com/repos/parmigiano/parmigiano-desktop/releases/latest");
-
-            var json = JObject.Parse(response);
-
-            string latestTag = json["tag_name"]?.ToString();
-            string latestVersion = latestTag.TrimStart('v');
-
-            if (new Version(latestVersion) > new Version(currentVersion))
+            try
             {
-                string downloadUrl = json["assets"]?[0]?["browser_download_url"]?.ToString();
-                return (true, downloadUrl);
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("ParmigianoChat");
+
+                var response = await client.GetStringAsync("https://api.github.com/repos/parmigiano/parmigiano-desktop/releases/latest");
+
+                var json = JObject.Parse(response);
+
+                string latestTag = json["tag_name"]?.ToString();
+                string latestVersion = latestTag.TrimStart('v');
+
+                if (new Version(latestVersion) > new Version(currentVersion))
+                {
+                    string downloadUrl = json["assets"]?[0]?["browser_download_url"]?.ToString();
+                    return (true, downloadUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get update version: {ex.Message}");
             }
 
             return (false, null);

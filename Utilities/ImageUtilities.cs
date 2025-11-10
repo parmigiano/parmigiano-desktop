@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Parmigiano.Utilities
 {
@@ -44,7 +45,7 @@ namespace Parmigiano.Utilities
             try
             {
                 using var httpClient = new HttpClient();
-                httpClient.Timeout = TimeSpan.FromSeconds(30);
+                httpClient.Timeout = TimeSpan.FromSeconds(60);
 
                 var response = await httpClient.GetAsync(url);
                 if (!response.IsSuccessStatusCode)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Parmigiano.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -9,6 +10,6 @@ namespace Parmigiano.Core
 {
     public static class AppSession
     {
-        public static ulong CurrentUserUid { get; set; }
+        public static UserInfoModel? CurrentUser { get; set; }
     }
 }
