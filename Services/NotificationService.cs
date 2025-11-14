@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +15,62 @@ namespace Parmigiano.Services
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Core.Config.Current.BROKER_APP_NAME);
 
-            bool isRunning = Process.GetProcessesByName(Core.Config.Current.BROKER_PROCESS_NAME).Any();
+            string brokerProcessName = Path.GetFileNameWithoutExtension(Core.Config.Current.BROKER_APP_NAME);
+
+            var matchingProcesses = new List<Process>();
+            foreach (var process in Process.GetProcessesByName(brokerProcessName))
+            {
+                try
+                {
+                    string exePath = process.MainModule?.FileName;
+                    if (!string.IsNullOrEmpty(exePath) && string.Equals(Path.GetFullPath(exePath), Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+                    {
+                        matchingProcesses.Add(process);
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            if (matchingProcesses.Count > 1)
+            {
+                var ordered = matchingProcesses.OrderBy(p =>
+                {
+                    try
+                    {
+                        return p.StartTime;
+                    }
+                    catch
+                    {
+                        return DateTime.MaxValue;
+                    }
+                }).ToList();
+
+                for (int i = 1; i < ordered.Count; i++)
+                {
+                    try
+                    {
+                        ordered[i].CloseMainWindow();
+                        if (!ordered[i].WaitForExit(1000))
+                        {
+                            ordered[i].Kill();
+                        }
+                    }
+                    catch
+                    {
+                        try
+                        {
+                            ordered[i].Kill();
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+            }
+
+            bool isRunning = matchingProcesses.Any();
 
             if (!isRunning && File.Exists(path))
             {
@@ -28,7 +82,13 @@ namespace Parmigiano.Services
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
 
-                Process.Start(psi);
+                try
+                {
+                    Process.Start(psi);
+                }
+                catch
+                {
+                }
             }
         }
 
@@ -45,7 +105,6 @@ namespace Parmigiano.Services
             }
             catch
             {
-
             }
         }
     }

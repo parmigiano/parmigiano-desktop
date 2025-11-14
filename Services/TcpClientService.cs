@@ -15,7 +15,7 @@ namespace Parmigiano.Services
         private NetworkStream _stream;
         private CancellationTokenSource _cts;
 
-        public event Action<ClientRequestStruct.Request> OnEventReceived;
+        public event Action<ResponseStruct.Response> OnEventReceived;
         public bool IsConnected => _tcpClient != null && _tcpClient.Connected;
 
         public async void Connect()
@@ -77,7 +77,7 @@ namespace Parmigiano.Services
 
                     Logger.Tcp($"DATA[{payload.Length}] {BitConverter.ToString(payload).Replace("-", "")}");
 
-                    var request = ClientRequestStruct.Request.Parser.ParseFrom(payload);
+                    var request = ResponseStruct.Response.Parser.ParseFrom(payload);
                     this.OnEventReceived?.Invoke(request);
                 }
                 catch (Exception ex)

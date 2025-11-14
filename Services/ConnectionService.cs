@@ -13,7 +13,7 @@ namespace Parmigiano.Services
         public TcpClientService Tcp { get; private set; }
 
         public event Action<string, JObject?> OnWsEvent;
-        public event Action<ClientRequestStruct.Request> OnTcpEvent;
+        public event Action<ResponseStruct.Response> OnTcpEvent;
 
         public bool IsConnectedWSocket => this.WebSocket != null && this.WebSocket.IsConnected;
         public bool IsConnectedTcp => this.Tcp != null && this.Tcp.IsConnected;

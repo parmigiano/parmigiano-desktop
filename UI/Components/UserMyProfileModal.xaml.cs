@@ -8,6 +8,7 @@ using Parmigiano.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,13 +24,14 @@ namespace Parmigiano.UI.Components
     /// </summary>
     public partial class UserMyProfileModal : UserControl
     {
-        private readonly IUserApiRepository _userApi = new UserApiRepository();
+        private static readonly IUserApiRepository _userApi = new UserApiRepository();
         private readonly IAuthApiRepository _authApi = new AuthApiRepository();
         private static ImageUtilities _imageUtilities = new ImageUtilities();
+
         private static UserMyProfileModal _instance;
 
         private readonly Dictionary<string, Timer> _debounceTimers = new();
-        private const int DebounceDelay = 1000;
+        private const int DebounceDelay = 500;
 
         private readonly Dictionary<string, string> _originalValues = new();
 
@@ -45,6 +47,25 @@ namespace Parmigiano.UI.Components
         {
             InitializeComponent();
             _instance = this;
+
+            EmailToggle.Checked += this.Toggle_Checked;
+            EmailToggle.Unchecked += this.Toggle_Unchecked;
+
+            UsernameToggle.Checked += this.Toggle_Checked;
+            UsernameToggle.Unchecked += this.Toggle_Unchecked;
+
+            PhoneToggle.Checked += this.Toggle_Checked;
+            PhoneToggle.Unchecked += this.Toggle_Unchecked;
+        }
+
+        private async void Toggle_Checked(object sender, RoutedEventArgs e)
+        {
+            await this.UpdateSingleToggle(sender as CheckBox, true);
+        }
+
+        private async void Toggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            await this.UpdateSingleToggle(sender as CheckBox, false);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -77,8 +98,10 @@ namespace Parmigiano.UI.Components
             return false;
         }
 
-        public static void ShowProfile(UserInfoModel user)
+        public static async void ShowProfile()
         {
+            UserInfoModel user = await _userApi.GetUserMe();
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_instance == null) return;
@@ -158,7 +181,7 @@ namespace Parmigiano.UI.Components
 
                 string filePath = dialog.FileName;
 
-                string? url = await this._userApi.UploadAvatar(filePath);
+                string? url = await _userApi.UploadAvatar(filePath);
 
                 if (url != null)
                 {
@@ -209,16 +232,21 @@ namespace Parmigiano.UI.Components
             string cachedName = tb.Name;
             string cachedValue = newText;
 
-            timer.Elapsed += async (_, _) =>
+            timer.Elapsed += (_, _) =>
             {
                 try
                 {
                     var model = new UserProfileUpdModel
                     {
+                        Overview = null,
                         Name = null,
                         Username = null,
+                        UsernameVisible = null,
                         Email = null,
-                        Password = null
+                        EmailVisible = true,
+                        Phone = null,
+                        PhoneVisible = null,
+                        Password = null,
                     };
 
                     switch (cachedName)
@@ -229,6 +257,14 @@ namespace Parmigiano.UI.Components
 
                         case "UsernameTextBox":
                             model.Username = newText;
+                            break;
+
+                        case "PhoneTextBox":
+                            model.Phone = newText;
+                            break;
+
+                        case "OverviewTextBox":
+                            model.Overview = newText;
                             break;
 
                         case "EmailTextBox":
@@ -245,7 +281,7 @@ namespace Parmigiano.UI.Components
 
                     this._originalValues[cachedName] = cachedValue;
 
-                    await Application.Current.Dispatcher.InvokeAsync(async () =>
+                    Application.Current.Dispatcher.Invoke(async () =>
                     {
                         await _userApi.UpdateUserProfile(model);
                         UserMeCard.Reload();
@@ -275,6 +311,34 @@ namespace Parmigiano.UI.Components
                 Application.Current.MainWindow.Close();
                 Application.Current.MainWindow = authWindow;
             });
+        }
+
+        private async Task UpdateSingleToggle(CheckBox checkBox, bool isChecked)
+        {
+            if (checkBox == null) return;
+
+            var model = new UserProfileUpdModel
+            {
+                EmailVisible = null,
+                UsernameVisible = null,
+                PhoneVisible = null,
+            };
+
+
+            switch (checkBox)
+            {
+                case var cb when cb == EmailToggle:
+                    model.EmailVisible = isChecked;
+                    break;
+                case var cb when cb == UsernameToggle:
+                    model.UsernameVisible = isChecked;
+                    break;
+                case var cb when cb == PhoneToggle:
+                    model.PhoneVisible = isChecked;
+                    break;
+            }
+
+            await _userApi.UpdateUserProfile(model);
         }
     }
 }

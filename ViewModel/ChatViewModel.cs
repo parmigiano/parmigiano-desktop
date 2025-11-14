@@ -7,14 +7,9 @@ using Parmigiano.Services.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Parmigiano.ViewModel
 {
@@ -80,10 +75,12 @@ namespace Parmigiano.ViewModel
 
         public ChatViewModel()
         {
-            this.SendMessageCommand = new RelayCommand(_ => this.SendMessage());
+            this.SendMessageCommand = new RelayCommand(async _ => await this.SendMessage());
             this.EditMessageCommand = new RelayCommand(msg => this.EditMessage(msg));
             this.DeleteMessageCommand = new RelayCommand(msg => this.DeleteMessage(msg));
             this.CopyMessageCommand = new RelayCommand(msg => this.CopyMessage(msg));
+
+            ConnectionService.Instance.OnTcpEvent += HandleTcpEvent;
         }
 
         private async void LoadMessagesAsync()
@@ -108,35 +105,125 @@ namespace Parmigiano.ViewModel
             }
         }
 
-        // COMMANDS
-        private void SendMessage()
+        private void HandleTcpEvent(ResponseStruct.Response response)
         {
-            if (string.IsNullOrWhiteSpace(this.MessageText))
+            try
             {
+                if (response?.ClientReceiveMessagePacket == null) return;
+
+                var packet = response.ClientReceiveMessagePacket;
+
+                ulong messageId = packet.MessageId;
+                ulong chatId = packet.ChatId;
+                ulong senderUid = packet.SenderUid;
+                string content = packet.Content;
+                string contentType = packet.ContentType;
+                string deliveredAt = packet.DeliveredAt;
+
+                string title = "Новое сообщение";
+
+                if (this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
+                {
+                    title = string.IsNullOrEmpty(this.SelectedUser.Name) ? this.SelectedUser.Username : this.SelectedUser.Name;
+                }
+
+                string notifyPayload = $"{title}|{content}|{chatId}";
+
+                // send notification
+                _ = NotificationService.NotifyAsync(notifyPayload);
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => 
+                {
+                    try
+                    {
+                        if (this.SelectedUser != null && this.SelectedUser.Id == chatId || this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
+                        {
+                            var msg = new OnesMessageModel
+                            {
+                                SenderUid = senderUid,
+                                ChatId = chatId,
+                                Content = content,
+                                ContentType = contentType,
+                                IsEdited = false,
+                                EditContent = content,
+                                DeliveredAt = DateTime.Parse(deliveredAt),
+                                ReadAt = null,
+                                IsMine = false,
+                            };
+
+                            this.Messages.Add(msg);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error("HandleTcpEvent UI update failed: " + ex.Message);
+                    }
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("HandleTcpEvent error: " + ex.Message);
+            }
+        }
+
+        // COMMANDS
+        private async Task SendMessage()
+        {
+            if (string.IsNullOrWhiteSpace(this.MessageText)) return;
+
+            string text = this.MessageText;
+
+            string prepared = MessageService.PreprocessMessage(text);
+            if (string.IsNullOrWhiteSpace(prepared))
+            {
+                this.MessageText = string.Empty;
                 return;
             }
 
             if (this.EditingMessage != null)
             {
-                this.EditingMessage.EditContent = this.MessageText;
+                this.EditingMessage.EditContent = prepared;
                 this.EditingMessage.IsEdited = true;
+
+                try
+                {
+                    await TcpSendPacketsService.SendEditMessageAsync(this.EditingMessage.ChatId, this.EditingMessage.Id, prepared);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Tcp("SendEdit failed: " + ex.Message);
+                }
+
                 this.EditingMessage = null;
             }
             else
             {
-                /// SEND TO TCP
-
-                this.Messages.Add(new OnesMessageModel
+                var optimistic = new OnesMessageModel
                 {
                     SenderUid = AppSession.CurrentUser.UserUid,
-                    Content = this.MessageText,
+                    ChatId = this.SelectedUser?.Id ?? 0UL,
+                    Content = prepared,
                     ContentType = "text",
                     IsEdited = false,
-                    EditContent = this.MessageText,
+                    EditContent = prepared,
                     DeliveredAt = DateTime.Now,
                     ReadAt = null,
                     IsMine = true,
-                });
+                };
+
+                this.Messages.Add(optimistic);
+
+                this.MessageText = string.Empty;
+
+                try
+                {
+                    var chatId = this.SelectedUser?.Id ?? 0UL;
+                    await MessageService.SendMessageAsync(chatId, prepared);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Tcp("SendMessage failed: " + ex.Message);
+                }
             }
 
             this.MessageText = string.Empty;

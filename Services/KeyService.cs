@@ -1,13 +1,8 @@
 ﻿using Parmigiano.Core;
 using Parmigiano.Interface;
 using Parmigiano.Repository;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parmigiano.Services
 {

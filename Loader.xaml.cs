@@ -5,6 +5,7 @@ using Parmigiano.Services;
 using Parmigiano.UI.Components;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Parmigiano
@@ -14,6 +15,7 @@ namespace Parmigiano
     /// </summary>
     public partial class Loader : Window
     {
+        private readonly NetworkService _networkService = new NetworkService();
         private readonly IUserApiRepository _userApi = new UserApiRepository();
         private readonly IUserConfigRepository _userConfig = new UserConfigRepository();
 
@@ -27,6 +29,15 @@ namespace Parmigiano
         {
             // check update new version app
             this.CheckUpdate();
+
+            if (!this._networkService.IsAvailable)
+            {
+                Notification.Show("Ошибка сети", "Нет подключения к интернету. Проверьте соединение и попробуйте снова.", NotificationType.Error);
+
+                await Task.Delay(5000);
+                Application.Current.Shutdown();
+                return;
+            }
 
             string? userData = this._userConfig.GetString("access_token");
 

@@ -3,8 +3,9 @@
 
 #define AppId "{{A4C5B89C-92D3-4AF9-BE3E-74B3D0C31402}}"
 #define AppName "Parmigiano"
-#define AppVersion "0.7.0"
-#define AppDisplayName "Parmigiano Chat v0.7.0"
+#define AppVersion "0.8.0"
+#define AlphaVersion "1"
+#define AppDisplayName "Parmigiano Chat v0.8.0"
 #define AppPublisher "Parmigiano"
 #define OutputDir "SetupOutput"
 #define ResourcesDir "Public\assets"
@@ -23,7 +24,7 @@ DefaultGroupName=Parmigiano
 AllowNoIcons=yes
 SetupIconFile={#AppIconName}
 OutputDir={#OutputDir}
-OutputBaseFilename=ParmigianoChatSetup-v{#AppVersion}-beta
+OutputBaseFilename=ParmigianoChatSetup-v{#AppVersion}-alpha.{#AlphaVersion}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -61,18 +62,36 @@ Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: 
 Filename: "{app}\Parmigiano.exe"; Description: "Запустить Parmigiano Chat"; Flags: nowait postinstall skipifsilent
 
 [Code]
-procedure KillBroker();
+const
+  EVENT_MODIFY_STATE = $0002;
+
+function OpenEvent(dwDesiredAccess: Cardinal; bInheritHandle: LongBool; lpName: AnsiString): THandle; external 'OpenEventA@kernel32.dll stdcall';
+function SetEvent(hEvent: THandle): LongBool; external 'SetEvent@kernel32.dll stdcall';
+function CloseHandle(hObject: THandle): LongBool; external 'CloseHandle@kernel32.dll stdcall';
+procedure Sleep(dwMilliseconds: Cardinal); external 'Sleep@kernel32.dll stdcall';
+
+procedure SignalBrokerAndMaybeKill();
 var
+  h: THandle;
   ErrorCode: Integer;
 begin
-  Exec('taskkill', '/F /IM ParmigianoChatBroker.exe', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
+  h := OpenEvent(EVENT_MODIFY_STATE, False, 'Global\ParmigianoChatBroker_Stop');
+  if h <> 0 then
+  begin
+    SetEvent(h);
+    CloseHandle(h);
+
+    Sleep(2000);
+  end;
+
+  Exec('taskkill', '/F /IM ParmigianoChatBroker.exe /T', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
 end;
 
 procedure CurUninstallStepChanged(CurStep: TUninstallStep);
 begin
   if CurStep = usUninstall then
   begin
-    KillBroker();
+    SignalBrokerAndMaybeKill();
   end;
 end;
 

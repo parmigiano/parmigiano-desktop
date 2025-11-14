@@ -12,43 +12,46 @@ namespace Parmigiano.Models
         [JsonPropertyName("id")]
         public ulong Id { get; set; }
 
-
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
-
-
-        [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt { get; set; }
-
 
         [JsonPropertyName("user_uid")]
         public ulong UserUid { get; set; }
 
+        [JsonPropertyName("online")]
+        public bool Online { get; set; }
+
+        [JsonPropertyName("last_online_date")]
+        public DateTime LastOnlineDate { get; set; }
 
         [JsonPropertyName("avatar")]
         public string? Avatar { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
-
+        public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("username")]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
+        [JsonPropertyName("username_visible")]
+        public bool UsernameVisible { get; set; }
 
         [JsonPropertyName("email")]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
+        [JsonPropertyName("email_visible")]
+        public bool EmailVisible { get; set; }
 
         [JsonPropertyName("email_confirmed")]
         public bool EmailConfirmed { get; set; }
 
+        [JsonPropertyName("phone")]
+        public string? Phone { get; set; }
 
-        [JsonPropertyName("access_token")]
-        public string AccessToken { get; set; }
+        [JsonPropertyName("phone_visible")]
+        public bool PhoneVisible { get; set; }
 
-
-        [JsonPropertyName("refresh_token")]
-        public string? RefreshToken { get; set; }
+        [JsonPropertyName("overview")]
+        public string? Overview { get; set; }
     }
 }

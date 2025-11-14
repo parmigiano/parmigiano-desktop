@@ -29,6 +29,11 @@ namespace Parmigiano.Repository
             return user;
         }
 
+        public async Task<UserInfoModel?> GetUserProfile(ulong uid)
+        {
+            return await this._httpClient.GetAsync<UserInfoModel?>($"{this._apiPath}/{uid}");
+        }
+
         public async Task<List<ChatMinimalWithLMessageModel>?> GetUsersFindByUsername(string username)
         {
             return await this._httpClient.GetAsync<List<ChatMinimalWithLMessageModel>?>($"{this._apiPath}/find/{username}");

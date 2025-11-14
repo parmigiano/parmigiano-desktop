@@ -59,6 +59,9 @@ namespace Parmigiano.UI.Components
                 if (!string.IsNullOrEmpty(user.Avatar))
                 {
                     this._imageUtilities.LoadImageAsync(user.Avatar, AvatarImage);
+
+                    AvatarCircle.Fill = AvatarImage;
+
                     InitialText.Visibility = Visibility.Collapsed;
                 }
                 else
@@ -96,6 +99,7 @@ namespace Parmigiano.UI.Components
         private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             this._userConfig.DeleteKey("access_token");
+            AppSession.CurrentUser = null;
 
             var authWindow = new AuthWindow();
             authWindow.Show();
@@ -105,7 +109,7 @@ namespace Parmigiano.UI.Components
 
         private void UserProfile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            UserMyProfileModal.ShowProfile(AppSession.CurrentUser);
+            UserMyProfileModal.ShowProfile();
         }
 
         public void ReloadUser()

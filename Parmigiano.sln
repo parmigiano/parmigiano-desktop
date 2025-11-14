@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parmigiano", "Parmigiano.csproj", "{4484AF3D-DC0D-406F-80FF-BD651043A272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParmigianoChatBroker", "..\ParmigianoChatBroker\ParmigianoChatBroker.csproj", "{B8FEE71F-329F-4E0E-9F7F-A62C36753426}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParmigianoBroker", "..\ParmigianoChatBroker\ParmigianoBroker.csproj", "{B8FEE71F-329F-4E0E-9F7F-A62C36753426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

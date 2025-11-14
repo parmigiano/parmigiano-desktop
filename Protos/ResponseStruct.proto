@@ -81,6 +81,15 @@ message ClientUnreadMessagesCountPacket {
 	int32 count = 2; // number of unread messages
 }
 
+message ClientReceiveMessagePacket {
+	uint64 message_id = 1;
+	uint64 chat_id = 2;
+	uint64 sender_uid = 3;
+	string content = 4;
+	string content_type = 5;
+	string delivered_at = 6;
+}
+
 // using when server must disconnect client and notify
 message DisconnectNotifying {
 	enum types {
@@ -137,5 +146,5 @@ message Response {
 	ClientReadMessagePacket clientReadMessagePacket = 11;
 	ClientEditMessagePacket clientEditMessagePacket = 12;
 	ClientDeleteMessagePacket clientDeleteMessagePacket = 13;
-
+	ClientReceiveMessagePacket clientReceiveMessagePacket = 14;
 }

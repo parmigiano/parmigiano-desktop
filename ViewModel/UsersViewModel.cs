@@ -77,6 +77,7 @@ namespace Parmigiano.ViewModel
             Users.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasUsers));
 
             ConnectionService.Instance.OnWsEvent += HandleWebSocketEvent;
+            ConnectionService.Instance.OnTcpEvent += HandleTcpEvent;
         }
 
         private void HandleWebSocketEvent(string evt, JObject data)
@@ -120,6 +121,30 @@ namespace Parmigiano.ViewModel
             }
         }
 
+        private void HandleTcpEvent(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientActivePacket == null) return;
+
+                ulong uid = response.ClientActivePacket.Uid;
+                bool online = response.ClientActivePacket.Online;
+
+                var user = Users.FirstOrDefault(u => u.UserUid == uid);
+                if (user == null) return;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    user.Online = online;
+                    user.LastOnlineDate = DateTime.Now;
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"HandleTcpEvent error: {ex.Message}");
+            }
+        }
+
         private void StartSearchDebounce()
         {
             this._searchCts?.Cancel();
@@ -127,7 +152,7 @@ namespace Parmigiano.ViewModel
 
             var token = this._searchCts.Token;
 
-            Task.Delay(700).ContinueWith(async t =>
+            Task.Delay(500).ContinueWith(async t =>
             {
                 if (token.IsCancellationRequested) return;
 

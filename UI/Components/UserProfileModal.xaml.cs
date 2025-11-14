@@ -1,16 +1,15 @@
-﻿using Microsoft.Win32;
-using Parmigiano.Interface;
+﻿using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
 using Parmigiano.Utilities;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 
 namespace Parmigiano.UI.Components
 {
@@ -19,6 +18,7 @@ namespace Parmigiano.UI.Components
     /// </summary>
     public partial class UserProfileModal : UserControl
     {
+        private static readonly IUserApiRepository _userApi = new UserApiRepository();
         private static ImageUtilities _imageUtilities = new ImageUtilities();
         private static UserProfileModal _instance;
 
@@ -58,8 +58,10 @@ namespace Parmigiano.UI.Components
             return false;
         }
 
-        public static void ShowProfile(ChatMinimalWithLMessageModel user)
+        public static async Task ShowProfile(ulong uid)
         {
+            UserInfoModel user = await _userApi.GetUserProfile(uid);
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_instance == null) return;
@@ -69,6 +71,9 @@ namespace Parmigiano.UI.Components
                 if (!string.IsNullOrEmpty(user.Avatar))
                 {
                     _imageUtilities.LoadImageAsync(user.Avatar, _instance.AvatarImage);
+
+                    _instance.AvatarCircle.Fill = _instance.AvatarImage;
+
                     _instance.InitialText.Visibility = Visibility.Collapsed;
                 }
                 else
@@ -110,6 +115,33 @@ namespace Parmigiano.UI.Components
 
                 _instance.BeginAnimation(OpacityProperty, fadeOut);
             });
+        }
+
+        private void Avatar_Click(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var imgSource = this.AvatarImage?.ImageSource;
+                if (imgSource == null)
+                {
+                    return;
+                }
+
+                var viewer = new AvatarViewerWindow(imgSource);
+
+                var owner = Window.GetWindow(this);
+                if (owner != null)
+                {
+                    viewer.Owner = owner;
+                    viewer.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                }
+
+                viewer.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("UserProfileModal.Avatar_Click: " + ex.Message);
+            }
         }
 
         private static Color GetColorFromName(string name)

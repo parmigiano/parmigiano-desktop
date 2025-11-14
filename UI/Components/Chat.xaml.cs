@@ -63,11 +63,11 @@ namespace Parmigiano.UI.Components
             }
         }
 
-        private void ProfileHeader_Click(object sender, MouseButtonEventArgs e)
+        private async void ProfileHeader_Click(object sender, MouseButtonEventArgs e)
         {
             if (DataContext is Parmigiano.ViewModel.ChatViewModel vm && vm.SelectedUser != null)
             {
-                UserProfileModal.ShowProfile(vm.SelectedUser);
+                await UserProfileModal.ShowProfile(vm.SelectedUser.UserUid);
             }
         }
     }

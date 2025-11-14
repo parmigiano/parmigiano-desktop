@@ -8,12 +8,11 @@
         mc:Ignorable="d"
         Icon="pack://application:,,,/Public/assets/logo-ico.ico"
         Title="Parmigiano Chat"
-        Height="600" Width="1000"
+        Height="500" Width="800"
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Topmost="True"
         Background="Transparent">
 
     <Border CornerRadius="10" Background="#000">
