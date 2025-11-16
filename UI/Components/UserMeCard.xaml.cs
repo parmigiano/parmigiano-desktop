@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using Parmigiano.Core;
+﻿using Parmigiano.Core;
 using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
@@ -10,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Parmigiano.UI.Components
 {
@@ -99,6 +97,7 @@ namespace Parmigiano.UI.Components
         private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             this._userConfig.DeleteKey("access_token");
+
             AppSession.CurrentUser = null;
 
             var authWindow = new AuthWindow();

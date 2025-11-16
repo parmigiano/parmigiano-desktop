@@ -109,9 +109,9 @@ namespace Parmigiano.ViewModel
         {
             try
             {
-                if (response?.ClientReceiveMessagePacket == null) return;
+                if (response?.ClientSendMessage == null) return;
 
-                var packet = response.ClientReceiveMessagePacket;
+                var packet = response.ClientSendMessage;
 
                 ulong messageId = packet.MessageId;
                 ulong chatId = packet.ChatId;
@@ -146,7 +146,7 @@ namespace Parmigiano.ViewModel
                                 ContentType = contentType,
                                 IsEdited = false,
                                 EditContent = content,
-                                DeliveredAt = DateTime.Parse(deliveredAt),
+                                DeliveredAt = DateTime.Now,
                                 ReadAt = null,
                                 IsMine = false,
                             };

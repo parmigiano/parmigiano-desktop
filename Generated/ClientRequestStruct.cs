@@ -37,39 +37,44 @@ namespace ClientRequestStruct {
             "IAEoBBIPCgdjaGF0X2lkGAIgASgEEg8KB2NvbnRlbnQYAyABKAkSFAoMY29u",
             "dGVudF90eXBlGAQgASgJIksKF0NsaWVudFJlYWRNZXNzYWdlUGFja2V0EgsK",
             "A3VpZBgBIAEoBBIPCgdjaGF0X2lkGAIgASgEEhIKCm1lc3NhZ2VfaWQYAyAB",
-            "KAQiXAoXQ2xpZW50RWRpdE1lc3NhZ2VQYWNrZXQSCwoDdWlkGAEgASgEEg8K",
+            "KAQicgoXQ2xpZW50RWRpdE1lc3NhZ2VQYWNrZXQSCwoDdWlkGAEgASgEEg8K",
             "B2NoYXRfaWQYAiABKAQSEgoKbWVzc2FnZV9pZBgDIAEoBBIPCgdjb250ZW50",
-            "GAQgASgJIkoKFkNsaWVudFBpbk1lc3NhZ2VQYWNrZXQSCwoDdWlkGAEgASgE",
-            "Eg8KB2NoYXRfaWQYAiABKAQSEgoKbWVzc2FnZV9pZBgDIAEoBCJNChlDbGll",
-            "bnREZWxldGVNZXNzYWdlUGFja2V0EgsKA3VpZBgBIAEoBBIPCgdjaGF0X2lk",
-            "GAIgASgEEhIKCm1lc3NhZ2VfaWQYAyABKAQiGQoKQ2xpZW50SW5mbxILCgN1",
-            "aWQYASABKAQitQIKC1JlcXVlc3RJbmZvEjsKBHR5cGUYASABKA4yLS5DbGll",
-            "bnRSZXF1ZXN0U3RydWN0LlJlcXVlc3RJbmZvLnJlcXVlc3RUeXBlcyLoAQoM",
-            "cmVxdWVzdFR5cGVzEgsKB3Vua25vd24QABIWChJmaWxlaF9oYXNoX3JlcXVl",
-            "c3QQARIRCg1kb3dubG9hZF9maWxlEAISEAoMc2VuZF9tZXNzYWdlEAMSEAoM",
-            "cmVhZF9tZXNzYWdlEAQSEAoMZWRpdF9tZXNzYWdlEAUSDwoLcGluX21lc3Nh",
-            "Z2UQBhISCg5kZWxldGVfbWVzc2FnZRAHEg8KC3VzZXJfdHlwaW5nEAgSFgoS",
-            "dXNlcl9vbmxpbmVfc3RhdHVzEAkSHAoYZ2V0X3VucmVhZF9tZXNzYWdlX2Nv",
-            "dW50EAoi9AYKB1JlcXVlc3QSNQoLcmVxdWVzdEluZm8YASABKAsyIC5DbGll",
-            "bnRSZXF1ZXN0U3RydWN0LlJlcXVlc3RJbmZvEjMKCmNsaWVudEluZm8YAiAB",
-            "KAsyHy5DbGllbnRSZXF1ZXN0U3RydWN0LkNsaWVudEluZm8SLwoIZmlsZUlu",
-            "Zm8YAyADKAsyHS5DbGllbnRSZXF1ZXN0U3RydWN0LkZpbGVJbmZvEi0KB2Rp",
-            "ckluZm8YBCADKAsyHC5DbGllbnRSZXF1ZXN0U3RydWN0LkRpckluZm8SQQoR",
-            "bmFtZU9mTWFpbkV4ZUZpbGUYBSABKAsyJi5DbGllbnRSZXF1ZXN0U3RydWN0",
-            "Lk5hbWVPZk1haW5FeGVGaWxlEkMKEmNsaWVudEFjdGl2ZVBhY2tldBgGIAEo",
-            "CzInLkNsaWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50QWN0aXZlUGFja2V0EkkK",
-            "FWNsaWVudENvbm5lY3RlZFBhY2tldBgHIAEoCzIqLkNsaWVudFJlcXVlc3RT",
-            "dHJ1Y3QuQ2xpZW50Q29ubmVjdGVkUGFja2V0EkUKE3JzYUtleVJlcXVlc3RQ",
-            "YWNrZXQYCCABKAsyKC5DbGllbnRSZXF1ZXN0U3RydWN0LlJzYUtleVJlcXVl",
-            "c3RQYWNrZXQSQwoSY2xpZW50VHlwaW5nUGFja2V0GAkgASgLMicuQ2xpZW50",
-            "UmVxdWVzdFN0cnVjdC5DbGllbnRUeXBpbmdQYWNrZXQSTQoXY2xpZW50U2Vu",
-            "ZE1lc3NhZ2VQYWNrZXQYCiABKAsyLC5DbGllbnRSZXF1ZXN0U3RydWN0LkNs",
-            "aWVudFNlbmRNZXNzYWdlUGFja2V0Ek0KF2NsaWVudFJlYWRNZXNzYWdlUGFj",
-            "a2V0GAsgASgLMiwuQ2xpZW50UmVxdWVzdFN0cnVjdC5DbGllbnRSZWFkTWVz",
-            "c2FnZVBhY2tldBJNChdjbGllbnRFZGl0TWVzc2FnZVBhY2tldBgMIAEoCzIs",
-            "LkNsaWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50RWRpdE1lc3NhZ2VQYWNrZXQS",
-            "UQoZY2xpZW50RGVsZXRlTWVzc2FnZVBhY2tldBgNIAEoCzIuLkNsaWVudFJl",
-            "cXVlc3RTdHJ1Y3QuQ2xpZW50RGVsZXRlTWVzc2FnZVBhY2tldGIGcHJvdG8z"));
+            "GAQgASgJEhQKDGNvbnRlbnRfdHlwZRgFIAEoCSJKChZDbGllbnRQaW5NZXNz",
+            "YWdlUGFja2V0EgsKA3VpZBgBIAEoBBIPCgdjaGF0X2lkGAIgASgEEhIKCm1l",
+            "c3NhZ2VfaWQYAyABKAQiTQoZQ2xpZW50RGVsZXRlTWVzc2FnZVBhY2tldBIL",
+            "CgN1aWQYASABKAQSDwoHY2hhdF9pZBgCIAEoBBISCgptZXNzYWdlX2lkGAMg",
+            "ASgEIkUKHkNsaWVudE1lc3NhZ2VJc0RlbGl2ZXJlZFBhY2tldBIPCgdjaGF0",
+            "X2lkGAEgASgEEhIKCm1lc3NhZ2VfaWQYAiABKAQiGQoKQ2xpZW50SW5mbxIL",
+            "CgN1aWQYASABKAQi1wIKC1JlcXVlc3RJbmZvEjsKBHR5cGUYASABKA4yLS5D",
+            "bGllbnRSZXF1ZXN0U3RydWN0LlJlcXVlc3RJbmZvLnJlcXVlc3RUeXBlcyKK",
+            "AgoMcmVxdWVzdFR5cGVzEgsKB3Vua25vd24QABIWChJmaWxlaF9oYXNoX3Jl",
+            "cXVlc3QQARIRCg1kb3dubG9hZF9maWxlEAISEAoMc2VuZF9tZXNzYWdlEAMS",
+            "EAoMcmVhZF9tZXNzYWdlEAQSEAoMZWRpdF9tZXNzYWdlEAUSDwoLcGluX21l",
+            "c3NhZ2UQBhISCg5kZWxldGVfbWVzc2FnZRAHEg8KC3VzZXJfdHlwaW5nEAgS",
+            "FgoSdXNlcl9vbmxpbmVfc3RhdHVzEAkSHAoYZ2V0X3VucmVhZF9tZXNzYWdl",
+            "X2NvdW50EAoSEwoPd2VsY29tZV9wYWNrYWdlEAsSCwoHcnNhX2tleRAMIsEH",
+            "CgdSZXF1ZXN0EjUKC3JlcXVlc3RJbmZvGAEgASgLMiAuQ2xpZW50UmVxdWVz",
+            "dFN0cnVjdC5SZXF1ZXN0SW5mbxIzCgpjbGllbnRJbmZvGAIgASgLMh8uQ2xp",
+            "ZW50UmVxdWVzdFN0cnVjdC5DbGllbnRJbmZvEi8KCGZpbGVJbmZvGAMgAygL",
+            "Mh0uQ2xpZW50UmVxdWVzdFN0cnVjdC5GaWxlSW5mbxItCgdkaXJJbmZvGAQg",
+            "AygLMhwuQ2xpZW50UmVxdWVzdFN0cnVjdC5EaXJJbmZvEkEKEW5hbWVPZk1h",
+            "aW5FeGVGaWxlGAUgASgLMiYuQ2xpZW50UmVxdWVzdFN0cnVjdC5OYW1lT2ZN",
+            "YWluRXhlRmlsZRJDChJjbGllbnRBY3RpdmVQYWNrZXQYBiABKAsyJy5DbGll",
+            "bnRSZXF1ZXN0U3RydWN0LkNsaWVudEFjdGl2ZVBhY2tldBJJChVjbGllbnRD",
+            "b25uZWN0ZWRQYWNrZXQYByABKAsyKi5DbGllbnRSZXF1ZXN0U3RydWN0LkNs",
+            "aWVudENvbm5lY3RlZFBhY2tldBJFChNyc2FLZXlSZXF1ZXN0UGFja2V0GAgg",
+            "ASgLMiguQ2xpZW50UmVxdWVzdFN0cnVjdC5Sc2FLZXlSZXF1ZXN0UGFja2V0",
+            "EkMKEmNsaWVudFR5cGluZ1BhY2tldBgJIAEoCzInLkNsaWVudFJlcXVlc3RT",
+            "dHJ1Y3QuQ2xpZW50VHlwaW5nUGFja2V0Ek0KF2NsaWVudFNlbmRNZXNzYWdl",
+            "UGFja2V0GAogASgLMiwuQ2xpZW50UmVxdWVzdFN0cnVjdC5DbGllbnRTZW5k",
+            "TWVzc2FnZVBhY2tldBJNChdjbGllbnRSZWFkTWVzc2FnZVBhY2tldBgLIAEo",
+            "CzIsLkNsaWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50UmVhZE1lc3NhZ2VQYWNr",
+            "ZXQSTQoXY2xpZW50RWRpdE1lc3NhZ2VQYWNrZXQYDCABKAsyLC5DbGllbnRS",
+            "ZXF1ZXN0U3RydWN0LkNsaWVudEVkaXRNZXNzYWdlUGFja2V0ElEKGWNsaWVu",
+            "dERlbGV0ZU1lc3NhZ2VQYWNrZXQYDSABKAsyLi5DbGllbnRSZXF1ZXN0U3Ry",
+            "dWN0LkNsaWVudERlbGV0ZU1lc3NhZ2VQYWNrZXQSSwoWY2xpZW50UGluTWVz",
+            "c2FnZVBhY2tldBgOIAEoCzIrLkNsaWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50",
+            "UGluTWVzc2FnZVBhY2tldGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -82,12 +87,13 @@ namespace ClientRequestStruct {
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientTypingPacket), global::ClientRequestStruct.ClientTypingPacket.Parser, new[]{ "Uid", "ChatId", "IsTyping" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientSendMessagePacket), global::ClientRequestStruct.ClientSendMessagePacket.Parser, new[]{ "Uid", "ChatId", "Content", "ContentType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientReadMessagePacket), global::ClientRequestStruct.ClientReadMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientEditMessagePacket), global::ClientRequestStruct.ClientEditMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId", "Content" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientEditMessagePacket), global::ClientRequestStruct.ClientEditMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId", "Content", "ContentType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientPinMessagePacket), global::ClientRequestStruct.ClientPinMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientDeleteMessagePacket), global::ClientRequestStruct.ClientDeleteMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientMessageIsDeliveredPacket), global::ClientRequestStruct.ClientMessageIsDeliveredPacket.Parser, new[]{ "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientInfo), global::ClientRequestStruct.ClientInfo.Parser, new[]{ "Uid" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.RequestInfo), global::ClientRequestStruct.RequestInfo.Parser, new[]{ "Type" }, null, new[]{ typeof(global::ClientRequestStruct.RequestInfo.Types.requestTypes) }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.Request), global::ClientRequestStruct.Request.Parser, new[]{ "RequestInfo", "ClientInfo", "FileInfo", "DirInfo", "NameOfMainExeFile", "ClientActivePacket", "ClientConnectedPacket", "RsaKeyRequestPacket", "ClientTypingPacket", "ClientSendMessagePacket", "ClientReadMessagePacket", "ClientEditMessagePacket", "ClientDeleteMessagePacket" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.Request), global::ClientRequestStruct.Request.Parser, new[]{ "RequestInfo", "ClientInfo", "FileInfo", "DirInfo", "NameOfMainExeFile", "ClientActivePacket", "ClientConnectedPacket", "RsaKeyRequestPacket", "ClientTypingPacket", "ClientSendMessagePacket", "ClientReadMessagePacket", "ClientEditMessagePacket", "ClientDeleteMessagePacket", "ClientPinMessagePacket" }, null, null, null, null)
           }));
     }
     #endregion
@@ -2465,6 +2471,7 @@ namespace ClientRequestStruct {
       chatId_ = other.chatId_;
       messageId_ = other.messageId_;
       content_ = other.content_;
+      contentType_ = other.contentType_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2534,6 +2541,21 @@ namespace ClientRequestStruct {
       }
     }
 
+    /// <summary>Field number for the "content_type" field.</summary>
+    public const int ContentTypeFieldNumber = 5;
+    private string contentType_ = "";
+    /// <summary>
+    /// Тип сообщения 'text', 'image', ...
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ContentType {
+      get { return contentType_; }
+      set {
+        contentType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2553,6 +2575,7 @@ namespace ClientRequestStruct {
       if (ChatId != other.ChatId) return false;
       if (MessageId != other.MessageId) return false;
       if (Content != other.Content) return false;
+      if (ContentType != other.ContentType) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2564,6 +2587,7 @@ namespace ClientRequestStruct {
       if (ChatId != 0UL) hash ^= ChatId.GetHashCode();
       if (MessageId != 0UL) hash ^= MessageId.GetHashCode();
       if (Content.Length != 0) hash ^= Content.GetHashCode();
+      if (ContentType.Length != 0) hash ^= ContentType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2598,6 +2622,10 @@ namespace ClientRequestStruct {
         output.WriteRawTag(34);
         output.WriteString(Content);
       }
+      if (ContentType.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(ContentType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2624,6 +2652,10 @@ namespace ClientRequestStruct {
         output.WriteRawTag(34);
         output.WriteString(Content);
       }
+      if (ContentType.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(ContentType);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2645,6 +2677,9 @@ namespace ClientRequestStruct {
       }
       if (Content.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
+      }
+      if (ContentType.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2669,6 +2704,9 @@ namespace ClientRequestStruct {
       }
       if (other.Content.Length != 0) {
         Content = other.Content;
+      }
+      if (other.ContentType.Length != 0) {
+        ContentType = other.ContentType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2705,6 +2743,10 @@ namespace ClientRequestStruct {
             Content = input.ReadString();
             break;
           }
+          case 42: {
+            ContentType = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -2738,6 +2780,10 @@ namespace ClientRequestStruct {
           }
           case 34: {
             Content = input.ReadString();
+            break;
+          }
+          case 42: {
+            ContentType = input.ReadString();
             break;
           }
         }
@@ -3316,6 +3362,241 @@ namespace ClientRequestStruct {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ClientMessageIsDeliveredPacket : pb::IMessage<ClientMessageIsDeliveredPacket>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ClientMessageIsDeliveredPacket> _parser = new pb::MessageParser<ClientMessageIsDeliveredPacket>(() => new ClientMessageIsDeliveredPacket());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ClientMessageIsDeliveredPacket> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::ClientRequestStruct.ClientRequestStructReflection.Descriptor.MessageTypes[12]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ClientMessageIsDeliveredPacket() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ClientMessageIsDeliveredPacket(ClientMessageIsDeliveredPacket other) : this() {
+      chatId_ = other.chatId_;
+      messageId_ = other.messageId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ClientMessageIsDeliveredPacket Clone() {
+      return new ClientMessageIsDeliveredPacket(this);
+    }
+
+    /// <summary>Field number for the "chat_id" field.</summary>
+    public const int ChatIdFieldNumber = 1;
+    private ulong chatId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong ChatId {
+      get { return chatId_; }
+      set {
+        chatId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "message_id" field.</summary>
+    public const int MessageIdFieldNumber = 2;
+    private ulong messageId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong MessageId {
+      get { return messageId_; }
+      set {
+        messageId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ClientMessageIsDeliveredPacket);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ClientMessageIsDeliveredPacket other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ChatId != other.ChatId) return false;
+      if (MessageId != other.MessageId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ChatId != 0UL) hash ^= ChatId.GetHashCode();
+      if (MessageId != 0UL) hash ^= MessageId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (ChatId != 0UL) {
+        output.WriteRawTag(8);
+        output.WriteUInt64(ChatId);
+      }
+      if (MessageId != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(MessageId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ChatId != 0UL) {
+        output.WriteRawTag(8);
+        output.WriteUInt64(ChatId);
+      }
+      if (MessageId != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(MessageId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (ChatId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ChatId);
+      }
+      if (MessageId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(MessageId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ClientMessageIsDeliveredPacket other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ChatId != 0UL) {
+        ChatId = other.ChatId;
+      }
+      if (other.MessageId != 0UL) {
+        MessageId = other.MessageId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            ChatId = input.ReadUInt64();
+            break;
+          }
+          case 16: {
+            MessageId = input.ReadUInt64();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ChatId = input.ReadUInt64();
+            break;
+          }
+          case 16: {
+            MessageId = input.ReadUInt64();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ClientInfo : pb::IMessage<ClientInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -3330,7 +3611,7 @@ namespace ClientRequestStruct {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ClientRequestStruct.ClientRequestStructReflection.Descriptor.MessageTypes[12]; }
+      get { return global::ClientRequestStruct.ClientRequestStructReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3528,7 +3809,7 @@ namespace ClientRequestStruct {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ClientRequestStruct.ClientRequestStructReflection.Descriptor.MessageTypes[13]; }
+      get { return global::ClientRequestStruct.ClientRequestStructReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3726,6 +4007,8 @@ namespace ClientRequestStruct {
         [pbr::OriginalName("user_typing")] UserTyping = 8,
         [pbr::OriginalName("user_online_status")] UserOnlineStatus = 9,
         [pbr::OriginalName("get_unread_message_count")] GetUnreadMessageCount = 10,
+        [pbr::OriginalName("welcome_package")] WelcomePackage = 11,
+        [pbr::OriginalName("rsa_key")] RsaKey = 12,
       }
 
     }
@@ -3751,7 +4034,7 @@ namespace ClientRequestStruct {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::ClientRequestStruct.ClientRequestStructReflection.Descriptor.MessageTypes[14]; }
+      get { return global::ClientRequestStruct.ClientRequestStructReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3784,6 +4067,7 @@ namespace ClientRequestStruct {
       clientReadMessagePacket_ = other.clientReadMessagePacket_ != null ? other.clientReadMessagePacket_.Clone() : null;
       clientEditMessagePacket_ = other.clientEditMessagePacket_ != null ? other.clientEditMessagePacket_.Clone() : null;
       clientDeleteMessagePacket_ = other.clientDeleteMessagePacket_ != null ? other.clientDeleteMessagePacket_.Clone() : null;
+      clientPinMessagePacket_ = other.clientPinMessagePacket_ != null ? other.clientPinMessagePacket_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3957,6 +4241,18 @@ namespace ClientRequestStruct {
       }
     }
 
+    /// <summary>Field number for the "clientPinMessagePacket" field.</summary>
+    public const int ClientPinMessagePacketFieldNumber = 14;
+    private global::ClientRequestStruct.ClientPinMessagePacket clientPinMessagePacket_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::ClientRequestStruct.ClientPinMessagePacket ClientPinMessagePacket {
+      get { return clientPinMessagePacket_; }
+      set {
+        clientPinMessagePacket_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -3985,6 +4281,7 @@ namespace ClientRequestStruct {
       if (!object.Equals(ClientReadMessagePacket, other.ClientReadMessagePacket)) return false;
       if (!object.Equals(ClientEditMessagePacket, other.ClientEditMessagePacket)) return false;
       if (!object.Equals(ClientDeleteMessagePacket, other.ClientDeleteMessagePacket)) return false;
+      if (!object.Equals(ClientPinMessagePacket, other.ClientPinMessagePacket)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -4005,6 +4302,7 @@ namespace ClientRequestStruct {
       if (clientReadMessagePacket_ != null) hash ^= ClientReadMessagePacket.GetHashCode();
       if (clientEditMessagePacket_ != null) hash ^= ClientEditMessagePacket.GetHashCode();
       if (clientDeleteMessagePacket_ != null) hash ^= ClientDeleteMessagePacket.GetHashCode();
+      if (clientPinMessagePacket_ != null) hash ^= ClientPinMessagePacket.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -4069,6 +4367,10 @@ namespace ClientRequestStruct {
         output.WriteRawTag(106);
         output.WriteMessage(ClientDeleteMessagePacket);
       }
+      if (clientPinMessagePacket_ != null) {
+        output.WriteRawTag(114);
+        output.WriteMessage(ClientPinMessagePacket);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -4125,6 +4427,10 @@ namespace ClientRequestStruct {
         output.WriteRawTag(106);
         output.WriteMessage(ClientDeleteMessagePacket);
       }
+      if (clientPinMessagePacket_ != null) {
+        output.WriteRawTag(114);
+        output.WriteMessage(ClientPinMessagePacket);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -4169,6 +4475,9 @@ namespace ClientRequestStruct {
       }
       if (clientDeleteMessagePacket_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ClientDeleteMessagePacket);
+      }
+      if (clientPinMessagePacket_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ClientPinMessagePacket);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4249,6 +4558,12 @@ namespace ClientRequestStruct {
           ClientDeleteMessagePacket = new global::ClientRequestStruct.ClientDeleteMessagePacket();
         }
         ClientDeleteMessagePacket.MergeFrom(other.ClientDeleteMessagePacket);
+      }
+      if (other.clientPinMessagePacket_ != null) {
+        if (clientPinMessagePacket_ == null) {
+          ClientPinMessagePacket = new global::ClientRequestStruct.ClientPinMessagePacket();
+        }
+        ClientPinMessagePacket.MergeFrom(other.ClientPinMessagePacket);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4354,6 +4669,13 @@ namespace ClientRequestStruct {
             input.ReadMessage(ClientDeleteMessagePacket);
             break;
           }
+          case 114: {
+            if (clientPinMessagePacket_ == null) {
+              ClientPinMessagePacket = new global::ClientRequestStruct.ClientPinMessagePacket();
+            }
+            input.ReadMessage(ClientPinMessagePacket);
+            break;
+          }
         }
       }
     #endif
@@ -4456,6 +4778,13 @@ namespace ClientRequestStruct {
               ClientDeleteMessagePacket = new global::ClientRequestStruct.ClientDeleteMessagePacket();
             }
             input.ReadMessage(ClientDeleteMessagePacket);
+            break;
+          }
+          case 114: {
+            if (clientPinMessagePacket_ == null) {
+              ClientPinMessagePacket = new global::ClientRequestStruct.ClientPinMessagePacket();
+            }
+            input.ReadMessage(ClientPinMessagePacket);
             break;
           }
         }

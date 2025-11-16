@@ -117,10 +117,10 @@ namespace Parmigiano
 
                 var model = new AuthCreateModel
                 {
-                    Name = NameBox.Text,
-                    Username = UsernameBox.Text,
-                    Email = EmailBox.Text,
-                    Password = PasswordBbox.Password,
+                    Name = NameBox.Text.Trim(),
+                    Username = UsernameBox.Text.Trim(),
+                    Email = EmailBox.Text.Trim(),
+                    Password = PasswordBbox.Password.Trim(),
                 };
 
                 string? result = await this._authApi.AuthCreate(model);
@@ -155,8 +155,8 @@ namespace Parmigiano
 
                 var model = new AuthLoginModel
                 {
-                    Email = EmailLoginBox.Text,
-                    Password = PasswordLoginBox.Password,
+                    Email = EmailLoginBox.Text.Trim(),
+                    Password = PasswordLoginBox.Password.Trim(),
                 };
 
                 string? result = await this._authApi.AuthLogin(model);

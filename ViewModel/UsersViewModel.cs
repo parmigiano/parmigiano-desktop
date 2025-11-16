@@ -125,10 +125,10 @@ namespace Parmigiano.ViewModel
         {
             try
             {
-                if (response?.ClientActivePacket == null) return;
+                if (response?.ClientActive == null) return;
 
-                ulong uid = response.ClientActivePacket.Uid;
-                bool online = response.ClientActivePacket.Online;
+                ulong uid = response.ClientActive.Uid;
+                bool online = response.ClientActive.Online;
 
                 var user = Users.FirstOrDefault(u => u.UserUid == uid);
                 if (user == null) return;

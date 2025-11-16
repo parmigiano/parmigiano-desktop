@@ -27,9 +27,6 @@ namespace Parmigiano
 
         private async void Loader_Loaded(object sender, RoutedEventArgs e)
         {
-            // check update new version app
-            this.CheckUpdate();
-
             if (!this._networkService.IsAvailable)
             {
                 Notification.Show("Ошибка сети", "Нет подключения к интернету. Проверьте соединение и попробуйте снова.", NotificationType.Error);
@@ -43,6 +40,20 @@ namespace Parmigiano
 
             try
             {
+                // check update new version app
+                var (isUpdateAvailable, downloadUrl) = await this.CheckUpdate();
+                if (isUpdateAvailable && !string.IsNullOrEmpty(downloadUrl))
+                {
+                    this.Hide();
+
+                    var updateWindow = new UpdateAvailableWindow(downloadUrl);
+                    Application.Current.MainWindow = updateWindow;
+                    updateWindow.ShowDialog();
+
+                    this.Close();
+                    return;
+                }
+
                 if (!string.IsNullOrWhiteSpace(userData))
                 {
                     try
@@ -84,17 +95,10 @@ namespace Parmigiano
             }
         }
 
-        private async void CheckUpdate()
+        private async Task<(bool isUpdateAvailable, string downloadUrl)> CheckUpdate()
         {
             string currentVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-
-            var (isUpdateAvailable, downloadUrl) = await UpdateAppService.CheckForUpdateAsync(currentVersion);
-
-            if (isUpdateAvailable && !string.IsNullOrEmpty(downloadUrl))
-            {
-                var updateWindow = new UpdateAvailableWindow(downloadUrl);
-                updateWindow.ShowDialog();
-            }
+            return await UpdateAppService.CheckForUpdateAsync(currentVersion);
         }
     }
 }

@@ -135,7 +135,8 @@
                              VerticalAlignment="Center"
                              HorizontalAlignment="Center"
                              Focusable="True"
-                             IsTabStop="False"/>
+                             IsTabStop="False">
+                    </TextBox>
 
                     <TextBlock Text="Самое время начать переписку — просто отправьте сообщение."
                                MaxWidth="250"

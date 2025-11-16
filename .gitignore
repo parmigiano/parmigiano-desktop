@@ -24,6 +24,8 @@ bld/
 [Ll]ogs/
 
 SetupOutput/
+SetupOutput
+SetupOutput/*
 
 # .NET Core
 project.lock.json
