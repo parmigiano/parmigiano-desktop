@@ -7,7 +7,6 @@ using Parmigiano.Services;
 using Parmigiano.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -34,6 +33,8 @@ namespace Parmigiano.UI.Components
         private const int DebounceDelay = 500;
 
         private readonly Dictionary<string, string> _originalValues = new();
+
+        private bool _isSettingTextProgrammatically = false;
 
         private void TextBox_Loaded(object sender, RoutedEventArgs e)
         {
@@ -100,41 +101,110 @@ namespace Parmigiano.UI.Components
 
         public static async void ShowProfile()
         {
-            UserInfoModel user = await _userApi.GetUserMe();
+            if (_instance == null) return;
+
+            UserInfoModel? basicUser = AppSession.CurrentUser;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_instance == null) return;
 
-                _instance.DataContext = user;
+                _instance._isSettingTextProgrammatically = true;
 
-                if (!string.IsNullOrEmpty(user.Avatar))
+                if (basicUser != null)
                 {
-                    _imageUtilities.LoadImageAsync(user.Avatar, _instance.AvatarImage);
+                    _instance.DataContext = basicUser;
+
+                    _instance.OverviewTextBox.Text = basicUser.Overview ?? string.Empty;
+                    _instance.NameTextBox.Text = basicUser.Name ?? string.Empty;
+                    _instance.UsernameTextBox.Text = basicUser.Username ?? string.Empty;
+                    _instance.PhoneTextBox.Text = basicUser.Phone ?? string.Empty;
+                    _instance.EmailTextBox.Text = basicUser.Email ?? string.Empty;
+
+                    _instance.EmailToggle.IsChecked = basicUser.EmailVisible;
+                    _instance.UsernameToggle.IsChecked = basicUser.UsernameVisible;
+                    _instance.PhoneToggle.IsChecked = basicUser.PhoneVisible;
+
+                    _instance._originalValues["OverviewTextBox"] = basicUser.Overview ?? string.Empty;
+                    _instance._originalValues["NameTextBox"] = basicUser.Name ?? string.Empty;
+                    _instance._originalValues["UsernameTextBox"] = basicUser.Username ?? string.Empty;
+                    _instance._originalValues["PhoneTextBox"] = basicUser.Phone ?? string.Empty;
+                    _instance._originalValues["EmailTextBox"] = basicUser.Email ?? string.Empty;
+
+                    if (!string.IsNullOrEmpty(basicUser.Avatar))
+                    {
+                        _imageUtilities.LoadImageAsync(basicUser.Avatar, _instance.AvatarImage);
+                        _instance.InitialText.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        _instance.AvatarImage.ImageSource = null;
+                        _instance.InitialText.Visibility = Visibility.Visible;
+                        if (!string.IsNullOrEmpty(basicUser.Username))
+                        {
+                            _instance.InitialText.Text = basicUser.Username.Substring(0, 1).ToUpper();
+                        }
+                        else
+                        {
+                            _instance.InitialText.Text = "G";
+                        }
+                        _instance.AvatarCircle.Fill = new SolidColorBrush(GetColorFromName(basicUser.Username));
+                    }
+                }
+               
+                _instance.Visibility = Visibility.Visible;
+                var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(100)));
+                _instance.BeginAnimation(OpacityProperty, fadeIn);
+            });
+
+            _instance._isSettingTextProgrammatically = false;
+
+            UserInfoModel? fullUser = await _userApi.GetUserMe();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (_instance == null || fullUser == null) return;
+
+                _instance._isSettingTextProgrammatically = true;
+
+                _instance.DataContext = fullUser;
+
+                _instance.OverviewTextBox.Text = fullUser.Overview ?? string.Empty;
+                _instance.NameTextBox.Text = fullUser.Name ?? string.Empty;
+                _instance.UsernameTextBox.Text = fullUser.Username ?? string.Empty;
+                _instance.PhoneTextBox.Text = fullUser.Phone ?? string.Empty;
+                _instance.EmailTextBox.Text = fullUser.Email ?? string.Empty;
+
+                _instance.EmailToggle.IsChecked = fullUser.EmailVisible;
+                _instance.UsernameToggle.IsChecked = fullUser.UsernameVisible;
+                _instance.PhoneToggle.IsChecked = fullUser.PhoneVisible;
+
+                _instance._originalValues["OverviewTextBox"] = fullUser.Overview ?? string.Empty;
+                _instance._originalValues["NameTextBox"] = fullUser.Name ?? string.Empty;
+                _instance._originalValues["UsernameTextBox"] = fullUser.Username ?? string.Empty;
+                _instance._originalValues["PhoneTextBox"] = fullUser.Phone ?? string.Empty;
+                _instance._originalValues["EmailTextBox"] = fullUser.Email ?? string.Empty;
+
+                if (!string.IsNullOrEmpty(fullUser.Avatar))
+                {
+                    _imageUtilities.LoadImageAsync(fullUser.Avatar, _instance.AvatarImage);
                     _instance.InitialText.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
                     _instance.AvatarImage.ImageSource = null;
                     _instance.InitialText.Visibility = Visibility.Visible;
-
-                    if (!string.IsNullOrEmpty(user.Username))
+                    if (!string.IsNullOrEmpty(fullUser.Username))
                     {
-                        _instance.InitialText.Text = user.Username.Substring(0, 1).ToUpper();
+                        _instance.InitialText.Text = fullUser.Username.Substring(0, 1).ToUpper();
                     }
                     else
                     {
                         _instance.InitialText.Text = "G";
                     }
-
-                    _instance.AvatarCircle.Fill = new SolidColorBrush(GetColorFromName(user.Username));
+                    _instance.AvatarCircle.Fill = new SolidColorBrush(GetColorFromName(fullUser.Username));
                 }
-
-                _instance.Visibility = Visibility.Visible;
-
-                var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(100)));
-
-                _instance.BeginAnimation(OpacityProperty, fadeIn);
+                _instance._isSettingTextProgrammatically = false;
             });
         }
 
@@ -148,6 +218,7 @@ namespace Parmigiano.UI.Components
                 fadeOut.Completed += (s, e) =>
                 {
                     _instance.Visibility = Visibility.Collapsed;
+                    UserMeCard.Reload();
                 };
 
                 _instance.BeginAnimation(OpacityProperty, fadeOut);
@@ -192,7 +263,6 @@ namespace Parmigiano.UI.Components
                     bitmap.UriSource = new Uri(url);
                     bitmap.EndInit();
 
-                    // reload in UserMeCard
                     AppSession.CurrentUser.Avatar = url;
                     UserMeCard.Reload();
 
@@ -212,11 +282,18 @@ namespace Parmigiano.UI.Components
 
         private void Input_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (_isSettingTextProgrammatically) return;
+
             if (sender is not TextBox tb) return;
 
             string newText = tb.Text.Trim();
 
             if (string.IsNullOrEmpty(newText)) return;
+
+            if (this._originalValues.TryGetValue(tb.Name, out string? originalValue) && originalValue == newText)
+            {
+                return;
+            }
 
             if (this._debounceTimers.TryGetValue(tb.Name, out Timer existingTimer))
             {
@@ -243,7 +320,7 @@ namespace Parmigiano.UI.Components
                         Username = null,
                         UsernameVisible = null,
                         Email = null,
-                        EmailVisible = true,
+                        EmailVisible = null,
                         Phone = null,
                         PhoneVisible = null,
                         Password = null,
@@ -284,6 +361,7 @@ namespace Parmigiano.UI.Components
                     Application.Current.Dispatcher.Invoke(async () =>
                     {
                         await _userApi.UpdateUserProfile(model);
+                        this._originalValues[cachedName] = cachedValue;
                         UserMeCard.Reload();
                     });
                 }

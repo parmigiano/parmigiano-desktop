@@ -60,27 +60,50 @@ namespace Parmigiano.UI.Components
 
         public static async Task ShowProfile(ulong uid)
         {
-            UserInfoModel user = await _userApi.GetUserProfile(uid);
+            if (_instance == null) return;
 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (_instance == null) return;
+                _instance.UsernameText.Text = string.Empty;
+                _instance.NameText.Text = string.Empty;
+                _instance.OverviewText.Text = string.Empty;
+                _instance.EmailText.Text = string.Empty;
+                _instance.PhoneText.Text = string.Empty;
+
+                _instance.AvatarImage.ImageSource = null;
+                _instance.InitialText.Text = string.Empty;
+                _instance.AvatarCircle.Fill = new SolidColorBrush(Colors.Transparent);
+
+                _instance.Visibility = Visibility.Visible;
+                var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(100)));
+                _instance.BeginAnimation(OpacityProperty, fadeIn);
+            });
+
+            UserInfoModel user = await _userApi.GetUserProfile(uid);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (_instance == null || user == null) return;
 
                 _instance.DataContext = user;
+
+                _instance.UsernameText.Text = user.Username;
+                _instance.NameText.Text = user.Name;
+                _instance.OverviewText.Text = user.Overview; 
+                _instance.EmailText.Text = user.Email; 
+                _instance.PhoneText.Text = user.Phone; 
 
                 if (!string.IsNullOrEmpty(user.Avatar))
                 {
                     _imageUtilities.LoadImageAsync(user.Avatar, _instance.AvatarImage);
-
                     _instance.AvatarCircle.Fill = _instance.AvatarImage;
-
                     _instance.InitialText.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
                     _instance.AvatarImage.ImageSource = null;
                     _instance.InitialText.Visibility = Visibility.Visible;
-
                     if (!string.IsNullOrEmpty(user.Username))
                     {
                         _instance.InitialText.Text = user.Username.Substring(0, 1).ToUpper();
@@ -89,15 +112,8 @@ namespace Parmigiano.UI.Components
                     {
                         _instance.InitialText.Text = "G";
                     }
-
                     _instance.AvatarCircle.Fill = new SolidColorBrush(GetColorFromName(user.Username));
                 }
-
-                _instance.Visibility = Visibility.Visible;
-
-                var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(100)));
-
-                _instance.BeginAnimation(OpacityProperty, fadeIn);
             });
         }
 

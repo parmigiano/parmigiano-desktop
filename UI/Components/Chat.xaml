@@ -62,7 +62,7 @@
                       Grid.Row="1" Margin="0,0,0,45" Grid.RowSpan="2">
 
             <ScrollViewer.Background>
-                <VisualBrush Opacity="0.07" Stretch="UniformToFill">
+                <VisualBrush Opacity="0.085" Stretch="UniformToFill">
                     <VisualBrush.Visual>
                         <Grid>
                             <Grid.ColumnDefinitions>

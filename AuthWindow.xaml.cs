@@ -13,6 +13,7 @@ namespace Parmigiano
     public partial class AuthWindow : Window
     {
         private readonly IUserConfigRepository _userConfig = new UserConfigRepository();
+        private readonly IUserApiRepository _userApi = new UserApiRepository();
         private readonly IAuthApiRepository _authApi = new AuthApiRepository();
 
         private string _registerButtonText = "Создать аккаунт";
@@ -129,6 +130,8 @@ namespace Parmigiano
                 {
                     this._userConfig.Set("access_token", result);
 
+                    _ = await this._userApi.GetUserMe();
+
                     var emailConfirmWindow = new EmailConfirmedWindow();
                     emailConfirmWindow.Show();
 
@@ -164,6 +167,8 @@ namespace Parmigiano
                 if (!string.IsNullOrEmpty(result))
                 {
                     this._userConfig.Set("access_token", result);
+
+                    _ = await this._userApi.GetUserMe();
 
                     var mainWindow = new MainWindow();
                     mainWindow.Show();
