@@ -37,40 +37,38 @@ namespace ResponseStruct {
             "bWVzc2FnZV9pZBgCIAEoBCKJAQoRQ2xpZW50RWRpdE1lc3NhZ2USEgoKbWVz",
             "c2FnZV9pZBgBIAEoBBIPCgdjaGF0X2lkGAIgASgEEhIKCnNlbmRlcl91aWQY",
             "AyABKAQSDwoHY29udGVudBgEIAEoCRIUCgxjb250ZW50X3R5cGUYBSABKAkS",
-            "FAoMZGVsaXZlcmVkX2F0GAYgASgJIogBChBDbGllbnRQaW5NZXNzYWdlEhIK",
-            "Cm1lc3NhZ2VfaWQYASABKAQSDwoHY2hhdF9pZBgCIAEoBBISCgpzZW5kZXJf",
-            "dWlkGAMgASgEEg8KB2NvbnRlbnQYBCABKAkSFAoMY29udGVudF90eXBlGAUg",
-            "ASgJEhQKDGRlbGl2ZXJlZF9hdBgGIAEoCSI6ChNDbGllbnREZWxldGVNZXNz",
-            "YWdlEg8KB2NoYXRfaWQYASABKAQSEgoKbWVzc2FnZV9pZBgCIAEoBCI7ChlD",
-            "bGllbnRVbnJlYWRNZXNzYWdlc0NvdW50Eg8KB2NoYXRfaWQYASABKAQSDQoF",
-            "Y291bnQYAiABKAUixwEKE0Rpc2Nvbm5lY3ROb3RpZnlpbmcSNwoEdHlwZRgB",
-            "IAEoDjIpLlJlc3BvbnNlU3RydWN0LkRpc2Nvbm5lY3ROb3RpZnlpbmcudHlw",
-            "ZXMSEwoLZGVzY3JpcHRpb24YAiABKAkSDAoEY29kZRgDIAEoBSJUCgV0eXBl",
-            "cxILCgd1bmtub3duEAASCAoEd2FybhABEgkKBWVycm9yEAISCwoHdGVtcEJh",
-            "bhADEgwKCGluYWN0aXZlEAQSDgoKbGl0dGxlSW5mbxAFIqMCCgxSZXNwb25z",
-            "ZUluZm8SMAoEdHlwZRgBIAEoDjIiLlJlc3BvbnNlU3RydWN0LlJlc3BvbnNl",
-            "SW5mby50eXBlcyLgAQoFdHlwZXMSCwoHdW5rbm93bhAAEhUKEWZpbGVfaGFz",
-            "aF9yZXF1ZXN0EAESEQoNZG93bmxvYWRfZmlsZRACEhAKDHNlbmRfbWVzc2Fn",
-            "ZRADEhAKDHJlYWRfbWVzc2FnZRAEEhAKDGVkaXRfbWVzc2FnZRAFEg8KC3Bp",
-            "bl9tZXNzYWdlEAYSEgoOZGVsZXRlX21lc3NhZ2UQBxIPCgt1c2VyX3R5cGlu",
-            "ZxAIEhYKEnVzZXJfb25saW5lX3N0YXR1cxAJEhwKGGdldF91bnJlYWRfbWVz",
-            "c2FnZV9jb3VudBAKIroFCghSZXNwb25zZRIyCgxyZXNwb25zZUluZm8YASAB",
-            "KAsyHC5SZXNwb25zZVN0cnVjdC5SZXNwb25zZUluZm8SQAoTZGlzY29ubmVj",
-            "dE5vdGlmeWluZxgCIAEoCzIjLlJlc3BvbnNlU3RydWN0LkRpc2Nvbm5lY3RO",
-            "b3RpZnlpbmcSKgoIZmlsZUluZm8YAyADKAsyGC5SZXNwb25zZVN0cnVjdC5G",
-            "aWxlSW5mbxIoCgdkaXJJbmZvGAQgAygLMhcuUmVzcG9uc2VTdHJ1Y3QuRGly",
-            "SW5mbxI8ChFuYW1lT2ZNYWluRXhlRmlsZRgFIAEoCzIhLlJlc3BvbnNlU3Ry",
-            "dWN0Lk5hbWVPZk1haW5FeGVGaWxlEjgKDGNsaWVudEFjdGl2ZRgGIAEoCzIi",
-            "LlJlc3BvbnNlU3RydWN0LkNsaWVudEFjdGl2ZVBhY2tldBIyCgxjbGllbnRU",
-            "eXBpbmcYByABKAsyHC5SZXNwb25zZVN0cnVjdC5DbGllbnRUeXBpbmcSPAoR",
-            "Y2xpZW50U2VuZE1lc3NhZ2UYCCABKAsyIS5SZXNwb25zZVN0cnVjdC5DbGll",
-            "bnRTZW5kTWVzc2FnZRI8ChFjbGllbnRSZWFkTWVzc2FnZRgJIAEoCzIhLlJl",
-            "c3BvbnNlU3RydWN0LkNsaWVudFJlYWRNZXNzYWdlEjwKEWNsaWVudEVkaXRN",
-            "ZXNzYWdlGAogASgLMiEuUmVzcG9uc2VTdHJ1Y3QuQ2xpZW50RWRpdE1lc3Nh",
-            "Z2USQAoTY2xpZW50RGVsZXRlTWVzc2FnZRgLIAEoCzIjLlJlc3BvbnNlU3Ry",
-            "dWN0LkNsaWVudERlbGV0ZU1lc3NhZ2USOgoQY2xpZW50UGluTWVzc2FnZRgM",
-            "IAEoCzIgLlJlc3BvbnNlU3RydWN0LkNsaWVudFBpbk1lc3NhZ2ViBnByb3Rv",
-            "Mw=="));
+            "FAoMZGVsaXZlcmVkX2F0GAYgASgJIkQKEENsaWVudFBpbk1lc3NhZ2USCwoD",
+            "dWlkGAEgASgEEg8KB2NoYXRfaWQYAiABKAQSEgoKbWVzc2FnZV9pZBgDIAEo",
+            "BCI6ChNDbGllbnREZWxldGVNZXNzYWdlEg8KB2NoYXRfaWQYASABKAQSEgoK",
+            "bWVzc2FnZV9pZBgCIAEoBCI7ChlDbGllbnRVbnJlYWRNZXNzYWdlc0NvdW50",
+            "Eg8KB2NoYXRfaWQYASABKAQSDQoFY291bnQYAiABKAUixwEKE0Rpc2Nvbm5l",
+            "Y3ROb3RpZnlpbmcSNwoEdHlwZRgBIAEoDjIpLlJlc3BvbnNlU3RydWN0LkRp",
+            "c2Nvbm5lY3ROb3RpZnlpbmcudHlwZXMSEwoLZGVzY3JpcHRpb24YAiABKAkS",
+            "DAoEY29kZRgDIAEoBSJUCgV0eXBlcxILCgd1bmtub3duEAASCAoEd2FybhAB",
+            "EgkKBWVycm9yEAISCwoHdGVtcEJhbhADEgwKCGluYWN0aXZlEAQSDgoKbGl0",
+            "dGxlSW5mbxAFIqMCCgxSZXNwb25zZUluZm8SMAoEdHlwZRgBIAEoDjIiLlJl",
+            "c3BvbnNlU3RydWN0LlJlc3BvbnNlSW5mby50eXBlcyLgAQoFdHlwZXMSCwoH",
+            "dW5rbm93bhAAEhUKEWZpbGVfaGFzaF9yZXF1ZXN0EAESEQoNZG93bmxvYWRf",
+            "ZmlsZRACEhAKDHNlbmRfbWVzc2FnZRADEhAKDHJlYWRfbWVzc2FnZRAEEhAK",
+            "DGVkaXRfbWVzc2FnZRAFEg8KC3Bpbl9tZXNzYWdlEAYSEgoOZGVsZXRlX21l",
+            "c3NhZ2UQBxIPCgt1c2VyX3R5cGluZxAIEhYKEnVzZXJfb25saW5lX3N0YXR1",
+            "cxAJEhwKGGdldF91bnJlYWRfbWVzc2FnZV9jb3VudBAKIroFCghSZXNwb25z",
+            "ZRIyCgxyZXNwb25zZUluZm8YASABKAsyHC5SZXNwb25zZVN0cnVjdC5SZXNw",
+            "b25zZUluZm8SQAoTZGlzY29ubmVjdE5vdGlmeWluZxgCIAEoCzIjLlJlc3Bv",
+            "bnNlU3RydWN0LkRpc2Nvbm5lY3ROb3RpZnlpbmcSKgoIZmlsZUluZm8YAyAD",
+            "KAsyGC5SZXNwb25zZVN0cnVjdC5GaWxlSW5mbxIoCgdkaXJJbmZvGAQgAygL",
+            "MhcuUmVzcG9uc2VTdHJ1Y3QuRGlySW5mbxI8ChFuYW1lT2ZNYWluRXhlRmls",
+            "ZRgFIAEoCzIhLlJlc3BvbnNlU3RydWN0Lk5hbWVPZk1haW5FeGVGaWxlEjgK",
+            "DGNsaWVudEFjdGl2ZRgGIAEoCzIiLlJlc3BvbnNlU3RydWN0LkNsaWVudEFj",
+            "dGl2ZVBhY2tldBIyCgxjbGllbnRUeXBpbmcYByABKAsyHC5SZXNwb25zZVN0",
+            "cnVjdC5DbGllbnRUeXBpbmcSPAoRY2xpZW50U2VuZE1lc3NhZ2UYCCABKAsy",
+            "IS5SZXNwb25zZVN0cnVjdC5DbGllbnRTZW5kTWVzc2FnZRI8ChFjbGllbnRS",
+            "ZWFkTWVzc2FnZRgJIAEoCzIhLlJlc3BvbnNlU3RydWN0LkNsaWVudFJlYWRN",
+            "ZXNzYWdlEjwKEWNsaWVudEVkaXRNZXNzYWdlGAogASgLMiEuUmVzcG9uc2VT",
+            "dHJ1Y3QuQ2xpZW50RWRpdE1lc3NhZ2USQAoTY2xpZW50RGVsZXRlTWVzc2Fn",
+            "ZRgLIAEoCzIjLlJlc3BvbnNlU3RydWN0LkNsaWVudERlbGV0ZU1lc3NhZ2US",
+            "OgoQY2xpZW50UGluTWVzc2FnZRgMIAEoCzIgLlJlc3BvbnNlU3RydWN0LkNs",
+            "aWVudFBpbk1lc3NhZ2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -82,7 +80,7 @@ namespace ResponseStruct {
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientSendMessage), global::ResponseStruct.ClientSendMessage.Parser, new[]{ "MessageId", "ChatId", "SenderUid", "Content", "ContentType", "DeliveredAt" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientReadMessage), global::ResponseStruct.ClientReadMessage.Parser, new[]{ "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientEditMessage), global::ResponseStruct.ClientEditMessage.Parser, new[]{ "MessageId", "ChatId", "SenderUid", "Content", "ContentType", "DeliveredAt" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientPinMessage), global::ResponseStruct.ClientPinMessage.Parser, new[]{ "MessageId", "ChatId", "SenderUid", "Content", "ContentType", "DeliveredAt" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientPinMessage), global::ResponseStruct.ClientPinMessage.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientDeleteMessage), global::ResponseStruct.ClientDeleteMessage.Parser, new[]{ "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientUnreadMessagesCount), global::ResponseStruct.ClientUnreadMessagesCount.Parser, new[]{ "ChatId", "Count" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.DisconnectNotifying), global::ResponseStruct.DisconnectNotifying.Parser, new[]{ "Type", "Description", "Code" }, null, new[]{ typeof(global::ResponseStruct.DisconnectNotifying.Types.types) }, null, null),
@@ -2380,12 +2378,9 @@ namespace ResponseStruct {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ClientPinMessage(ClientPinMessage other) : this() {
-      messageId_ = other.messageId_;
+      uid_ = other.uid_;
       chatId_ = other.chatId_;
-      senderUid_ = other.senderUid_;
-      content_ = other.content_;
-      contentType_ = other.contentType_;
-      deliveredAt_ = other.deliveredAt_;
+      messageId_ = other.messageId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2395,18 +2390,18 @@ namespace ResponseStruct {
       return new ClientPinMessage(this);
     }
 
-    /// <summary>Field number for the "message_id" field.</summary>
-    public const int MessageIdFieldNumber = 1;
-    private ulong messageId_;
+    /// <summary>Field number for the "uid" field.</summary>
+    public const int UidFieldNumber = 1;
+    private ulong uid_;
     /// <summary>
-    /// message id
+    /// ìîé uid
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong MessageId {
-      get { return messageId_; }
+    public ulong Uid {
+      get { return uid_; }
       set {
-        messageId_ = value;
+        uid_ = value;
       }
     }
 
@@ -2414,7 +2409,7 @@ namespace ResponseStruct {
     public const int ChatIdFieldNumber = 2;
     private ulong chatId_;
     /// <summary>
-    /// chaaaaaaatik
+    /// â êàêîì ÷àòå
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2425,63 +2420,18 @@ namespace ResponseStruct {
       }
     }
 
-    /// <summary>Field number for the "sender_uid" field.</summary>
-    public const int SenderUidFieldNumber = 3;
-    private ulong senderUid_;
+    /// <summary>Field number for the "message_id" field.</summary>
+    public const int MessageIdFieldNumber = 3;
+    private ulong messageId_;
     /// <summary>
-    /// id of message sender
+    /// id çàêðåïëåííîãî ñîîáùåíèÿ
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong SenderUid {
-      get { return senderUid_; }
+    public ulong MessageId {
+      get { return messageId_; }
       set {
-        senderUid_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "content" field.</summary>
-    public const int ContentFieldNumber = 4;
-    private string content_ = "";
-    /// <summary>
-    /// text of the message
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Content {
-      get { return content_; }
-      set {
-        content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "content_type" field.</summary>
-    public const int ContentTypeFieldNumber = 5;
-    private string contentType_ = "";
-    /// <summary>
-    /// type of the message 'text', 'media', ...
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string ContentType {
-      get { return contentType_; }
-      set {
-        contentType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "delivered_at" field.</summary>
-    public const int DeliveredAtFieldNumber = 6;
-    private string deliveredAt_ = "";
-    /// <summary>
-    /// time of delivered message
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string DeliveredAt {
-      get { return deliveredAt_; }
-      set {
-        deliveredAt_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        messageId_ = value;
       }
     }
 
@@ -2500,12 +2450,9 @@ namespace ResponseStruct {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (MessageId != other.MessageId) return false;
+      if (Uid != other.Uid) return false;
       if (ChatId != other.ChatId) return false;
-      if (SenderUid != other.SenderUid) return false;
-      if (Content != other.Content) return false;
-      if (ContentType != other.ContentType) return false;
-      if (DeliveredAt != other.DeliveredAt) return false;
+      if (MessageId != other.MessageId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2513,12 +2460,9 @@ namespace ResponseStruct {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (MessageId != 0UL) hash ^= MessageId.GetHashCode();
+      if (Uid != 0UL) hash ^= Uid.GetHashCode();
       if (ChatId != 0UL) hash ^= ChatId.GetHashCode();
-      if (SenderUid != 0UL) hash ^= SenderUid.GetHashCode();
-      if (Content.Length != 0) hash ^= Content.GetHashCode();
-      if (ContentType.Length != 0) hash ^= ContentType.GetHashCode();
-      if (DeliveredAt.Length != 0) hash ^= DeliveredAt.GetHashCode();
+      if (MessageId != 0UL) hash ^= MessageId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2537,29 +2481,17 @@ namespace ResponseStruct {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (MessageId != 0UL) {
+      if (Uid != 0UL) {
         output.WriteRawTag(8);
-        output.WriteUInt64(MessageId);
+        output.WriteUInt64(Uid);
       }
       if (ChatId != 0UL) {
         output.WriteRawTag(16);
         output.WriteUInt64(ChatId);
       }
-      if (SenderUid != 0UL) {
+      if (MessageId != 0UL) {
         output.WriteRawTag(24);
-        output.WriteUInt64(SenderUid);
-      }
-      if (Content.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Content);
-      }
-      if (ContentType.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(ContentType);
-      }
-      if (DeliveredAt.Length != 0) {
-        output.WriteRawTag(50);
-        output.WriteString(DeliveredAt);
+        output.WriteUInt64(MessageId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2571,29 +2503,17 @@ namespace ResponseStruct {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (MessageId != 0UL) {
+      if (Uid != 0UL) {
         output.WriteRawTag(8);
-        output.WriteUInt64(MessageId);
+        output.WriteUInt64(Uid);
       }
       if (ChatId != 0UL) {
         output.WriteRawTag(16);
         output.WriteUInt64(ChatId);
       }
-      if (SenderUid != 0UL) {
+      if (MessageId != 0UL) {
         output.WriteRawTag(24);
-        output.WriteUInt64(SenderUid);
-      }
-      if (Content.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Content);
-      }
-      if (ContentType.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(ContentType);
-      }
-      if (DeliveredAt.Length != 0) {
-        output.WriteRawTag(50);
-        output.WriteString(DeliveredAt);
+        output.WriteUInt64(MessageId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -2605,23 +2525,14 @@ namespace ResponseStruct {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (MessageId != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(MessageId);
+      if (Uid != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Uid);
       }
       if (ChatId != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ChatId);
       }
-      if (SenderUid != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(SenderUid);
-      }
-      if (Content.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
-      }
-      if (ContentType.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentType);
-      }
-      if (DeliveredAt.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(DeliveredAt);
+      if (MessageId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(MessageId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2635,23 +2546,14 @@ namespace ResponseStruct {
       if (other == null) {
         return;
       }
-      if (other.MessageId != 0UL) {
-        MessageId = other.MessageId;
+      if (other.Uid != 0UL) {
+        Uid = other.Uid;
       }
       if (other.ChatId != 0UL) {
         ChatId = other.ChatId;
       }
-      if (other.SenderUid != 0UL) {
-        SenderUid = other.SenderUid;
-      }
-      if (other.Content.Length != 0) {
-        Content = other.Content;
-      }
-      if (other.ContentType.Length != 0) {
-        ContentType = other.ContentType;
-      }
-      if (other.DeliveredAt.Length != 0) {
-        DeliveredAt = other.DeliveredAt;
+      if (other.MessageId != 0UL) {
+        MessageId = other.MessageId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2673,7 +2575,7 @@ namespace ResponseStruct {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            MessageId = input.ReadUInt64();
+            Uid = input.ReadUInt64();
             break;
           }
           case 16: {
@@ -2681,19 +2583,7 @@ namespace ResponseStruct {
             break;
           }
           case 24: {
-            SenderUid = input.ReadUInt64();
-            break;
-          }
-          case 34: {
-            Content = input.ReadString();
-            break;
-          }
-          case 42: {
-            ContentType = input.ReadString();
-            break;
-          }
-          case 50: {
-            DeliveredAt = input.ReadString();
+            MessageId = input.ReadUInt64();
             break;
           }
         }
@@ -2716,7 +2606,7 @@ namespace ResponseStruct {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            MessageId = input.ReadUInt64();
+            Uid = input.ReadUInt64();
             break;
           }
           case 16: {
@@ -2724,19 +2614,7 @@ namespace ResponseStruct {
             break;
           }
           case 24: {
-            SenderUid = input.ReadUInt64();
-            break;
-          }
-          case 34: {
-            Content = input.ReadString();
-            break;
-          }
-          case 42: {
-            ContentType = input.ReadString();
-            break;
-          }
-          case 50: {
-            DeliveredAt = input.ReadString();
+            MessageId = input.ReadUInt64();
             break;
           }
         }

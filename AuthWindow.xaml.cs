@@ -130,8 +130,6 @@ namespace Parmigiano
                 {
                     this._userConfig.Set("access_token", result);
 
-                    _ = await this._userApi.GetUserMe();
-
                     var emailConfirmWindow = new EmailConfirmedWindow();
                     emailConfirmWindow.Show();
 
@@ -167,8 +165,6 @@ namespace Parmigiano
                 if (!string.IsNullOrEmpty(result))
                 {
                     this._userConfig.Set("access_token", result);
-
-                    _ = await this._userApi.GetUserMe();
 
                     var mainWindow = new MainWindow();
                     mainWindow.Show();

@@ -36,6 +36,11 @@ namespace Parmigiano.Services
 
                 Logger.Tcp($"[INFO] TCP client connected to {Config.Current.TCP_SERVER_ADDR}:{Config.Current.TCP_SERVER_PORT}");
 
+                if (this.IsConnected)
+                {
+                    await TcpSendPacketsService.SendOnlinePacketAsync(AppSession.CurrentUser.UserUid, true);
+                }
+
                 _ = Task.Run(() => this.ListenAsync(this._cts.Token));
             }
             catch (Exception ex)

@@ -15,7 +15,7 @@ message DirInfo {
 }
 
 message NameOfMainExeFile {
-	string name = 1;
+	string name = 1; 
 }
 
 // client online/offline status
@@ -71,12 +71,9 @@ message ClientEditMessage {
 
 // client pin message
 message ClientPinMessage {
-	uint64 message_id = 1; // message id
-    uint64 chat_id = 2; // chaaaaaaatik
-    uint64 sender_uid = 3; // id of message sender
-	string content = 4; // text of the message
-	string content_type = 5; // type of the message 'text', 'media', ...
-	string delivered_at = 6; // time of delivered message
+	uint64 uid = 1; // ìîé uid
+    uint64 chat_id = 2; // â êàêîì ÷àòå
+	uint64 message_id = 3; // id çàêðåïëåííîãî ñîîáùåíèÿ
 }
 
 // client delete message
@@ -129,12 +126,12 @@ message ResponseInfo {
 message Response {
 	// PERMANENT NECESSARY FIELDS
 	ResponseInfo responseInfo = 1; // important field of request info
-
+	
 	// OPTIONAL UPDATE FIELDS
 	DisconnectNotifying disconnectNotifying = 2;
 
 	// usage while checking update and updating
-	repeated FileInfo fileInfo = 3;
+	repeated FileInfo fileInfo = 3; 
 	repeated DirInfo dirInfo = 4;
 	NameOfMainExeFile nameOfMainExeFile = 5;
 

@@ -52,7 +52,7 @@ namespace Parmigiano.Core
         #endif
 
         [Newtonsoft.Json.JsonProperty("TCP_SERVER_ADDR")]
-        public string TCP_SERVER_ADDR { get; set; } = "77.222.54.211";
+        public string TCP_SERVER_ADDR { get; set; } = "62.16.41.188"; // 77.222.54.211
 
         [Newtonsoft.Json.JsonProperty("TCP_SERVER_PORT")]
         public short TCP_SERVER_PORT = 5462;
