@@ -26,15 +26,17 @@ namespace Parmigiano.Services
 
         #region PACKET UserStatus
 
-        public static async Task SendOnlinePacketAsync(ulong uid, bool online)
+        public static async Task SendOnlinePacketAsync(bool online)
         {
+            var uid = AppSession.CurrentUser?.UserUid ?? 0UL;
+
             if (!ConnectionService.Instance.IsConnectedTcp)
             {
                 Logger.Tcp("SendOnlinePacketAsync: TCP not connected");
                 return;
             }
 
-            var req = CreateBase(RequestInfo.Types.requestTypes.UserOnlineStatus);
+            var req = CreateBase(RequestInfo.Types.requestTypes.UserActivePacket);
             req.ClientActivePacket = new ClientActivePacket
             {
                 Uid = uid,

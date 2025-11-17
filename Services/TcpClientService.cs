@@ -38,7 +38,7 @@ namespace Parmigiano.Services
 
                 if (this.IsConnected)
                 {
-                    await TcpSendPacketsService.SendOnlinePacketAsync(AppSession.CurrentUser.UserUid, true);
+                    await TcpSendPacketsService.SendOnlinePacketAsync(true);
                 }
 
                 _ = Task.Run(() => this.ListenAsync(this._cts.Token));

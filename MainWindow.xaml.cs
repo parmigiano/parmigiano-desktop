@@ -178,7 +178,7 @@ namespace Parmigiano
         {
             bool userOnline = this.WindowState != WindowState.Minimized;
 
-            await TcpSendPacketsService.SendOnlinePacketAsync(AppSession.CurrentUser.UserUid, userOnline);
+            await TcpSendPacketsService.SendOnlinePacketAsync(userOnline);
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
