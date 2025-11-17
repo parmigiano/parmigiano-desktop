@@ -54,7 +54,9 @@ namespace Parmigiano
             InitializeComponent();
 
             DataContext = this;
+
             this.StateChanged += MainWindow_StateChanged;
+            this._lastWindowState = this.WindowState;
 
             UsersListControl.UserSelected += OnUserSelected;
 
@@ -178,9 +180,14 @@ namespace Parmigiano
 
         private async void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            bool userOnline = this.WindowState != WindowState.Minimized;
+            bool currentOnline = this.WindowState != WindowState.Minimized;
+            bool lastOnline = this._lastWindowState != WindowState.Minimized;
 
-            await TcpSendPacketsService.SendOnlinePacketAsync(userOnline);
+            if (currentOnline != lastOnline)
+            {
+                await TcpSendPacketsService.SendOnlinePacketAsync(currentOnline);
+            }
+            this._lastWindowState = this.WindowState;
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
