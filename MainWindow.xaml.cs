@@ -18,6 +18,8 @@ namespace Parmigiano
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private WindowState _lastWindowState;
+
         private readonly IUserApiRepository _userApi = new UserApiRepository();
         private readonly IUserConfigRepository _userConfig = new UserConfigRepository();
 

@@ -3,9 +3,9 @@
 
 #define AppId "{{A4C5B89C-92D3-4AF9-BE3E-74B3D0C31402}}"
 #define AppName "Parmigiano"
-#define AppVersion "0.8.0"
-#define AlphaVersion "1"
-#define AppDisplayName "Parmigiano Chat v0.8.0"
+#define AppVersion "0.9.0"
+#define AlphaVersion "2"
+#define AppDisplayName "Parmigiano Chat v0.9.0"
 #define AppPublisher "Parmigiano"
 #define OutputDir "SetupOutput"
 #define ResourcesDir "Public\assets"
