@@ -110,7 +110,7 @@ namespace Parmigiano.Services
                 byte[] body = ms.ToArray();
 
                 int length = body.Length;
-                byte[] lengthBytes = new byte[4];
+                byte[] lengthBytes = BitConverter.GetBytes(length);
 
                 if (BitConverter.IsLittleEndian)
                 {
