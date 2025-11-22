@@ -5,83 +5,79 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Parmigiano.UI.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="80" d:DesignWidth="300">
+             d:DesignHeight="60" d:DesignWidth="700">
 
-    <Grid Margin="10" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+    <Border Background="{StaticResource SecondaryBackgroundBrush}" Padding="20,10" BorderBrush="#222" BorderThickness="0,0,0,1">
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal" 
-                    VerticalAlignment="Center" 
-                    Grid.Column="0" 
-                    MouseLeftButtonUp="UserProfile_MouseLeftButtonUp" 
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="pack://application:,,,/Public/assets/logo-bg-x250.png"
+                       MaxWidth="25"/>
+
+                <TextBlock Text="Parmigiano Chat"
+                           Foreground="#fff"
+                           FontWeight="Medium"
+                           Margin="10,0,0,0"
+                           FontSize="17"/>
+            </StackPanel>
+
+            <Image Source="pack://application:,,,/Public/ico/log-out.png"
+                    Grid.Column="1"
+                    MaxWidth="16"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,30,0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
                     Cursor="Hand"
-                    Background="Transparent">
-            <Grid Width="52" Height="52">
-                <Ellipse x:Name="AvatarCircle" RenderOptions.BitmapScalingMode="HighQuality">
-                    <Ellipse.Fill>
-                        <ImageBrush x:Name="AvatarImage" Stretch="UniformToFill"/>
-                    </Ellipse.Fill>
-                </Ellipse>
+                    MouseLeftButtonUp="Logout_MouseLeftButtonUp">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
 
-                <TextBlock x:Name="InitialText"
-                           Visibility="Collapsed"
-                           Foreground="White"
-                           FontWeight="Bold"
-                           FontSize="20"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Right"
+                        Grid.Column="2" 
+                        MouseLeftButtonUp="UserProfile_MouseLeftButtonUp" 
+                        Cursor="Hand"
+                        Background="Transparent">
 
-                <Rectangle x:Name="HoverOverlay"
-                           Fill="Black"
-                           Opacity="0"
-                           RadiusX="26"
-                           RadiusY="26"/>
-            </Grid>
+                <Grid Width="40" Height="40">
+                    <Ellipse x:Name="AvatarCircle" RenderOptions.BitmapScalingMode="HighQuality">
+                        <Ellipse.Fill>
+                            <ImageBrush x:Name="AvatarImage" Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
 
-            <Grid Margin="15,0,0,0" VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                
-                <TextBlock Grid.Row="0"
-                           x:Name="NameText"
-                           VerticalAlignment="Center"
-                           Foreground="White"
-                           FontWeight="SemiBold"
-                           FontSize="16"
-                           Margin="0,0,0,0"/>
+                    <TextBlock x:Name="InitialText"
+                                Visibility="Collapsed"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                FontSize="17"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
 
-                <TextBlock Grid.Row="1"
-                           x:Name="UsernameText"
-                           VerticalAlignment="Center"
-                           Foreground="#999"
-                           FontWeight="Normal"
-                           FontSize="13"
-                           Margin="0,2,0,0"/>
-            </Grid>
-        </StackPanel>
+                    <Rectangle x:Name="HoverOverlay"
+                               Fill="Black"
+                               Opacity="0"
+                               RadiusX="26"
+                               RadiusY="26"/>
+                </Grid>
 
-        <Image Source="pack://application:,,,/Public/ico/log-out.png"
-               Grid.Column="1"
-               MaxWidth="16"
-               VerticalAlignment="Center"
-               RenderOptions.BitmapScalingMode="HighQuality"
-               Cursor="Hand"
-               MouseLeftButtonUp="Logout_MouseLeftButtonUp">
-            <Image.Style>
-                <Style TargetType="Image">
-                    <Setter Property="Opacity" Value="1"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Opacity" Value="0.6"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
-        </Image>
-    </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>

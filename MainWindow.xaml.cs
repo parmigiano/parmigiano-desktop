@@ -57,6 +57,9 @@ namespace Parmigiano
 
             this.StateChanged += MainWindow_StateChanged;
             this._lastWindowState = this.WindowState;
+            
+            this.Activated += MainWindow_Activated;
+            this.Deactivated += MainWindow_Deactivated;
 
             UsersListControl.UserSelected += OnUserSelected;
 
@@ -217,6 +220,22 @@ namespace Parmigiano
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async void MainWindow_Activated(object sender, EventArgs e)
+        {
+            if (this.WindowState != WindowState.Minimized)
+            {
+                await TcpSendPacketsService.SendOnlinePacketAsync(true);
+            }
+        }
+
+        private async void MainWindow_Deactivated(object sender, EventArgs e)
+        {
+            if (this.WindowState != WindowState.Minimized)
+            {
+                await TcpSendPacketsService.SendOnlinePacketAsync(false);
+            }
         }
     }
 }

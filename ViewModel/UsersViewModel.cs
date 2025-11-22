@@ -125,19 +125,26 @@ namespace Parmigiano.ViewModel
         {
             try
             {
-                if (response?.ClientActive == null) return;
-
-                ulong uid = response.ClientActive.Uid;
-                bool online = response.ClientActive.Online;
-
-                var user = Users.FirstOrDefault(u => u.UserUid == uid);
-                if (user == null) return;
-
-                Application.Current.Dispatcher.Invoke(() =>
+                switch (response)
                 {
-                    user.Online = online;
-                    user.LastOnlineDate = DateTime.Now;
-                });
+                    // client active packet
+                    case { ClientActive: not null }:
+                        if (response?.ClientActive == null) return;
+
+                        ulong uid = response.ClientActive.Uid;
+                        bool online = response.ClientActive.Online;
+
+                        var user = Users.FirstOrDefault(u => u.UserUid == uid);
+                        if (user == null) return;
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            user.Online = online;
+                            user.LastOnlineDate = DateTime.Now;
+                        });
+
+                        break;
+                }
             }
             catch (Exception ex)
             {

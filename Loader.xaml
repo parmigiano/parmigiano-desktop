@@ -13,31 +13,43 @@
         AllowsTransparency="True"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Background="Transparent">
+        Background="#000">
 
-    <Border CornerRadius="10" Background="#000">
+    <Border CornerRadius="10">
+        <Border.Background>
+            <VisualBrush Opacity="0.1" Stretch="UniformToFill">
+                <VisualBrush.Visual>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0"
+                           Source="pack://application:,,,/Public/assets/chat-bg-1.png"
+                           Stretch="UniformToFill"/>
+                        <Image Grid.Column="1"
+                           Source="pack://application:,,,/Public/assets/chat-bg-1.png"
+                           Stretch="UniformToFill"/>
+                    </Grid>
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Border.Background>
+
         <Grid>
             <!-- Notification Toast-->
             <components:Notification x:Name="Notification" Grid.ColumnSpan="2" Panel.ZIndex="10000" />
             
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image Source="pack://application:,,,/Public/assets/logo-bg-none.png" MaxWidth="100" RenderOptions.BitmapScalingMode="HighQuality" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="pack://application:,,,/Public/assets/logo-bg-none.png" MaxWidth="100" RenderOptions.BitmapScalingMode="HighQuality" />
 
-                <Ellipse Width="25" Height="25" Stroke="#fff" StrokeThickness="4" StrokeDashArray="10 78" RenderTransformOrigin="0.5 0.5" Margin="0 50 0 20">
-                    <Ellipse.RenderTransform>
-                        <RotateTransform x:Name="Rotation" Angle="0" />
-                    </Ellipse.RenderTransform>
-
-                    <Ellipse.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard>
-                                <Storyboard RepeatBehavior="Forever">
-                                    <DoubleAnimation Storyboard.TargetName="Rotation" Storyboard.TargetProperty="Angle" From="0" To="360" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Ellipse.Triggers>
-                </Ellipse>
+                    <TextBlock Text="Parmigiano Chat"
+                               Foreground="#fff"
+                               FontWeight="Bold"
+                               Margin="20,0,0,0"
+                               FontSize="67"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Border>

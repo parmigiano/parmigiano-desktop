@@ -1,4 +1,5 @@
-﻿using Parmigiano.Interface;
+﻿using Parmigiano.Core;
+using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
@@ -36,7 +37,7 @@ namespace Parmigiano
                 return;
             }
 
-            string? userData = this._userConfig.GetString("access_token");
+            string? userData = this._userConfig.GetString(UserConfigState.AUTH_SESSION_ID);
 
             try
             {

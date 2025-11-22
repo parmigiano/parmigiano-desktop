@@ -51,9 +51,6 @@ namespace Parmigiano.UI.Components
                     user = userPrepare;
                 }
 
-                UsernameText.Text = $"@{user.Username}";
-                NameText.Text = user.Name;
-
                 if (!string.IsNullOrEmpty(user.Avatar))
                 {
                     this._imageUtilities.LoadImageAsync(user.Avatar, AvatarImage);
@@ -96,7 +93,7 @@ namespace Parmigiano.UI.Components
 
         private void Logout_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this._userConfig.DeleteKey("access_token");
+            this._userConfig.DeleteKey(UserConfigState.AUTH_SESSION_ID);
 
             AppSession.CurrentUser = null;
 

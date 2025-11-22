@@ -21,38 +21,46 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Background="#111">
+    <Border Background="{StaticResource SecondaryBackgroundBrush}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <local:UserMeCard x:Name="UserMeCard" Grid.Row="0" />
+            <Grid Grid.Row="0" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Border Grid.Row="1" Background="#222" CornerRadius="17" Padding="10,5,10,5" Margin="10">
-                <Grid>
-                    <TextBox x:Name="SearchUsernameBox" 
-                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                             Background="Transparent" 
-                             Foreground="White"
-                             BorderThickness="0"
-                             FontSize="14" 
-                             Padding="3"
-                             CaretBrush="White"/>
+                <Border Grid.Column="0" 
+                        Background="{StaticResource TertiaryBackgroundBrush}"
+                        BorderBrush="{StaticResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="17" 
+                        Padding="10,5,10,5">
+                    <Grid>
+                        <TextBox x:Name="SearchUsernameBox" 
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="Transparent" 
+                                 Foreground="White"
+                                 BorderThickness="0"
+                                 FontSize="14" 
+                                 Padding="3"
+                                 CaretBrush="White"/>
 
-                    <TextBlock Text="Поиск"
-                               Foreground="#999"
-                               FontSize="14"
-                               Padding="8,0,8,0"
-                               IsHitTestVisible="False"
-                               VerticalAlignment="Center"
-                               Panel.ZIndex="1"
-                               Visibility="{Binding Text, ElementName=SearchUsernameBox, 
-                                            Converter={StaticResource InverseStringToVisibilityConverter}}"/>
-                </Grid>
-            </Border>
+                        <TextBlock Text="Поиск"
+                                   Foreground="#999"
+                                   FontSize="14"
+                                   Padding="8,0,8,0"
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"
+                                   Panel.ZIndex="1"
+                                   Visibility="{Binding Text, ElementName=SearchUsernameBox, 
+                                                Converter={StaticResource InverseStringToVisibilityConverter}}"/>
+                    </Grid>
+                </Border>
+            </Grid>
 
             <TextBlock Text="У вас нет активных чатов"
                        Grid.Row="2"
@@ -96,124 +104,171 @@
                 </TextBlock.Style>
             </TextBlock> -->
 
-            <ListBox ItemsSource="{Binding Users}" 
-                     Grid.Row="2"
-                     Background="#111111"
-                     HorizontalContentAlignment="Stretch"
-                     BorderThickness="0"
-                     PreviewMouseWheel="ListBox_PreviewMouseWheel"
-                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                     SelectionMode="Single"
-                     SelectedItem="{Binding SelectedUser}"
-                     SelectionChanged="ListBox_SelectionChanged">
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Setter Property="BorderBrush" Value="Transparent"/>
-                        <Setter Property="Padding" Value="0"/>
-                        <Setter Property="Margin" Value="0"/>
+                <ListBox ItemsSource="{Binding Users}"
+                         Grid.Row="0"
+                         Background="Transparent"
+                         HorizontalContentAlignment="Stretch"
+                         BorderThickness="0"
+                         PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                         SelectionMode="Single"
+                         SelectedItem="{Binding SelectedUser}"
+                         SelectionChanged="ListBox_SelectionChanged">
 
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="Bd"
-                                            Background="{TemplateBinding Background}"
-                                            BorderThickness="0"
-                                            SnapsToDevicePixels="True">
-                                        <ContentPresenter
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0"/>
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="Bd"
+                                                Background="{TemplateBinding Background}"
+                                                BorderThickness="0"
+                                                SnapsToDevicePixels="True">
+                                            <ContentPresenter
                                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </Border>
+                                        </Border>
 
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="Bd" Property="Background" Value="#212121"/>
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Bd" Property="Background" Value="#004594"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Background" Value="#212121"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Bd" Property="Background" Value="#004594"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderThickness="0,1,0,0"
-                                BorderBrush="#212121"
-                                Background="Transparent"
-                                Padding="10"
-                                HorizontalAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent"
+                                    Padding="10,7,10,7"
+                                    HorizontalAlignment="Stretch"
+                                    BorderBrush="#222"
+                                    BorderThickness="0,0,0,1">
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-                                <Grid Width="54" Height="54" ClipToBounds="False">
-                                    <Ellipse Width="54" Height="54"
-                                             Panel.ZIndex="1"
-                                             Visibility="{Binding Avatar, Converter={StaticResource StringToVisibilityConverter}}" 
-                                             RenderOptions.BitmapScalingMode="HighQuality">
-                                        <Ellipse.Fill>
-                                            <Binding Path="Avatar" Converter="{StaticResource AsyncImageConverter}" />
-                                        </Ellipse.Fill>
-                                    </Ellipse>
+                                    <Grid Grid.Row="0" VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
-                                    <Border Width="54" Height="54" CornerRadius="27" 
-                                            Background="{Binding Username, Converter={StaticResource UsernameToColorConverter}}"
-                                            Visibility="{Binding Avatar, Converter={StaticResource InverseStringToVisibilityConverter}}"
-                                            VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Username, Converter={StaticResource UsernameToInitialConverter}}"
-                                                   Foreground="White"
-                                                   FontWeight="Bold"
-                                                   FontSize="20"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-                                    </Border>
+                                        <Grid Width="43" Height="43" ClipToBounds="False" Grid.Column="0" HorizontalAlignment="Left">
+                                            <Ellipse Width="43" Height="43"
+                                                     Panel.ZIndex="1"
+                                                     Visibility="{Binding Avatar, Converter={StaticResource StringToVisibilityConverter}}" 
+                                                     RenderOptions.BitmapScalingMode="HighQuality">
+                                                <Ellipse.Fill>
+                                                    <Binding Path="Avatar" Converter="{StaticResource AsyncImageConverter}" />
+                                                </Ellipse.Fill>
+                                            </Ellipse>
 
-                                    <Ellipse Width="12" Height="12"
-                                             Stroke="#111111"
-                                             StrokeThickness="2"
-                                             Fill="#156fd6"
-                                             VerticalAlignment="Bottom"
-                                             HorizontalAlignment="Right"
-                                             Margin="2"
-                                             Panel.ZIndex="2"
-                                             Visibility="{Binding Online, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <Border Width="43" Height="43" CornerRadius="27" 
+                                                    Background="{Binding Username, Converter={StaticResource UsernameToColorConverter}}"
+                                                    Visibility="{Binding Avatar, Converter={StaticResource InverseStringToVisibilityConverter}}"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock Text="{Binding Username, Converter={StaticResource UsernameToInitialConverter}}"
+                                                           Foreground="White"
+                                                           FontWeight="Bold"
+                                                           FontSize="17"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"/>
+                                            </Border>
+                                        </Grid>
+
+                                        <StackPanel Grid.Column="1" Margin="12,0,0,0" HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding Name}"
+                                                       Foreground="White"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="14"/>
+
+                                            <TextBlock Grid.Row="1"
+                                                        FontWeight="Normal"
+                                                        FontSize="12"
+                                                        Margin="0,2,0,0">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource LastOnlineConverter}">
+                                                        <Binding Path="SelectedUser.LastOnlineDate"/>
+                                                        <Binding Path="SelectedUser.Online"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="#999"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedUser.Online}" Value="True">
+                                                                <Setter Property="Foreground" Value="#2499ff"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Margin="3,7,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" 
+                                                   Text="{Binding LastMessage, Converter={StaticResource LastMessageConverter}}"
+                                                   Foreground="#ccc"
+                                                   FontSize="12"
+                                                   TextWrapping="Wrap"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   TextAlignment="Left"
+                                                   HorizontalAlignment="Left"
+                                                   MaxWidth="300">
+
+                                        </TextBlock>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <Border Background="#156fd6" 
+                                                    Width="18" Height="18" 
+                                                    CornerRadius="50"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding UnreadMessageCount}" 
+                                                           Foreground="#fff"
+                                                           TextAlignment="Center"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
                                 </Grid>
-
-                                <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Name}"
-                                               Foreground="White"
-                                               FontWeight="SemiBold"
-                                               FontSize="15"/>
-                                    <TextBlock Text="{Binding LastMessage, Converter={StaticResource LastMessageConverter}}"
-                                               Foreground="#ccc"
-                                               Margin="0,5,0,0"
-                                               FontSize="13"
-                                               TextTrimming="CharacterEllipsis"
-                                               TextAlignment="Left"
-                                               HorizontalAlignment="Stretch"
-                                               Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=StackPanel}}">
-
-                                    </TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

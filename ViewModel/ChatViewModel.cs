@@ -4,9 +4,11 @@ using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
 using Parmigiano.Services.Wpf;
+using ResponseStruct;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -30,6 +32,17 @@ namespace Parmigiano.ViewModel
             {
                 this._messageText = value;
                 OnPropertyChanged(nameof(MessageText));
+            }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                this._isLoading = value;
+                OnPropertyChanged();
             }
         }
 
@@ -90,18 +103,27 @@ namespace Parmigiano.ViewModel
                 return;
             }
 
-            this.Messages.Clear();
+            this.IsLoading = true;
 
-            List<OnesMessageModel> messages = await this._chatApi.GetHistory(this.SelectedUser.UserUid);
-
-            foreach (var message in messages)
+            try
             {
-                message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
+                this.Messages.Clear();
+
+                List<OnesMessageModel> messages = await this._chatApi.GetHistory(this.SelectedUser.UserUid);
+
+                foreach (var message in messages)
+                {
+                    message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
+                }
+
+                foreach (var message in messages)
+                {
+                    this.Messages.Add(message);
+                }
             }
-
-            foreach (var message in messages)
+            finally
             {
-                this.Messages.Add(message);
+                this.IsLoading = false; 
             }
         }
 
@@ -109,56 +131,33 @@ namespace Parmigiano.ViewModel
         {
             try
             {
-                if (response?.ClientSendMessage == null) return;
-
-                var packet = response.ClientSendMessage;
-
-                ulong messageId = packet.MessageId;
-                ulong chatId = packet.ChatId;
-                ulong senderUid = packet.SenderUid;
-                string content = packet.Content;
-                string contentType = packet.ContentType;
-                string deliveredAt = packet.DeliveredAt;
-
-                string title = "Новое сообщение";
-
-                if (this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
+                switch (response)
                 {
-                    title = string.IsNullOrEmpty(this.SelectedUser.Name) ? this.SelectedUser.Username : this.SelectedUser.Name;
+                    // client active packet
+                    case { ClientActive: not null }:
+                        this.packetReceivedOnlineMessage(response);
+                        break;
+
+                    // client received message packet
+                    case { ClientSendMessage: not null }:
+                        this.packetReceivedMessageTcp(response);
+                        break;
+
+                    // client received delete message packet
+                    case { ClientDeleteMessage: not null }:
+                        this.packetDeleteMessageTcp(response);
+                        break;
+
+                    // client received read message packet
+                    case { ClientReadMessage: not null }:
+                        this.packetMarkReadMessageTcp(response);
+                        break;
+
+                    // client received edit message packet
+                    case { ClientEditMessage: not null }:
+                        this.packetEditMessageTcp(response);
+                        break;
                 }
-
-                string notifyPayload = $"{title}|{content}|{chatId}";
-
-                // send notification
-                _ = NotificationService.NotifyAsync(notifyPayload);
-
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => 
-                {
-                    try
-                    {
-                        if (this.SelectedUser != null && this.SelectedUser.Id == chatId || this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
-                        {
-                            var msg = new OnesMessageModel
-                            {
-                                SenderUid = senderUid,
-                                ChatId = chatId,
-                                Content = content,
-                                ContentType = contentType,
-                                IsEdited = false,
-                                EditContent = content,
-                                DeliveredAt = DateTime.Now,
-                                ReadAt = null,
-                                IsMine = false,
-                            };
-
-                            this.Messages.Add(msg);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error("HandleTcpEvent UI update failed: " + ex.Message);
-                    }
-                }));
             }
             catch (Exception ex)
             {
@@ -187,7 +186,7 @@ namespace Parmigiano.ViewModel
 
                 try
                 {
-                    await TcpSendPacketsService.SendEditMessageAsync(this.EditingMessage.ChatId, this.EditingMessage.Id, prepared);
+                    await TcpSendPacketsService.SendEditMessageAsync(this.EditingMessage.ChatId, this.EditingMessage.Id, prepared, this.EditingMessage.ContentType);
                 }
                 catch (Exception ex)
                 {
@@ -231,17 +230,42 @@ namespace Parmigiano.ViewModel
 
         private void EditMessage(object msg)
         {
-            if (msg is OnesMessageModel message && message.IsMine)
+            if (msg is not OnesMessageModel message)
             {
-                this.EditingMessage = message;
+                return;
             }
+
+            if (!message.IsMine)
+            {
+                return;
+            }
+
+            if (this.EditingMessage == message)
+            {
+                this.EditingMessage = null;
+                this.MessageText = string.Empty;
+                return;
+            }
+
+            this.EditingMessage = message;
+
+            this.MessageText = message.IsEdited ? message.EditContent ?? "" : message.Content ?? "";
         }
 
-        private void DeleteMessage(object msg)
+        private async Task DeleteMessage(object msg)
         {
             if (msg is OnesMessageModel message && this.Messages.Contains(message) && message.IsMine)
             {
                 this.Messages.Remove(message);
+
+                try
+                {
+                    await TcpSendPacketsService.SendDeleteMessageAsync(message.ChatId, message.Id);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Tcp("SendDeleteMessage failed: " + ex.Message);
+                }
             }
         }
 
@@ -259,5 +283,221 @@ namespace Parmigiano.ViewModel
                 Logger.Error("Ошибка копирования текста: " + ex.Message);
             }   
         }
+
+        #region PACKET RECEIVED MESSAGE
+
+        private void packetReceivedMessageTcp(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientSendMessage == null) return;
+
+                var packet = response.ClientSendMessage;
+
+                ulong messageId = packet.MessageId;
+                ulong chatId = packet.ChatId;
+                ulong senderUid = packet.SenderUid;
+                string content = packet.Content;
+                string contentType = packet.ContentType;
+                string deliveredAt = packet.DeliveredAt;
+
+                string title = "Новое сообщение";
+
+                if (this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
+                {
+                    title = string.IsNullOrEmpty(this.SelectedUser.Name) ? this.SelectedUser.Username : this.SelectedUser.Name;
+                }
+
+                string notifyPayload = $"{title}|{content}|{chatId}";
+
+                // send notification
+                _ = NotificationService.NotifyAsync(notifyPayload);
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    try
+                    {
+                        if (this.SelectedUser != null && this.SelectedUser.Id == chatId || this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
+                        {
+                            var msg = new OnesMessageModel
+                            {
+                                SenderUid = senderUid,
+                                ChatId = chatId,
+                                Content = content,
+                                ContentType = contentType,
+                                IsEdited = false,
+                                EditContent = content,
+                                DeliveredAt = DateTime.Now,
+                                ReadAt = null,
+                                IsMine = false,
+                            };
+
+                            this.Messages.Add(msg);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error("HandleTcpEvent UI update failed: " + ex.Message);
+                    }
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("HandleTcpEvent error: " + ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region PACKET RECEIVED DELETE MESSAGE
+
+        private void packetDeleteMessageTcp(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientDeleteMessage == null) return;
+
+                var packet = response.ClientDeleteMessage;
+
+                ulong messageId = packet.MessageId;
+                ulong chatId = packet.ChatId;
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    try
+                    {
+                        var msg = this.Messages.FirstOrDefault(m => m.Id == messageId);
+                        if (msg != null)
+                        {
+                            this.Messages.Remove(msg);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error("DeleteMessageFromList error: " + ex.Message);
+                    }
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("HandleTcpEvent error: " + ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region PACKET RECEIVED MARK IS READ MESSAGE
+
+        private void packetMarkReadMessageTcp(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientReadMessage == null) return;
+
+                var packet = response.ClientReadMessage;
+
+                ulong messageId = packet.MessageId;
+                ulong chatId = packet.ChatId;
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    try
+                    {
+                        var msg = this.Messages.FirstOrDefault(m => m.Id == messageId);
+                        if (msg != null)
+                        {
+                            msg.ReadAt = DateTime.Now;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error("DeleteMessageFromList error: " + ex.Message);
+                    }
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("HandleTcpEvent error: " + ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region PACKET EDIT MESSAGE
+
+        private void packetEditMessageTcp(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientEditMessage == null) return;
+
+                var packet = response.ClientEditMessage;
+
+                ulong messageId = packet.MessageId;
+                ulong chatId = packet.ChatId;
+                ulong senderUid = packet.SenderUid;
+                string content = packet.Content;
+                string contentType = packet.ContentType;
+                string deliveredAt = packet.DeliveredAt;
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    try
+                    {
+                        var msg = this.Messages.FirstOrDefault(m => m.Id == messageId);
+                        if (msg != null)
+                        {
+                            msg.Content = content;
+                            msg.EditContent = content;
+                            msg.ContentType = contentType;
+
+                            if (DateTime.TryParse(deliveredAt, out DateTime parsedDate))
+                            {
+                                msg.DeliveredAt = parsedDate;
+                            }
+
+                            msg.IsEdited = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error("DeleteMessageFromList error: " + ex.Message);
+                    }
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("HandleTcpEvent error: " + ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region PACKET RECEIVED ONLINE USER
+
+        private void packetReceivedOnlineMessage(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientActive == null) return;
+
+                ulong uid = response.ClientActive.Uid;
+                bool online = response.ClientActive.Online;
+
+                if (this.SelectedUser == null) return;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.SelectedUser.Online = online;
+                    this.SelectedUser.LastOnlineDate = DateTime.Now;
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"HandleTcpEvent error: {ex.Message}");
+            }
+        }
+
+        #endregion
     }
 }

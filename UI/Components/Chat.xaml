@@ -14,6 +14,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/UI/Resources/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <controllers:ConnectionStateService x:Key="ConnState" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -24,42 +26,70 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#111" Padding="20,10,20,10" MouseLeftButtonUp="ProfileHeader_Click" Cursor="Hand">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding SelectedUser.Name}" Grid.Row="1"
-                           Foreground="White"
-                           FontWeight="SemiBold"
-                           FontSize="15"/>
+        <Border Grid.Row="0" Background="#111" Padding="20,10,20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="1"
-                           FontWeight="Normal"
-                           FontSize="12"
-                           Margin="0,3,0,0">
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource LastOnlineConverter}">
-                            <Binding Path="SelectedUser.LastOnlineDate"/>
-                            <Binding Path="SelectedUser.Online"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
+                <StackPanel Orientation="Vertical" Grid.Column="0" MouseLeftButtonUp="ProfileHeader_Click" Cursor="Hand">
+                    <TextBlock Text="{Binding SelectedUser.Name}" Grid.Row="1"
+                               Foreground="White"
+                               FontWeight="SemiBold"
+                               FontSize="15"/>
 
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="#999"/>
+                    <TextBlock Grid.Row="1"
+                               FontWeight="Normal"
+                               FontSize="12"
+                               Margin="0,3,0,0">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource LastOnlineConverter}">
+                                <Binding Path="SelectedUser.LastOnlineDate"/>
+                                <Binding Path="SelectedUser.Online"/>
+
+                                <Binding Source="{StaticResource ConnState}" Path="IsTcpConnected"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#999"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedUser.Online}" Value="True">
+                                        <Setter Property="Foreground" Value="#2499ff"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <Image Source="pack://application:,,,/Public/ico/settings.png"
+                       Grid.Column="1"
+                       MaxWidth="18"
+                       VerticalAlignment="Center"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Cursor="Hand">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Opacity" Value="1"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedUser.Online}" Value="True">
-                                    <Setter Property="Foreground" Value="#2499ff"/>
-                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                </Trigger>
                             </Style.Triggers>
                         </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-            </StackPanel>
+                    </Image.Style>
+                </Image>
+            </Grid>
         </Border>
 
         <ScrollViewer x:Name="ChatScrollViewer"
                       HorizontalScrollBarVisibility="Hidden"
                       VerticalScrollBarVisibility="Hidden"
-                      Grid.Row="1" Margin="0,0,0,45" Grid.RowSpan="2">
+                      Grid.Row="1" Margin="0,0,0,75" Grid.RowSpan="2">
 
             <ScrollViewer.Background>
                 <VisualBrush Opacity="0.085" Stretch="UniformToFill">
@@ -232,7 +262,7 @@
                                                 </TextBlock.Style>
                                             </TextBlock>
 
-                                            <TextBlock Text="{Binding DeliveredAt, StringFormat={}{0:HH:mm}}"
+                                            <TextBlock Text="{Binding DeliveredAt, Converter={StaticResource UtcToLocalTimeConverter}}"
                                                        Foreground="#ccc"
                                                        FontSize="12"
                                                        Margin="5,0,0,0"
@@ -296,7 +326,7 @@
                                                 </TextBlock.Style>
                                             </TextBlock>
 
-                                            <TextBlock Text="{Binding DeliveredAt, StringFormat={}{0:HH:mm}}"
+                                            <TextBlock Text="{Binding DeliveredAt, Converter={StaticResource UtcToLocalTimeConverter}}"
                                                        Foreground="#ccc"
                                                        FontSize="12"
                                                        Margin="5,0,0,0"
@@ -317,14 +347,18 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Grid Grid.Row="2" Margin="0,10,0,0">
-            <Grid>
-                <TextBox Grid.Column="0"
-                         x:Name="MessageBox"
+        <Grid Grid.Row="2" Margin="0,10,0,0" Background="#111">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <TextBox x:Name="MessageBox"
                          Text="{Binding MessageText, UpdateSourceTrigger=PropertyChanged}"
                          MinHeight="40"
                          VerticalAlignment="Center"
-                         Padding="10,13,55,13"
+                         Padding="10,13"
                          FontSize="14"
                          Background="#111"
                          Foreground="White"
@@ -346,36 +380,44 @@
                                         Converter={StaticResource InverseStringToVisibilityConverter}}"/>
             </Grid>
 
-            <Button Grid.Column="1"
+            <Button Grid.Row="1"
                     Command="{Binding SendMessageCommand}"
                     FontSize="18"
-                    Background="Transparent"
+                    Background="#004594"
                     Foreground="White"
-                    Width="50"
-                    Height="40"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     BorderThickness="0"
-                    Margin="5,0,5,0"
+                    Margin="0,0,10,10"
                     Cursor="Hand">
-                <Image Source="pack://application:,,,/Public/ico/send.png" MaxWidth="21" RenderOptions.BitmapScalingMode="HighQuality" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,3">
+                    <TextBlock Text="Отправить" 
+                               Foreground="#fff"
+                               FontWeight="Medium"
+                               FontSize="12"/>
+                    <Image Source="pack://application:,,,/Public/ico/send.png" MaxWidth="15" RenderOptions.BitmapScalingMode="HighQuality" Margin="10,0,0,0" />
+                </StackPanel>
 
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border"
-                                Background="Transparent"
-                                CornerRadius="8">
+                                Background="#004594"
+                                CornerRadius="10">
                             <ContentPresenter HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                <Setter TargetName="border" Property="Background" Value="#175eb0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
         </Grid>
+
+        <local:ChatLoader Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+                          Grid.RowSpan="3"
+                          Panel.ZIndex="999" />
     </Grid>
 </UserControl>

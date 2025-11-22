@@ -45,6 +45,11 @@ namespace Parmigiano.UI.Components
             }
         }
 
+        private void UserProfile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            UserMyProfileModal.ShowProfile();
+        }
+
         /// <summary>
         /// Медленный скрол
         /// </summary>

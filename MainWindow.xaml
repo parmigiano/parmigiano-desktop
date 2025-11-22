@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Icon="pack://application:,,,/Public/assets/logo-ico.ico"
         Title="{Binding WindowTitle}"
-        Height="700" Width="1100" MinHeight="550" MinWidth="910"
+        Height="800" Width="1100" MinHeight="650" MinWidth="910"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -114,19 +114,26 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
                 <!-- Notification Toast-->
-                <components:Notification x:Name="Notification" Grid.ColumnSpan="3" Panel.ZIndex="10000" />
+                <components:Notification x:Name="Notification" Grid.RowSpan="2" Grid.ColumnSpan="3" Panel.ZIndex="10000" />
 
                 <!-- User Profile -->
-                <components:UserProfileModal x:Name="UserProfileModal" Grid.ColumnSpan="3" Panel.ZIndex="1000" />
+                <components:UserProfileModal x:Name="UserProfileModal" Grid.RowSpan="2" Grid.ColumnSpan="3" Panel.ZIndex="1000" />
 
                 <!-- User My Profile -->
-                <components:UserMyProfileModal x:Name="UserMyProfileModal" Grid.ColumnSpan="3" Panel.ZIndex="1000" />
+                <components:UserMyProfileModal x:Name="UserMyProfileModal" Grid.RowSpan="2" Grid.ColumnSpan="3" Panel.ZIndex="1000" />
+
+                <components:UserMeCard Grid.Row="0" Grid.ColumnSpan="3" />
 
                 <!-- Chats lists -->
-                <components:UsersList x:Name="UsersListControl" Grid.Column="0" />
+                <components:UsersList x:Name="UsersListControl" Grid.Row="1" Grid.Column="0" />
 
-                <GridSplitter Grid.Column="1"
+                <GridSplitter Grid.Row="1" Grid.Column="1"
                               Width="3"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Stretch"
@@ -140,7 +147,7 @@
                     </GridSplitter.Template>
                 </GridSplitter>
 
-                <Grid Grid.Column="2">
+                <Grid Grid.Row="1" Grid.Column="2">
                     <TextBlock Text="Выберите, кому хотели бы написать"
                                x:Name="PlaceholderText"
                                Foreground="#666"
@@ -162,6 +169,7 @@
                 <!-- Skeleton Loader -->
                 <components:SkeletonMainWindow x:Name="SkeletonOverlay" 
                                                Grid.ColumnSpan="3"
+                                               Grid.RowSpan="2"
                                                HorizontalAlignment="Stretch"
                                                VerticalAlignment="Stretch"
                                                Visibility="Collapsed"

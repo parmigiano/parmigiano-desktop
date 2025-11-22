@@ -276,6 +276,7 @@
     <Compile Include="Core\AppSession.cs" />
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\Events.cs" />
+    <Compile Include="Core\UserConfigState.cs" />
     <Compile Include="EmailConfirmedWindow.xaml.cs">
       <DependentUpon>EmailConfirmedWindow.xaml</DependentUpon>
     </Compile>
@@ -316,6 +317,7 @@
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\TcpClientService.cs" />
     <Compile Include="Services\TcpSendPacketsService.cs" />
+    <Compile Include="Services\ThemeService.cs" />
     <Compile Include="Services\UpdateAppService.cs" />
     <Compile Include="Services\Wpf\BaseView.cs" />
     <Compile Include="Services\Wpf\RelayCommand.cs" />
@@ -323,6 +325,9 @@
     <Compile Include="Services\WSocketClientService.cs" />
     <Compile Include="UI\Components\Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Components\ChatLoader.xaml.cs">
+      <DependentUpon>ChatLoader.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Components\Notification.xaml.cs">
       <DependentUpon>Notification.xaml</DependentUpon>
@@ -350,6 +355,7 @@
     </Compile>
     <Compile Include="UI\Controllers\AsyncImageConverter.cs" />
     <Compile Include="UI\Controllers\BoolToVisibilityConverter.cs" />
+    <Compile Include="UI\Controllers\ConnectionStateService.cs" />
     <Compile Include="UI\Controllers\EmailConfirmConverter.cs" />
     <Compile Include="UI\Controllers\LastMessageConverter.cs" />
     <Compile Include="UI\Controllers\LastOnlineMultiConverter.cs" />
@@ -360,6 +366,7 @@
     <Compile Include="UI\Controllers\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToColorConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToInitialConverter.cs" />
+    <Compile Include="UI\Controllers\UtcToLocalTimeConverter.cs" />
     <Compile Include="UI\Controllers\WidthLimitConverter.cs" />
     <Compile Include="UI\Controllers\WidthToVisibilityConverter.cs" />
     <Compile Include="UpdateAvailableWindow.xaml.cs">
@@ -402,6 +409,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Components\ChatLoader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Components\Notification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -435,6 +446,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Resources\Themes\DarkTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Resources\Themes\LightTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -493,9 +512,6 @@
     <Resource Include="Public\ico\send-horizontal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Public\ico\send.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Public\ico\log-out.png" />
   </ItemGroup>
   <ItemGroup>
@@ -537,6 +553,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\send.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

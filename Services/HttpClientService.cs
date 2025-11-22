@@ -1,4 +1,5 @@
-﻿using Parmigiano.Interface;
+﻿using Parmigiano.Core;
+using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.UI.Components;
@@ -31,11 +32,11 @@ namespace Parmigiano.Services
                 BaseAddress = new Uri(baseUrl)
             };
 
-            string? authToken = this._userConf.GetString("access_token");
+            string? authToken = this._userConf.GetString(UserConfigState.AUTH_SESSION_ID);
 
             if (authToken != null)
             {
-                this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.GetString("access_token"));
+                this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.GetString(UserConfigState.AUTH_SESSION_ID));
             }
 
             this._network.NetworkAvailabilityChanged += async () =>
@@ -435,7 +436,7 @@ namespace Parmigiano.Services
             if (_isAuthWindowOpen) return;
             _isAuthWindowOpen = true;
 
-            this._userConf.DeleteKey("access_token");
+            this._userConf.DeleteKey(UserConfigState.AUTH_SESSION_ID);
 
             Application.Current.Dispatcher.Invoke(() =>
             {

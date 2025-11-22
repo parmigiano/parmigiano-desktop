@@ -1,4 +1,5 @@
-﻿using Parmigiano.Interface;
+﻿using Parmigiano.Core;
+using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
 using System;
@@ -128,7 +129,7 @@ namespace Parmigiano
 
                 if (!string.IsNullOrEmpty(result))
                 {
-                    this._userConfig.Set("access_token", result);
+                    this._userConfig.Set(UserConfigState.AUTH_SESSION_ID, result);
 
                     var emailConfirmWindow = new EmailConfirmedWindow();
                     emailConfirmWindow.Show();
@@ -164,7 +165,7 @@ namespace Parmigiano
 
                 if (!string.IsNullOrEmpty(result))
                 {
-                    this._userConfig.Set("access_token", result);
+                    this._userConfig.Set(UserConfigState.AUTH_SESSION_ID, result);
 
                     var mainWindow = new MainWindow();
                     mainWindow.Show();

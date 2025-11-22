@@ -32,7 +32,7 @@ namespace Parmigiano.Repository
         {
             string resp = await this._httpClient.DeleteAsync<string>($"{this._apiPath}/delete");
 
-            this._userConfig.DeleteKey("access_token");
+            this._userConfig.DeleteKey(UserConfigState.AUTH_SESSION_ID);
 
             AppSession.CurrentUser = null;
 

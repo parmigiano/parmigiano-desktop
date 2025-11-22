@@ -23,5 +23,7 @@
 
     <controllers:PhoneVisibleMultiConverter x:Key="PhoneVisibleMultiConverter"/>
 
+    <controllers:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter"/>
+
 
 </ResourceDictionary>

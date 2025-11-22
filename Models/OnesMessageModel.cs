@@ -11,83 +11,91 @@ namespace Parmigiano.Models
 {
     public class OnesMessageModel : INotifyPropertyChanged
     {
-        [JsonPropertyName("id")]
         private ulong _id;
+
+        [JsonPropertyName("id")]
         public ulong Id
         {
             get => _id;
             set => Set(ref _id, value);
         }
 
-        [JsonPropertyName("chat_id")]
         private ulong _chatId;
+
+        [JsonPropertyName("chat_id")]
         public ulong ChatId
         {
-            get => this._chatId;
-            set => Set(ref this._chatId, value);
+            get => _chatId;
+            set => Set(ref _chatId, value);
         }
 
-        [JsonPropertyName("sender_uid")]
         private ulong _senderUid;
+
+        [JsonPropertyName("sender_uid")]
         public ulong SenderUid
         {
             get => _senderUid;
             set => Set(ref _senderUid, value);
         }
 
-        [JsonPropertyName("content")]
         private string _content;
+
+        [JsonPropertyName("content")]
         public string Content
         {
             get => _content;
             set => Set(ref _content, value);
         }
 
-        [JsonPropertyName("content_type")]
         private string _contentType;
+
+        [JsonPropertyName("content_type")]
         public string ContentType
         {
             get => _contentType;
             set => Set(ref _contentType, value);
         }
 
+        private bool _isEdited;
 
         [JsonPropertyName("is_edited")]
-        private bool _isEdited;
         public bool IsEdited
         {
             get => _isEdited;
             set => Set(ref _isEdited, value);
         }
 
-        [JsonPropertyName("is_pinned")]
         private bool _isPinned;
+
+        [JsonPropertyName("is_pinned")]
         public bool IsPinned
         {
             get => _isPinned;
             set => Set(ref _isPinned, value);
         }
 
+        private DateTime? _deliveredAt;
 
         [JsonPropertyName("delivered_at")]
-        private DateTime? _deliveredAt;
         public DateTime? DeliveredAt
         {
             get => _deliveredAt;
             set => Set(ref _deliveredAt, value);
         }
 
-        [JsonPropertyName("read_at")]
         private DateTime? _readAt;
+
+        [JsonPropertyName("read_at")]
         public DateTime? ReadAt
         {
             get => _readAt;
             set => Set(ref _readAt, value);
         }
 
+        private string? _editContent;
+
         [JsonPropertyName("edit_content")]
-        private string _editContent;
-        public string EditContent
+        public string? EditContent
         {
             get => _editContent;
             set => Set(ref _editContent, value);

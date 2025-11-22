@@ -126,7 +126,7 @@ namespace Parmigiano.Services
 
         #region PACKET EditMessage
 
-        public static async Task SendEditMessageAsync(ulong chatId, ulong messageId, string newContent)
+        public static async Task SendEditMessageAsync(ulong chatId, ulong messageId, string newContent, string contentType = "text")
         {
             if (!ConnectionService.Instance.IsConnectedTcp)
             {
@@ -143,6 +143,7 @@ namespace Parmigiano.Services
                 ChatId = chatId,
                 MessageId = messageId,
                 Content = newContent ?? string.Empty,
+                ContentType = contentType ?? "text",
             };
 
             await SafeSendAsync(req);

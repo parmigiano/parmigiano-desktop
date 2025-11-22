@@ -1,6 +1,6 @@
-﻿using ClientRequestStruct;
-using Google.Protobuf;
+﻿using Google.Protobuf;
 using Parmigiano.Core;
+using Parmigiano.UI.Controllers;
 using System;
 using System.IO;
 using System.Net.Sockets;
@@ -17,6 +17,20 @@ namespace Parmigiano.Services
 
         public event Action<ResponseStruct.Response> OnEventReceived;
         public bool IsConnected => _tcpClient != null && _tcpClient.Connected;
+
+        private int _reconnectAttempt = 0;
+        private readonly int[] _retryDelays = new[]
+        {
+            0,      // сразу
+            1000,   // 1 сек
+            3000,   // 3 сек
+            5000,   // 5 сек
+            10000,  // 10 сек
+            30000,  // 30 сек
+            60000   // 60 сек
+        };
+
+        private bool _isReconnecting = false;
 
         public async void Connect()
         {
@@ -46,7 +60,44 @@ namespace Parmigiano.Services
             catch (Exception ex)
             {
                 Logger.Tcp("[ERROR] Error TCP-connection: " + ex.Message);
+                _ = this.TryReconnectAsync();
             }
+        }
+
+        private async Task TryReconnectAsync()
+        {
+            if (this._isReconnecting)
+            {
+                return;
+            }
+
+            this._isReconnecting = true;
+
+            while (!this.IsConnected)
+            {
+                int delay = this._retryDelays[Math.Min(this._reconnectAttempt, this._retryDelays.Length - 1)];
+
+                ConnectionStateService.Instance.SetState("Соединение");
+
+
+                Logger.Tcp($"Reconnect attempt #{_reconnectAttempt}, delay {delay}ms");
+
+                await Task.Delay(delay);
+
+                this.Connect();
+
+                this._reconnectAttempt++;
+
+                if (this._reconnectAttempt > 10)
+                {
+                    this._reconnectAttempt = 6;
+                }
+            }
+
+            this._isReconnecting = false;
+            this._reconnectAttempt = 0;
+
+            ConnectionStateService.Instance.SetState("Онлайн");
         }
 
         private async Task ListenAsync(CancellationToken token)
@@ -85,10 +136,17 @@ namespace Parmigiano.Services
                     var request = ResponseStruct.Response.Parser.ParseFrom(payload);
                     this.OnEventReceived?.Invoke(request);
                 }
+                catch (OperationCanceledException)
+                {
+                    Logger.Tcp("TCP listen cancelled");
+                }
                 catch (Exception ex)
                 {
                     Logger.Error("[ERROR] TCP Error: " + ex.Message);
-                    break;
+
+                    this.Disconnect();
+
+                    _ = this.TryReconnectAsync();
                 }
             }
 
@@ -100,6 +158,8 @@ namespace Parmigiano.Services
             if (!this.IsConnected)
             {
                 Logger.Tcp("TCP: попытка отправки при отсутствии соединения");
+
+                _ = this.TryReconnectAsync();
                 return;
             }
 
@@ -129,6 +189,7 @@ namespace Parmigiano.Services
             catch (Exception ex)
             {
                 Logger.Tcp("Failed send to TCP: " + ex.Message);
+                _ = this.TryReconnectAsync();
             }
         }
 

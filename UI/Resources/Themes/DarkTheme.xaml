@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Initial Colors -->
+    <!-- Backgrounds -->
+    <Color x:Key="BackgroundColor">#000000</Color>
+    <Color x:Key="SecondaryBackgroundColor">#111111</Color>
+    <Color x:Key="TertiaryBackgroundColor">#212121</Color>
+
+    <!-- Button -->
+    <Color x:Key="ButtonBackgroundColor">#ffffff</Color>
+    <Color x:Key="ButtonHoverBackgroundColor">#eeeeee</Color>
+    <Color x:Key="ButtonForegroundColor">#000000</Color>
+
+    <!-- Borders -->
+    <Color x:Key="BorderColor">#333333</Color>
+
+    <!-- Foregrounds -->
+    <Color x:Key="ForegroundColor">#ffffff</Color>
+    <Color x:Key="SecondaryForegroundColor">#cccccc</Color>
+
+    <!-- Initial SolidColorBrush -->
+    <!-- Backgrounds -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+    <SolidColorBrush x:Key="SecondaryBackgroundBrush" Color="{StaticResource SecondaryBackgroundColor}" />
+    <SolidColorBrush x:Key="TertiaryBackgroundBrush" Color="{StaticResource TertiaryBackgroundColor}" />
+
+    <!-- Button -->
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource ButtonBackgroundColor}" />
+    <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="{StaticResource ButtonHoverBackgroundColor}" />
+    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{StaticResource ButtonForegroundColor}" />
+
+    <!-- Borders -->
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+
+    <!-- Foregrounds -->
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+    <SolidColorBrush x:Key="SecondaryForegroundBrush" Color="{StaticResource SecondaryForegroundColor}" />
+
+</ResourceDictionary>
