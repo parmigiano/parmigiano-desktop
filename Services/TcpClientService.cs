@@ -60,44 +60,7 @@ namespace Parmigiano.Services
             catch (Exception ex)
             {
                 Logger.Tcp("[ERROR] Error TCP-connection: " + ex.Message);
-                _ = this.TryReconnectAsync();
             }
-        }
-
-        private async Task TryReconnectAsync()
-        {
-            if (this._isReconnecting)
-            {
-                return;
-            }
-
-            this._isReconnecting = true;
-
-            while (!this.IsConnected)
-            {
-                int delay = this._retryDelays[Math.Min(this._reconnectAttempt, this._retryDelays.Length - 1)];
-
-                ConnectionStateService.Instance.SetState("Соединение");
-
-
-                Logger.Tcp($"Reconnect attempt #{_reconnectAttempt}, delay {delay}ms");
-
-                await Task.Delay(delay);
-
-                this.Connect();
-
-                this._reconnectAttempt++;
-
-                if (this._reconnectAttempt > 10)
-                {
-                    this._reconnectAttempt = 6;
-                }
-            }
-
-            this._isReconnecting = false;
-            this._reconnectAttempt = 0;
-
-            ConnectionStateService.Instance.SetState("Онлайн");
         }
 
         private async Task ListenAsync(CancellationToken token)
@@ -143,10 +106,7 @@ namespace Parmigiano.Services
                 catch (Exception ex)
                 {
                     Logger.Error("[ERROR] TCP Error: " + ex.Message);
-
                     this.Disconnect();
-
-                    _ = this.TryReconnectAsync();
                 }
             }
 
@@ -158,8 +118,6 @@ namespace Parmigiano.Services
             if (!this.IsConnected)
             {
                 Logger.Tcp("TCP: попытка отправки при отсутствии соединения");
-
-                _ = this.TryReconnectAsync();
                 return;
             }
 
@@ -189,7 +147,6 @@ namespace Parmigiano.Services
             catch (Exception ex)
             {
                 Logger.Tcp("Failed send to TCP: " + ex.Message);
-                _ = this.TryReconnectAsync();
             }
         }
 

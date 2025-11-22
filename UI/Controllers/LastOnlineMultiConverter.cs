@@ -8,15 +8,13 @@ namespace Parmigiano.UI.Controllers
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null || values.Length < 3)
-                return "";
+            if (values == null || values.Length < 2)
+                return "был(а) недавно";
 
             var lastOnlineObj = values[0];
-            bool isOnline = values[1] is bool o && o;
-            bool isTcpConnected = values[2] is bool co && co;
+            var isOnlineObj = values[1];
 
-            if (!isTcpConnected)
-                return "Соединение...";
+            bool isOnline = isOnlineObj is bool b && b;
 
             if (isOnline)
                 return "в сети";

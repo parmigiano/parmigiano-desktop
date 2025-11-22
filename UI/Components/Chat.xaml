@@ -14,8 +14,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/UI/Resources/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <controllers:ConnectionStateService x:Key="ConnState" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -47,8 +45,6 @@
                             <MultiBinding Converter="{StaticResource LastOnlineConverter}">
                                 <Binding Path="SelectedUser.LastOnlineDate"/>
                                 <Binding Path="SelectedUser.Online"/>
-
-                                <Binding Source="{StaticResource ConnState}" Path="IsTcpConnected"/>
                             </MultiBinding>
                         </TextBlock.Text>
 

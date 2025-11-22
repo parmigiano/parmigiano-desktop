@@ -355,7 +355,6 @@
     </Compile>
     <Compile Include="UI\Controllers\AsyncImageConverter.cs" />
     <Compile Include="UI\Controllers\BoolToVisibilityConverter.cs" />
-    <Compile Include="UI\Controllers\ConnectionStateService.cs" />
     <Compile Include="UI\Controllers\EmailConfirmConverter.cs" />
     <Compile Include="UI\Controllers\LastMessageConverter.cs" />
     <Compile Include="UI\Controllers\LastOnlineMultiConverter.cs" />

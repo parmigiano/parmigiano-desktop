@@ -57,9 +57,7 @@ namespace Parmigiano.ViewModel
 
                 if (this._editingMessage != null)
                 {
-                    this.MessageText = this._editingMessage.IsEdited
-                        ? this._editingMessage.EditContent
-                        : this._editingMessage.Content ?? string.Empty;
+                    this.MessageText = this._editingMessage.IsEdited ? this._editingMessage.EditContent : this._editingMessage.Content ?? string.Empty;
                 }
                 else
                 {
@@ -90,7 +88,7 @@ namespace Parmigiano.ViewModel
         {
             this.SendMessageCommand = new RelayCommand(async _ => await this.SendMessage());
             this.EditMessageCommand = new RelayCommand(msg => this.EditMessage(msg));
-            this.DeleteMessageCommand = new RelayCommand(msg => this.DeleteMessage(msg));
+            this.DeleteMessageCommand = new RelayCommand(async msg => await this.DeleteMessage(msg));
             this.CopyMessageCommand = new RelayCommand(msg => this.CopyMessage(msg));
 
             ConnectionService.Instance.OnTcpEvent += HandleTcpEvent;
