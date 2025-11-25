@@ -214,8 +214,8 @@
                                                         Margin="0,2,0,0">
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource LastOnlineConverter}">
-                                                        <Binding Path="SelectedUser.LastOnlineDate"/>
-                                                        <Binding Path="SelectedUser.Online"/>
+                                                        <Binding Path="LastOnlineDate"/>
+                                                        <Binding Path="Online"/>
                                                     </MultiBinding>
                                                 </TextBlock.Text>
 
@@ -223,7 +223,7 @@
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="Foreground" Value="#999"/>
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding SelectedUser.Online}" Value="True">
+                                                            <DataTrigger Binding="{Binding Online}" Value="True">
                                                                 <Setter Property="Foreground" Value="#2499ff"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>

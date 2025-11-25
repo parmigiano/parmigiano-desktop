@@ -1,4 +1,5 @@
-﻿using Parmigiano.Core;
+﻿using Newtonsoft.Json.Linq;
+using Parmigiano.Core;
 using Parmigiano.Interface;
 using Parmigiano.Models;
 using Parmigiano.Repository;
@@ -92,6 +93,7 @@ namespace Parmigiano.ViewModel
             this.DeleteMessageCommand = new RelayCommand(async msg => await this.DeleteMessage(msg));
             this.CopyMessageCommand = new RelayCommand(msg => this.CopyMessage(msg));
 
+            ConnectionService.Instance.OnWsEvent += HandleWebSocketEvent;
             ConnectionService.Instance.OnTcpEvent += HandleTcpEvent;
         }
 
@@ -126,6 +128,63 @@ namespace Parmigiano.ViewModel
             finally
             {
                 this.IsLoading = false;
+            }
+        }
+
+        private void HandleWebSocketEvent(string evt, JObject data)
+        {
+            if (evt == Events.EVENT_USER_ONLINE)
+            {
+                try
+                {
+                    ulong uid = data["user_uid"]?.ToObject<ulong>() ?? 0;
+                    bool online = data["online"]?.ToObject<bool>() ?? false;
+
+                    if (this.SelectedUser == null) return;
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        this.SelectedUser.Online = online;
+                        this.SelectedUser.LastOnlineDate = DateTime.Now;
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Ошибка обработки user_online: {ex.Message}");
+                }
+            } else if (evt == Events.EVENT_USER_NEW_MESSAGE)
+            {
+                try
+                {
+                    ulong chatId = data["chat_id"]?.ToObject<ulong>() ?? 0;
+                    ulong messageId = data["message_id"]?.ToObject<ulong>() ?? 0;
+                    ulong senderUid = data["sender_uid"]?.ToObject<ulong>() ?? 0;
+                    string content = data["content"]?.ToString();
+                    string contentType = data["content_type"]?.ToString();
+
+                    if (this.SelectedUser != null && this.SelectedUser.Id == chatId)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            this.Messages.Add(new OnesMessageModel
+                            {
+                                Id = messageId,
+                                SenderUid = senderUid,
+                                ChatId = chatId,
+                                Content = content,
+                                ContentType = contentType,
+                                IsEdited = false,
+                                DeliveredAt = DateTime.Now,
+                                ReadAt = null,
+                                IsMine = false,
+                            });
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Ошибка обработки new_message: {ex.Message}");
+                }
             }
         }
 
@@ -224,6 +283,30 @@ namespace Parmigiano.ViewModel
                 catch (Exception ex)
                 {
                     Logger.Tcp("SendMessage failed: " + ex.Message);
+                }
+
+                try
+                {
+                    if (ConnectionService.Instance.IsConnectedWSocket)
+                    {
+                        var payload = new
+                        {
+                            @event = "message_send",
+                            data = new
+                            {
+                                chat_id = this.SelectedUser?.Id ?? 0UL,
+                                content = prepared,
+                                content_type = "text"
+                            }
+                        };
+
+                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
+                        await Task.Run(() => ConnectionService.Instance.WebSocket?.Send(json));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("Send WS message failed: " + ex.Message);
                 }
             }
 

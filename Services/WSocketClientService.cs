@@ -24,7 +24,7 @@ namespace Parmigiano.Services
                 return;
             }
 
-            string url = $"{Config.Current.WSOCKET_SERVER_ADDR}/wsocket";
+            string url = $"{Config.Current.WSOCKET_SERVER_ADDR}/wsocket?uid={AppSession.CurrentUser.UserUid}";
 
             this._wsocket = new WebSocket(url);
 
@@ -58,6 +58,14 @@ namespace Parmigiano.Services
             this._wsocket.OnClose += (s, e) => Logger.Info("WebSocket closed");
 
             this._wsocket.ConnectAsync();
+        }
+
+        public void Send(string message)
+        {
+            if (this._wsocket != null && this._wsocket.IsAlive)
+            {
+                this._wsocket.Send(message);
+            }
         }
 
         public void Disconnect()

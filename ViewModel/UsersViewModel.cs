@@ -82,6 +82,35 @@ namespace Parmigiano.ViewModel
 
         private void HandleWebSocketEvent(string evt, JObject data)
         {
+            if (evt == Events.EVENT_USER_NEW_MESSAGE)
+            {
+                try
+                {
+                    ulong chatId = data["chat_id"]?.ToObject<ulong>() ?? 0;
+                    string content = data["content"]?.ToString() ?? "";
+                    DateTime now = DateTime.Now;
+
+                    var user = Users.FirstOrDefault(u => u.Id == chatId || u.UserUid == (data["sender_uid"]?.ToObject<ulong>() ?? 0));
+                    if (user != null)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            user.LastMessage = content;
+                            user.LastMessageDate = now;
+
+                            if (user.UserUid != AppSession.CurrentUser.UserUid)
+                            {
+                                user.UnreadMessageCount++;
+                            }
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Ошибка обработки new_message: {ex.Message}");
+                }
+            }
+
             if (evt == Events.EVENT_USER_AVATAR_UPDATED)
             {
                 ulong uid = 0;
@@ -117,6 +146,27 @@ namespace Parmigiano.ViewModel
                 catch (Exception ex)
                 {
                     Logger.Error($"Ошибка обработки user_new_register: {ex.Message}");
+                }
+            }
+            else if (evt == Events.EVENT_USER_ONLINE)
+            {
+                try
+                {
+                    ulong uid = data["user_uid"]?.ToObject<ulong>() ?? 0;
+                    bool online = data["online"]?.ToObject<bool>() ?? false;
+
+                    var user = Users.FirstOrDefault(u => u.UserUid == uid);
+                    if (user == null) return;
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        user.Online = online;
+                        user.LastOnlineDate = DateTime.Now;
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Ошибка обработки user_online: {ex.Message}");
                 }
             }
         }

@@ -56,13 +56,40 @@ namespace Parmigiano.Models
         public DateTime? LastOnlineDate { get; set; }
 
         [JsonPropertyName("last_message")]
-        public string? LastMessage { get; set; }
+        private string _last_message;
+        public string LastMessage
+        {
+            get => _last_message;
+            set
+            {
+                _last_message = value;
+                OnPropertyChanged(nameof(LastMessage));
+            }
+        }
 
         [JsonPropertyName("last_message_date")]
-        public DateTime? LastMessageDate { get; set; }
+        private DateTime? _last_message_date;
+        public DateTime? LastMessageDate
+        {
+            get => _last_message_date;
+            set
+            {
+                _last_message_date = value;
+                OnPropertyChanged(nameof(LastMessageDate));
+            }
+        }
 
         [JsonPropertyName("unread_message_count")]
-        public short UnreadMessageCount { get; set; }
+        private short _unread_message_count;
+        public short UnreadMessageCount
+        {
+            get => _unread_message_count;
+            set
+            {
+                _unread_message_count = value;
+                OnPropertyChanged(nameof(UnreadMessageCount));
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
