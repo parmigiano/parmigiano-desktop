@@ -292,6 +292,8 @@
     <Compile Include="Models\ApiResponseModel.cs" />
     <Compile Include="Models\AuthCreateModel.cs" />
     <Compile Include="Models\AuthLoginModel.cs" />
+    <Compile Include="Models\ChatSettingModel.cs" />
+    <Compile Include="Models\ChatUpdateBlockedModel.cs" />
     <Compile Include="Models\DeferredRequestModel.cs" />
     <Compile Include="Models\MessageEditModel.cs" />
     <Compile Include="Models\MessageModel.cs" />

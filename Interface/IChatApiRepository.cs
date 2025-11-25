@@ -12,5 +12,11 @@ namespace Parmigiano.Interface
         Task<List<OnesMessageModel>?> GetHistory(ulong senderUid);
 
         Task<List<ChatMinimalWithLMessageModel>?> GetChats();
+
+        Task<ChatSettingModel?> GetChatSetting(ulong chatId);
+
+        Task<string?> ChatUpdateBlocked(ChatUpdateBlockedModel chatBlocked);
+
+        Task<string?> ChatUpdateCustomBackground(ulong chatId, string filepath);
     }
 }

@@ -67,6 +67,7 @@ namespace Parmigiano.ViewModel
         }
 
         public ObservableCollection<OnesMessageModel> Messages { get; set; } = new();
+        public ChatSettingModel ChatSetting { get; set; } = new();
 
         private ChatMinimalWithLMessageModel _selectedUser;
         public ChatMinimalWithLMessageModel SelectedUser
@@ -109,6 +110,9 @@ namespace Parmigiano.ViewModel
 
                 List<OnesMessageModel> messages = await this._chatApi.GetHistory(this.SelectedUser.UserUid);
 
+                ChatSettingModel chatSetting = await this._chatApi.GetChatSetting(this.SelectedUser.Id);
+                this.ChatSetting = chatSetting;
+
                 foreach (var message in messages)
                 {
                     message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
@@ -121,7 +125,7 @@ namespace Parmigiano.ViewModel
             }
             finally
             {
-                this.IsLoading = false; 
+                this.IsLoading = false;
             }
         }
 
