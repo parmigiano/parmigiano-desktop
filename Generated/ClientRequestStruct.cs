@@ -40,41 +40,42 @@ namespace ClientRequestStruct {
             "ZBgCIAEoBBISCgptZXNzYWdlX2lkGAMgASgEInIKF0NsaWVudEVkaXRNZXNz",
             "YWdlUGFja2V0EgsKA3VpZBgBIAEoBBIPCgdjaGF0X2lkGAIgASgEEhIKCm1l",
             "c3NhZ2VfaWQYAyABKAQSDwoHY29udGVudBgEIAEoCRIUCgxjb250ZW50X3R5",
-            "cGUYBSABKAkiSgoWQ2xpZW50UGluTWVzc2FnZVBhY2tldBILCgN1aWQYASAB",
-            "KAQSDwoHY2hhdF9pZBgCIAEoBBISCgptZXNzYWdlX2lkGAMgASgEIk0KGUNs",
-            "aWVudERlbGV0ZU1lc3NhZ2VQYWNrZXQSCwoDdWlkGAEgASgEEg8KB2NoYXRf",
-            "aWQYAiABKAQSEgoKbWVzc2FnZV9pZBgDIAEoBCJFCh5DbGllbnRNZXNzYWdl",
-            "SXNEZWxpdmVyZWRQYWNrZXQSDwoHY2hhdF9pZBgBIAEoBBISCgptZXNzYWdl",
-            "X2lkGAIgASgEIhkKCkNsaWVudEluZm8SCwoDdWlkGAEgASgEIsICCgtSZXF1",
-            "ZXN0SW5mbxI7CgR0eXBlGAEgASgOMi0uQ2xpZW50UmVxdWVzdFN0cnVjdC5S",
-            "ZXF1ZXN0SW5mby5yZXF1ZXN0VHlwZXMi9QEKDHJlcXVlc3RUeXBlcxILCgd1",
-            "bmtub3duEAASFgoSZmlsZWhfaGFzaF9yZXF1ZXN0EAESEQoNZG93bmxvYWRf",
-            "ZmlsZRACEhAKDHNlbmRfbWVzc2FnZRADEhAKDHJlYWRfbWVzc2FnZRAEEhAK",
-            "DGVkaXRfbWVzc2FnZRAFEg8KC3Bpbl9tZXNzYWdlEAYSEgoOZGVsZXRlX21l",
-            "c3NhZ2UQBxIPCgt1c2VyX3R5cGluZxAIEhYKEnVzZXJfYWN0aXZlX3BhY2tl",
-            "dBAJEhwKGGdldF91bnJlYWRfbWVzc2FnZV9jb3VudBAKEgsKB3JzYV9rZXkQ",
-            "CyLBBwoHUmVxdWVzdBI1CgtyZXF1ZXN0SW5mbxgBIAEoCzIgLkNsaWVudFJl",
-            "cXVlc3RTdHJ1Y3QuUmVxdWVzdEluZm8SMwoKY2xpZW50SW5mbxgCIAEoCzIf",
-            "LkNsaWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50SW5mbxIvCghmaWxlSW5mbxgD",
-            "IAMoCzIdLkNsaWVudFJlcXVlc3RTdHJ1Y3QuRmlsZUluZm8SLQoHZGlySW5m",
-            "bxgEIAMoCzIcLkNsaWVudFJlcXVlc3RTdHJ1Y3QuRGlySW5mbxJBChFuYW1l",
-            "T2ZNYWluRXhlRmlsZRgFIAEoCzImLkNsaWVudFJlcXVlc3RTdHJ1Y3QuTmFt",
-            "ZU9mTWFpbkV4ZUZpbGUSQwoSY2xpZW50QWN0aXZlUGFja2V0GAYgASgLMicu",
-            "Q2xpZW50UmVxdWVzdFN0cnVjdC5DbGllbnRBY3RpdmVQYWNrZXQSSQoVY2xp",
-            "ZW50Q29ubmVjdGVkUGFja2V0GAcgASgLMiouQ2xpZW50UmVxdWVzdFN0cnVj",
-            "dC5DbGllbnRDb25uZWN0ZWRQYWNrZXQSRQoTcnNhS2V5UmVxdWVzdFBhY2tl",
-            "dBgIIAEoCzIoLkNsaWVudFJlcXVlc3RTdHJ1Y3QuUnNhS2V5UmVxdWVzdFBh",
-            "Y2tldBJDChJjbGllbnRUeXBpbmdQYWNrZXQYCSABKAsyJy5DbGllbnRSZXF1",
-            "ZXN0U3RydWN0LkNsaWVudFR5cGluZ1BhY2tldBJNChdjbGllbnRTZW5kTWVz",
-            "c2FnZVBhY2tldBgKIAEoCzIsLkNsaWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50",
-            "U2VuZE1lc3NhZ2VQYWNrZXQSTQoXY2xpZW50UmVhZE1lc3NhZ2VQYWNrZXQY",
-            "CyABKAsyLC5DbGllbnRSZXF1ZXN0U3RydWN0LkNsaWVudFJlYWRNZXNzYWdl",
-            "UGFja2V0Ek0KF2NsaWVudEVkaXRNZXNzYWdlUGFja2V0GAwgASgLMiwuQ2xp",
-            "ZW50UmVxdWVzdFN0cnVjdC5DbGllbnRFZGl0TWVzc2FnZVBhY2tldBJRChlj",
-            "bGllbnREZWxldGVNZXNzYWdlUGFja2V0GA0gASgLMi4uQ2xpZW50UmVxdWVz",
-            "dFN0cnVjdC5DbGllbnREZWxldGVNZXNzYWdlUGFja2V0EksKFmNsaWVudFBp",
-            "bk1lc3NhZ2VQYWNrZXQYDiABKAsyKy5DbGllbnRSZXF1ZXN0U3RydWN0LkNs",
-            "aWVudFBpbk1lc3NhZ2VQYWNrZXRiBnByb3RvMw=="));
+            "cGUYBSABKAkiXgoWQ2xpZW50UGluTWVzc2FnZVBhY2tldBILCgN1aWQYASAB",
+            "KAQSDwoHY2hhdF9pZBgCIAEoBBISCgptZXNzYWdlX2lkGAMgASgEEhIKCnBp",
+            "bl9zdGF0dXMYBCABKAgiTQoZQ2xpZW50RGVsZXRlTWVzc2FnZVBhY2tldBIL",
+            "CgN1aWQYASABKAQSDwoHY2hhdF9pZBgCIAEoBBISCgptZXNzYWdlX2lkGAMg",
+            "ASgEIkUKHkNsaWVudE1lc3NhZ2VJc0RlbGl2ZXJlZFBhY2tldBIPCgdjaGF0",
+            "X2lkGAEgASgEEhIKCm1lc3NhZ2VfaWQYAiABKAQiGQoKQ2xpZW50SW5mbxIL",
+            "CgN1aWQYASABKAQiwgIKC1JlcXVlc3RJbmZvEjsKBHR5cGUYASABKA4yLS5D",
+            "bGllbnRSZXF1ZXN0U3RydWN0LlJlcXVlc3RJbmZvLnJlcXVlc3RUeXBlcyL1",
+            "AQoMcmVxdWVzdFR5cGVzEgsKB3Vua25vd24QABIWChJmaWxlaF9oYXNoX3Jl",
+            "cXVlc3QQARIRCg1kb3dubG9hZF9maWxlEAISEAoMc2VuZF9tZXNzYWdlEAMS",
+            "EAoMcmVhZF9tZXNzYWdlEAQSEAoMZWRpdF9tZXNzYWdlEAUSDwoLcGluX21l",
+            "c3NhZ2UQBhISCg5kZWxldGVfbWVzc2FnZRAHEg8KC3VzZXJfdHlwaW5nEAgS",
+            "FgoSdXNlcl9hY3RpdmVfcGFja2V0EAkSHAoYZ2V0X3VucmVhZF9tZXNzYWdl",
+            "X2NvdW50EAoSCwoHcnNhX2tleRALIsEHCgdSZXF1ZXN0EjUKC3JlcXVlc3RJ",
+            "bmZvGAEgASgLMiAuQ2xpZW50UmVxdWVzdFN0cnVjdC5SZXF1ZXN0SW5mbxIz",
+            "CgpjbGllbnRJbmZvGAIgASgLMh8uQ2xpZW50UmVxdWVzdFN0cnVjdC5DbGll",
+            "bnRJbmZvEi8KCGZpbGVJbmZvGAMgAygLMh0uQ2xpZW50UmVxdWVzdFN0cnVj",
+            "dC5GaWxlSW5mbxItCgdkaXJJbmZvGAQgAygLMhwuQ2xpZW50UmVxdWVzdFN0",
+            "cnVjdC5EaXJJbmZvEkEKEW5hbWVPZk1haW5FeGVGaWxlGAUgASgLMiYuQ2xp",
+            "ZW50UmVxdWVzdFN0cnVjdC5OYW1lT2ZNYWluRXhlRmlsZRJDChJjbGllbnRB",
+            "Y3RpdmVQYWNrZXQYBiABKAsyJy5DbGllbnRSZXF1ZXN0U3RydWN0LkNsaWVu",
+            "dEFjdGl2ZVBhY2tldBJJChVjbGllbnRDb25uZWN0ZWRQYWNrZXQYByABKAsy",
+            "Ki5DbGllbnRSZXF1ZXN0U3RydWN0LkNsaWVudENvbm5lY3RlZFBhY2tldBJF",
+            "ChNyc2FLZXlSZXF1ZXN0UGFja2V0GAggASgLMiguQ2xpZW50UmVxdWVzdFN0",
+            "cnVjdC5Sc2FLZXlSZXF1ZXN0UGFja2V0EkMKEmNsaWVudFR5cGluZ1BhY2tl",
+            "dBgJIAEoCzInLkNsaWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50VHlwaW5nUGFj",
+            "a2V0Ek0KF2NsaWVudFNlbmRNZXNzYWdlUGFja2V0GAogASgLMiwuQ2xpZW50",
+            "UmVxdWVzdFN0cnVjdC5DbGllbnRTZW5kTWVzc2FnZVBhY2tldBJNChdjbGll",
+            "bnRSZWFkTWVzc2FnZVBhY2tldBgLIAEoCzIsLkNsaWVudFJlcXVlc3RTdHJ1",
+            "Y3QuQ2xpZW50UmVhZE1lc3NhZ2VQYWNrZXQSTQoXY2xpZW50RWRpdE1lc3Nh",
+            "Z2VQYWNrZXQYDCABKAsyLC5DbGllbnRSZXF1ZXN0U3RydWN0LkNsaWVudEVk",
+            "aXRNZXNzYWdlUGFja2V0ElEKGWNsaWVudERlbGV0ZU1lc3NhZ2VQYWNrZXQY",
+            "DSABKAsyLi5DbGllbnRSZXF1ZXN0U3RydWN0LkNsaWVudERlbGV0ZU1lc3Nh",
+            "Z2VQYWNrZXQSSwoWY2xpZW50UGluTWVzc2FnZVBhY2tldBgOIAEoCzIrLkNs",
+            "aWVudFJlcXVlc3RTdHJ1Y3QuQ2xpZW50UGluTWVzc2FnZVBhY2tldGIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -88,7 +89,7 @@ namespace ClientRequestStruct {
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientSendMessagePacket), global::ClientRequestStruct.ClientSendMessagePacket.Parser, new[]{ "Uid", "ChatId", "Content", "ContentType", "TempMessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientReadMessagePacket), global::ClientRequestStruct.ClientReadMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientEditMessagePacket), global::ClientRequestStruct.ClientEditMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId", "Content", "ContentType" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientPinMessagePacket), global::ClientRequestStruct.ClientPinMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientPinMessagePacket), global::ClientRequestStruct.ClientPinMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId", "PinStatus" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientDeleteMessagePacket), global::ClientRequestStruct.ClientDeleteMessagePacket.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientMessageIsDeliveredPacket), global::ClientRequestStruct.ClientMessageIsDeliveredPacket.Parser, new[]{ "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ClientRequestStruct.ClientInfo), global::ClientRequestStruct.ClientInfo.Parser, new[]{ "Uid" }, null, null, null, null),
@@ -2874,6 +2875,7 @@ namespace ClientRequestStruct {
       uid_ = other.uid_;
       chatId_ = other.chatId_;
       messageId_ = other.messageId_;
+      pinStatus_ = other.pinStatus_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2928,6 +2930,18 @@ namespace ClientRequestStruct {
       }
     }
 
+    /// <summary>Field number for the "pin_status" field.</summary>
+    public const int PinStatusFieldNumber = 4;
+    private bool pinStatus_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool PinStatus {
+      get { return pinStatus_; }
+      set {
+        pinStatus_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2946,6 +2960,7 @@ namespace ClientRequestStruct {
       if (Uid != other.Uid) return false;
       if (ChatId != other.ChatId) return false;
       if (MessageId != other.MessageId) return false;
+      if (PinStatus != other.PinStatus) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2956,6 +2971,7 @@ namespace ClientRequestStruct {
       if (Uid != 0UL) hash ^= Uid.GetHashCode();
       if (ChatId != 0UL) hash ^= ChatId.GetHashCode();
       if (MessageId != 0UL) hash ^= MessageId.GetHashCode();
+      if (PinStatus != false) hash ^= PinStatus.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2986,6 +3002,10 @@ namespace ClientRequestStruct {
         output.WriteRawTag(24);
         output.WriteUInt64(MessageId);
       }
+      if (PinStatus != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(PinStatus);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3008,6 +3028,10 @@ namespace ClientRequestStruct {
         output.WriteRawTag(24);
         output.WriteUInt64(MessageId);
       }
+      if (PinStatus != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(PinStatus);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -3026,6 +3050,9 @@ namespace ClientRequestStruct {
       }
       if (MessageId != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(MessageId);
+      }
+      if (PinStatus != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3047,6 +3074,9 @@ namespace ClientRequestStruct {
       }
       if (other.MessageId != 0UL) {
         MessageId = other.MessageId;
+      }
+      if (other.PinStatus != false) {
+        PinStatus = other.PinStatus;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -3079,6 +3109,10 @@ namespace ClientRequestStruct {
             MessageId = input.ReadUInt64();
             break;
           }
+          case 32: {
+            PinStatus = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -3108,6 +3142,10 @@ namespace ClientRequestStruct {
           }
           case 24: {
             MessageId = input.ReadUInt64();
+            break;
+          }
+          case 32: {
+            PinStatus = input.ReadBool();
             break;
           }
         }

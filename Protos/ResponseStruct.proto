@@ -75,6 +75,7 @@ message ClientPinMessage {
 	uint64 uid = 1; // ìîé uid
     uint64 chat_id = 2; // â êàêîì ÷àòå
 	uint64 message_id = 3; // id çàêðåïëåííîãî ñîîáùåíèÿ
+	bool pin_status = 4;
 }
 
 // client delete message
