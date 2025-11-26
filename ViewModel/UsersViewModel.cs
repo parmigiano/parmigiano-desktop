@@ -82,35 +82,6 @@ namespace Parmigiano.ViewModel
 
         private void HandleWebSocketEvent(string evt, JObject data)
         {
-            if (evt == Events.EVENT_USER_NEW_MESSAGE)
-            {
-                try
-                {
-                    ulong chatId = data["chat_id"]?.ToObject<ulong>() ?? 0;
-                    string content = data["content"]?.ToString() ?? "";
-                    DateTime now = DateTime.Now;
-
-                    var user = Users.FirstOrDefault(u => u.Id == chatId || u.UserUid == (data["sender_uid"]?.ToObject<ulong>() ?? 0));
-                    if (user != null)
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            user.LastMessage = content;
-                            user.LastMessageDate = now;
-
-                            if (user.UserUid != AppSession.CurrentUser.UserUid)
-                            {
-                                user.UnreadMessageCount++;
-                            }
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error($"Ошибка обработки new_message: {ex.Message}");
-                }
-            }
-
             if (evt == Events.EVENT_USER_AVATAR_UPDATED)
             {
                 ulong uid = 0;
@@ -127,48 +98,6 @@ namespace Parmigiano.ViewModel
                     });
                 }
             }
-            else if (evt == Events.EVENT_USER_NEW_REGISTER)
-            {
-                try
-                {
-                    var userObj = data.ToObject<ChatMinimalWithLMessageModel>();
-                    if (userObj != null)
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            if (!Users.Any(u => u.UserUid == userObj.UserUid))
-                            {
-                                Users.Insert(0, userObj);
-                            }
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error($"Ошибка обработки user_new_register: {ex.Message}");
-                }
-            }
-            else if (evt == Events.EVENT_USER_ONLINE)
-            {
-                try
-                {
-                    ulong uid = data["user_uid"]?.ToObject<ulong>() ?? 0;
-                    bool online = data["online"]?.ToObject<bool>() ?? false;
-
-                    var user = Users.FirstOrDefault(u => u.UserUid == uid);
-                    if (user == null) return;
-
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        user.Online = online;
-                        user.LastOnlineDate = DateTime.Now;
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error($"Ошибка обработки user_online: {ex.Message}");
-                }
-            }
         }
 
         private void HandleTcpEvent(ResponseStruct.Response response)
@@ -177,22 +106,14 @@ namespace Parmigiano.ViewModel
             {
                 switch (response)
                 {
-                    // client active packet
+                    // received online packet
                     case { ClientActive: not null }:
-                        if (response?.ClientActive == null) return;
+                        this.packetReceivedOnlineMessage(response);
+                        break;
 
-                        ulong uid = response.ClientActive.Uid;
-                        bool online = response.ClientActive.Online;
-
-                        var user = Users.FirstOrDefault(u => u.UserUid == uid);
-                        if (user == null) return;
-
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            user.Online = online;
-                            user.LastOnlineDate = DateTime.Now;
-                        });
-
+                    // received message packet
+                    case { ClientSendMessage: not null }:
+                        this.packetReceivedMessageTcp(response);
                         break;
                 }
             }
@@ -267,5 +188,78 @@ namespace Parmigiano.ViewModel
                 Logger.Error($"Ошибка парсинга JSON: {ex.Message}");
             }
         }
+
+        #region PACKET RECEIVED ONLINE USER
+
+        private void packetReceivedOnlineMessage(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientActive == null) return;
+
+                ulong uid = response.ClientActive.Uid;
+                bool online = response.ClientActive.Online;
+
+                var user = Users.FirstOrDefault(u => u.UserUid == uid);
+                if (user == null) return;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    user.Online = online;
+                    user.LastOnlineDate = DateTime.Now;
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"HandleTcpEvent error: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region PACKET RECEIVED MESSAGE
+
+        private void packetReceivedMessageTcp(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientSendMessage == null) return;
+
+                var packet = response.ClientSendMessage;
+
+                ulong chatId = packet.ChatId;
+                string content = packet.Content;
+                ulong senderUid = packet.SenderUid;
+                string deliveredAt = packet.DeliveredAt;
+
+                var user = Users.FirstOrDefault(u => u.Id == chatId || u.UserUid == senderUid);
+
+                DateTime deliveredTime;
+                if (!DateTime.TryParse(deliveredAt, out deliveredTime))
+                {
+                    deliveredTime = DateTime.Now;
+                }
+
+                if (user != null)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        user.LastMessage = content;
+                        user.LastMessageDate = deliveredTime;
+
+                        if (user.UserUid != AppSession.CurrentUser.UserUid)
+                        {
+                            user.UnreadMessageCount++;
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("HandleTcpEvent error: " + ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

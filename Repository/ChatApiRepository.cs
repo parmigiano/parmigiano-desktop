@@ -23,9 +23,9 @@ namespace Parmigiano.Repository
             return await this._httpClient.PatchAsync<string?>($"{this._apiPath}/{chatBlocked.ChatId}/blocked", chatBlocked);
         }
 
-        public async Task<string> ChatUpdateCustomBackground(ulong chatId, string filepath)
+        public async Task<string> ChatUpdateCustomBackground(ulong chatId, string? filepath)
         {
-            return await this._httpClient.UploadFile($"{this._apiPath}/{chatId}/cbackground", filepath);
+            return await this._httpClient.UploadFile($"{this._apiPath}/{chatId}/cbackground", filepath, "background");
         }
 
         public async Task<List<ChatMinimalWithLMessageModel>> GetChats()

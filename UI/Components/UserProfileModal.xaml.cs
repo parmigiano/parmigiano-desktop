@@ -3,6 +3,7 @@ using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
 using Parmigiano.Utilities;
+using Parmigiano.ViewModel;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +20,7 @@ namespace Parmigiano.UI.Components
     public partial class UserProfileModal : UserControl
     {
         private static readonly IUserApiRepository _userApi = new UserApiRepository();
+        private static readonly IChatApiRepository _chatApi = new ChatApiRepository();
         private static ImageUtilities _imageUtilities = new ImageUtilities();
         private static UserProfileModal _instance;
 
@@ -58,9 +60,14 @@ namespace Parmigiano.UI.Components
             return false;
         }
 
-        public static async Task ShowProfile(ulong uid)
+        public static async Task ShowProfile(ulong userUid, ChatViewModel chatVm)
         {
             if (_instance == null) return;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _instance.Tag = chatVm;
+            });
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -80,7 +87,7 @@ namespace Parmigiano.UI.Components
                 _instance.BeginAnimation(OpacityProperty, fadeIn);
             });
 
-            UserInfoModel user = await _userApi.GetUserProfile(uid);
+            UserInfoModel user = await _userApi.GetUserProfile(userUid);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -167,6 +174,31 @@ namespace Parmigiano.UI.Components
             byte g = (byte)((hash >> 8) & 0xFF);
             byte b = (byte)((hash >> 16) & 0xFF);
             return Color.FromRgb(r, g, b);
+        }
+
+        private async void Blocked_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var vm = this.Tag as ChatViewModel;
+            if (vm == null) return;
+
+            try
+            {
+                bool newState = !vm.ChatSetting.Blocked;
+
+                ChatUpdateBlockedModel chatBlockedModel = new()
+                {
+                    ChatId = vm.SelectedUser.Id,
+                    Blocked = newState,
+                };
+
+                await _chatApi.ChatUpdateBlocked(chatBlockedModel);
+
+                vm.ChatSetting.Blocked = newState;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Blocked switch error: " + ex.Message);
+            }
         }
     }
 }

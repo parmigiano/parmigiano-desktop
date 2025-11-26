@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using Parmigiano.Core;
+using Parmigiano.Interface;
+using Parmigiano.Models;
+using Parmigiano.Repository;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -8,6 +11,8 @@ namespace Parmigiano.Services
 {
     public class ConnectionService
     {
+        private readonly IUserApiRepository _userApi = new UserApiRepository();
+
         private static ConnectionService _instance;
         public static ConnectionService Instance => _instance ??= new ConnectionService();
 
@@ -51,9 +56,10 @@ namespace Parmigiano.Services
             }
         }
 
-        public void ConnectWSocket()
+        public async void ConnectWSocket()
         {
-            WebSocket.Connect();
+            UserInfoModel? user = await this._userApi.GetUserMe();
+            WebSocket.Connect(user.UserUid);
         }
 
         public void ConnectTcp()

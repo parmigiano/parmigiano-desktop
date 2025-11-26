@@ -179,6 +179,8 @@ namespace Parmigiano
         private void OnUserSelected(ChatMinimalWithLMessageModel user)
         {
             this.SelectedUser = user;
+
+            ChatControl.Visibility = Visibility.Visible;
         }
 
         private async void MainWindow_StateChanged(object sender, EventArgs e)

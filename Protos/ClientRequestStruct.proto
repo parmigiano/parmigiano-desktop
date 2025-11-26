@@ -50,6 +50,7 @@ message ClientSendMessagePacket {
     uint64 chat_id = 2; // в каком чате
 	string content = 3; // Само сообщение
 	string content_type = 4; // Тип сообщения 'text', 'image', ...
+	uint64 temp_message_id = 5; // Временный ID для клиента
 }
 
 // 5. Пакет когда пользователь прочитал сообщение

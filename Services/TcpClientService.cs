@@ -18,26 +18,22 @@ namespace Parmigiano.Services
         public event Action<ResponseStruct.Response> OnEventReceived;
         public bool IsConnected => _tcpClient != null && _tcpClient.Connected;
 
-        private int _reconnectAttempt = 0;
-        private readonly int[] _retryDelays = new[]
-        {
-            0,      // сразу
-            1000,   // 1 сек
-            3000,   // 3 сек
-            5000,   // 5 сек
-            10000,  // 10 сек
-            30000,  // 30 сек
-            60000   // 60 сек
-        };
-
-        private bool _isReconnecting = false;
+        // timers
+        private readonly object _lock = new();
+        private bool _manualClose = false;
+        private Timer _reconnectTimer;
 
         public async void Connect()
         {
-            if (this.IsConnected)
+            lock (this._lock)
             {
-                Logger.Tcp("TcpClientService: уже подключено, пропускаем повторное подключение.");
-                return;
+                if (this.IsConnected)
+                {
+                    Logger.Tcp("TcpClientService: уже подключено, пропускаем повторное подключение.");
+                    return;
+                }
+
+                this._manualClose = false;
             }
 
             try
@@ -50,16 +46,29 @@ namespace Parmigiano.Services
 
                 Logger.Tcp($"[INFO] TCP client connected to {Config.Current.TCP_SERVER_ADDR}:{Config.Current.TCP_SERVER_PORT}");
 
-                if (this.IsConnected)
-                {
-                    await TcpSendPacketsService.SendOnlinePacketAsync(true);
-                }
+                await TcpSendPacketsService.SendOnlinePacketAsync(true);
 
                 _ = Task.Run(() => this.ListenAsync(this._cts.Token));
             }
             catch (Exception ex)
             {
                 Logger.Tcp("[ERROR] Error TCP-connection: " + ex.Message);
+                this.ScheduleReconnect();
+            }
+        }
+
+        private void ScheduleReconnect(int delayMs = 10000)
+        {
+            lock (this._lock)
+            {
+                if (this._manualClose) return;
+
+                this._reconnectTimer?.Dispose();
+                this._reconnectTimer = new Timer(_ =>
+                {
+                    Logger.Tcp("[INFO] Попытка переподключения TCP...");
+                    Connect();
+                }, null, delayMs, Timeout.Infinite);
             }
         }
 
@@ -111,6 +120,7 @@ namespace Parmigiano.Services
             }
 
             this.Disconnect();
+            this.ScheduleReconnect();
         }
 
         public async Task SendProtoAsync(IMessage message)
@@ -118,6 +128,12 @@ namespace Parmigiano.Services
             if (!this.IsConnected)
             {
                 Logger.Tcp("TCP: попытка отправки при отсутствии соединения");
+                return;
+            }
+
+            if (this._stream == null)
+            {
+                Logger.Error("TCP: STREAM == NULL — соединение не установлено");
                 return;
             }
 
@@ -147,6 +163,8 @@ namespace Parmigiano.Services
             catch (Exception ex)
             {
                 Logger.Tcp("Failed send to TCP: " + ex.Message);
+                this.Disconnect();
+                this.ScheduleReconnect();
             }
         }
 
@@ -171,17 +189,25 @@ namespace Parmigiano.Services
 
         public void Disconnect()
         {
-            try
+            lock (this._lock)
             {
-                this._cts?.Cancel();
-                this._stream?.Close();
-                this._tcpClient?.Close();
+                this._manualClose = true;
 
-                Logger.Tcp("TCP closed");
-            }
-            catch (Exception ex)
-            {
-                Logger.Tcp("Failed to closed connection TCP: " + ex.Message);
+                try
+                {
+                    this._cts?.Cancel();
+                    this._stream?.Close();
+                    this._tcpClient?.Close();
+
+                    Logger.Tcp("TCP closed");
+                }
+                catch (Exception ex)
+                {
+                    Logger.Tcp("Failed to closed connection TCP: " + ex.Message);
+                }
+
+                this._reconnectTimer?.Dispose();
+                this._reconnectTimer = null;
             }
         }
     }

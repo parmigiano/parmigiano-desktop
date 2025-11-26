@@ -50,7 +50,7 @@ namespace Parmigiano.Services
 
         #region PACKET SendMessage
 
-        public static async Task SendMessageAsync(ulong chatId, string content, string contentType = "text")
+        public static async Task SendMessageAsync(ulong chatId, ulong tmpMessageId, string content, string contentType = "text")
         {
             if (!ConnectionService.Instance.IsConnectedTcp)
             {
@@ -67,6 +67,7 @@ namespace Parmigiano.Services
                 ChatId = chatId,
                 Content = content ?? string.Empty,
                 ContentType = contentType ?? "text",
+                TempMessageId = tmpMessageId,
             };
 
             await SafeSendAsync(req);

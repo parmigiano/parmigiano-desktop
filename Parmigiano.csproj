@@ -254,6 +254,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>packages\WpfAnimatedGif.2.0.2\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
     <Reference Include="ZstdSharp, Version=0.8.6.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
       <HintPath>packages\ZstdSharp.Port.0.8.6\lib\net462\ZstdSharp.dll</HintPath>
     </Reference>
@@ -331,6 +334,9 @@
     <Compile Include="UI\Components\ChatLoader.xaml.cs">
       <DependentUpon>ChatLoader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Components\ChatSettingModal.xaml.cs">
+      <DependentUpon>ChatSettingModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Components\Notification.xaml.cs">
       <DependentUpon>Notification.xaml</DependentUpon>
     </Compile>
@@ -358,13 +364,16 @@
     <Compile Include="UI\Controllers\AsyncImageConverter.cs" />
     <Compile Include="UI\Controllers\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\EmailConfirmConverter.cs" />
+    <Compile Include="UI\Controllers\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\LastMessageConverter.cs" />
     <Compile Include="UI\Controllers\LastOnlineMultiConverter.cs" />
     <Compile Include="UI\Controllers\MessageContentConverter.cs" />
     <Compile Include="UI\Controllers\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\PhoneVisibleMultiConverter.cs" />
+    <Compile Include="UI\Controllers\PlaceholderVisibilityConverter.cs" />
     <Compile Include="UI\Controllers\ReadAtToIconConverter.cs" />
     <Compile Include="UI\Controllers\StringToVisibilityConverter.cs" />
+    <Compile Include="UI\Controllers\TypingOrOnlineConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToColorConverter.cs" />
     <Compile Include="UI\Controllers\UsernameToInitialConverter.cs" />
     <Compile Include="UI\Controllers\UtcToLocalTimeConverter.cs" />
@@ -411,6 +420,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Components\ChatLoader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Components\ChatSettingModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

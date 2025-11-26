@@ -13,8 +13,5 @@ namespace Parmigiano.Core
         public static string EVENT_USER_AVATAR_UPDATED = "user_avatar_updated";
 
         public static string EVENT_CHAT_BACKGROUND_UPDATED = "chat_background_updated";
-
-        public static string EVENT_USER_ONLINE = "user_online_changed";
-        public static string EVENT_USER_NEW_MESSAGE = "new_message";
     }
 }

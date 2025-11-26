@@ -46,7 +46,7 @@ namespace Parmigiano.Repository
 
         public async Task<string?> UploadAvatar(string filePath)
         {
-            return await this._httpClient.UploadFile($"{this._apiPath}/upload/avatar", filePath);
+            return await this._httpClient.UploadFile($"{this._apiPath}/upload/avatar", filePath, "avatar");
         }
     }
 }

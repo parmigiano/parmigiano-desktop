@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,22 +11,23 @@ namespace Parmigiano.Models
     public class MessageStatusModel
     {
         [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public ulong Id { get; set; }
 
-
         [JsonPropertyName("message_id")]
+        [JsonProperty("message_id")]
         public ulong MessageId { get; set; }
 
-
         [JsonPropertyName("receiver_uid")]
+        [JsonProperty("receiver_uid")]
         public ulong ReceiverUid { get; set; }
 
-
         [JsonPropertyName("delivered_at")]
+        [JsonProperty("delivered_at")]
         public DateTime DeliveredAt { get; set; }
 
-
         [JsonPropertyName("read_at")]
+        [JsonProperty("read_at")]
         public DateTime? ReadAt { get; set; }
     }
 }

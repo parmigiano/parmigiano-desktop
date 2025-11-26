@@ -1,9 +1,12 @@
 ﻿using Parmigiano.ViewModel;
 using System;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Parmigiano.UI.Components
 {
@@ -20,6 +23,11 @@ namespace Parmigiano.UI.Components
             DataContext = ViewModel;
 
             this.Loaded += Chat_Loaded;
+
+            ViewModel.ChatSettingUpdated += () =>
+            {
+                Application.Current.Dispatcher.Invoke(SetChatBackground);
+            };
         }
 
         private void Chat_Loaded(object sender, RoutedEventArgs e)
@@ -67,7 +75,62 @@ namespace Parmigiano.UI.Components
         {
             if (DataContext is Parmigiano.ViewModel.ChatViewModel vm && vm.SelectedUser != null)
             {
-                await UserProfileModal.ShowProfile(vm.SelectedUser.UserUid);
+                await UserProfileModal.ShowProfile(vm.SelectedUser.UserUid, vm);
+            }
+        }
+
+        private void ChatBackground_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is Parmigiano.ViewModel.ChatViewModel vm && vm.SelectedUser != null)
+            {
+                ChatSettingModal.Show(vm.SelectedUser.Id);
+            }
+        }
+
+        public void SetChatBackground()
+        {
+            if (ViewModel.ChatSetting != null && !string.IsNullOrEmpty(ViewModel.ChatSetting.CustomBackground))
+            {
+                ChatScrollViewer.Background = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri(ViewModel.ChatSetting.CustomBackground, UriKind.RelativeOrAbsolute)),
+                    Stretch = Stretch.UniformToFill,
+                    Opacity = 0.55,
+                };
+            }
+            else
+            {
+                var grid = new Grid();
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                var img1 = new Image
+                {
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Public/assets/chat-bg-1.png")),
+                    Stretch = Stretch.UniformToFill
+                };
+
+                Grid.SetColumn(img1, 0);
+                RenderOptions.SetBitmapScalingMode(img1, BitmapScalingMode.HighQuality);
+
+                var img2 = new Image
+                {
+                    Source = new BitmapImage(new Uri("pack://application:,,,/Public/assets/chat-bg-1.png")),
+                    Stretch = Stretch.UniformToFill
+                };
+
+                Grid.SetColumn(img2, 1);
+                RenderOptions.SetBitmapScalingMode(img2, BitmapScalingMode.HighQuality);
+
+                grid.Children.Add(img1);
+                grid.Children.Add(img2);
+
+                ChatScrollViewer.Background = new VisualBrush
+                {
+                    Visual = grid,
+                    Opacity = 0.085,
+                    Stretch = Stretch.UniformToFill
+                };
             }
         }
     }

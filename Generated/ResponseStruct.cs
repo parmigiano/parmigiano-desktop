@@ -29,46 +29,47 @@ namespace ResponseStruct {
             "KAkiFwoHRGlySW5mbxIMCgRwYXRoGAEgASgJIiEKEU5hbWVPZk1haW5FeGVG",
             "aWxlEgwKBG5hbWUYASABKAkiMQoSQ2xpZW50QWN0aXZlUGFja2V0EgsKA3Vp",
             "ZBgBIAEoBBIOCgZvbmxpbmUYAiABKAgiPwoMQ2xpZW50VHlwaW5nEgsKA3Vp",
-            "ZBgBIAEoBBIPCgdjaGF0X2lkGAIgASgEEhEKCWlzX3R5cGluZxgDIAEoCCKJ",
-            "AQoRQ2xpZW50U2VuZE1lc3NhZ2USEgoKbWVzc2FnZV9pZBgBIAEoBBIPCgdj",
-            "aGF0X2lkGAIgASgEEhIKCnNlbmRlcl91aWQYAyABKAQSDwoHY29udGVudBgE",
-            "IAEoCRIUCgxjb250ZW50X3R5cGUYBSABKAkSFAoMZGVsaXZlcmVkX2F0GAYg",
-            "ASgJIjgKEUNsaWVudFJlYWRNZXNzYWdlEg8KB2NoYXRfaWQYASABKAQSEgoK",
-            "bWVzc2FnZV9pZBgCIAEoBCKJAQoRQ2xpZW50RWRpdE1lc3NhZ2USEgoKbWVz",
-            "c2FnZV9pZBgBIAEoBBIPCgdjaGF0X2lkGAIgASgEEhIKCnNlbmRlcl91aWQY",
-            "AyABKAQSDwoHY29udGVudBgEIAEoCRIUCgxjb250ZW50X3R5cGUYBSABKAkS",
-            "FAoMZGVsaXZlcmVkX2F0GAYgASgJIkQKEENsaWVudFBpbk1lc3NhZ2USCwoD",
-            "dWlkGAEgASgEEg8KB2NoYXRfaWQYAiABKAQSEgoKbWVzc2FnZV9pZBgDIAEo",
-            "BCI6ChNDbGllbnREZWxldGVNZXNzYWdlEg8KB2NoYXRfaWQYASABKAQSEgoK",
-            "bWVzc2FnZV9pZBgCIAEoBCI7ChlDbGllbnRVbnJlYWRNZXNzYWdlc0NvdW50",
-            "Eg8KB2NoYXRfaWQYASABKAQSDQoFY291bnQYAiABKAUixwEKE0Rpc2Nvbm5l",
-            "Y3ROb3RpZnlpbmcSNwoEdHlwZRgBIAEoDjIpLlJlc3BvbnNlU3RydWN0LkRp",
-            "c2Nvbm5lY3ROb3RpZnlpbmcudHlwZXMSEwoLZGVzY3JpcHRpb24YAiABKAkS",
-            "DAoEY29kZRgDIAEoBSJUCgV0eXBlcxILCgd1bmtub3duEAASCAoEd2FybhAB",
-            "EgkKBWVycm9yEAISCwoHdGVtcEJhbhADEgwKCGluYWN0aXZlEAQSDgoKbGl0",
-            "dGxlSW5mbxAFIqMCCgxSZXNwb25zZUluZm8SMAoEdHlwZRgBIAEoDjIiLlJl",
-            "c3BvbnNlU3RydWN0LlJlc3BvbnNlSW5mby50eXBlcyLgAQoFdHlwZXMSCwoH",
-            "dW5rbm93bhAAEhUKEWZpbGVfaGFzaF9yZXF1ZXN0EAESEQoNZG93bmxvYWRf",
-            "ZmlsZRACEhAKDHNlbmRfbWVzc2FnZRADEhAKDHJlYWRfbWVzc2FnZRAEEhAK",
-            "DGVkaXRfbWVzc2FnZRAFEg8KC3Bpbl9tZXNzYWdlEAYSEgoOZGVsZXRlX21l",
-            "c3NhZ2UQBxIPCgt1c2VyX3R5cGluZxAIEhYKEnVzZXJfb25saW5lX3N0YXR1",
-            "cxAJEhwKGGdldF91bnJlYWRfbWVzc2FnZV9jb3VudBAKIroFCghSZXNwb25z",
-            "ZRIyCgxyZXNwb25zZUluZm8YASABKAsyHC5SZXNwb25zZVN0cnVjdC5SZXNw",
-            "b25zZUluZm8SQAoTZGlzY29ubmVjdE5vdGlmeWluZxgCIAEoCzIjLlJlc3Bv",
-            "bnNlU3RydWN0LkRpc2Nvbm5lY3ROb3RpZnlpbmcSKgoIZmlsZUluZm8YAyAD",
-            "KAsyGC5SZXNwb25zZVN0cnVjdC5GaWxlSW5mbxIoCgdkaXJJbmZvGAQgAygL",
-            "MhcuUmVzcG9uc2VTdHJ1Y3QuRGlySW5mbxI8ChFuYW1lT2ZNYWluRXhlRmls",
-            "ZRgFIAEoCzIhLlJlc3BvbnNlU3RydWN0Lk5hbWVPZk1haW5FeGVGaWxlEjgK",
-            "DGNsaWVudEFjdGl2ZRgGIAEoCzIiLlJlc3BvbnNlU3RydWN0LkNsaWVudEFj",
-            "dGl2ZVBhY2tldBIyCgxjbGllbnRUeXBpbmcYByABKAsyHC5SZXNwb25zZVN0",
-            "cnVjdC5DbGllbnRUeXBpbmcSPAoRY2xpZW50U2VuZE1lc3NhZ2UYCCABKAsy",
-            "IS5SZXNwb25zZVN0cnVjdC5DbGllbnRTZW5kTWVzc2FnZRI8ChFjbGllbnRS",
-            "ZWFkTWVzc2FnZRgJIAEoCzIhLlJlc3BvbnNlU3RydWN0LkNsaWVudFJlYWRN",
-            "ZXNzYWdlEjwKEWNsaWVudEVkaXRNZXNzYWdlGAogASgLMiEuUmVzcG9uc2VT",
-            "dHJ1Y3QuQ2xpZW50RWRpdE1lc3NhZ2USQAoTY2xpZW50RGVsZXRlTWVzc2Fn",
-            "ZRgLIAEoCzIjLlJlc3BvbnNlU3RydWN0LkNsaWVudERlbGV0ZU1lc3NhZ2US",
-            "OgoQY2xpZW50UGluTWVzc2FnZRgMIAEoCzIgLlJlc3BvbnNlU3RydWN0LkNs",
-            "aWVudFBpbk1lc3NhZ2ViBnByb3RvMw=="));
+            "ZBgBIAEoBBIPCgdjaGF0X2lkGAIgASgEEhEKCWlzX3R5cGluZxgDIAEoCCKi",
+            "AQoRQ2xpZW50U2VuZE1lc3NhZ2USFwoPdGVtcF9tZXNzYWdlX2lkGAEgASgE",
+            "EhIKCm1lc3NhZ2VfaWQYAiABKAQSDwoHY2hhdF9pZBgDIAEoBBISCgpzZW5k",
+            "ZXJfdWlkGAQgASgEEg8KB2NvbnRlbnQYBSABKAkSFAoMY29udGVudF90eXBl",
+            "GAYgASgJEhQKDGRlbGl2ZXJlZF9hdBgHIAEoCSI4ChFDbGllbnRSZWFkTWVz",
+            "c2FnZRIPCgdjaGF0X2lkGAEgASgEEhIKCm1lc3NhZ2VfaWQYAiABKAQiiQEK",
+            "EUNsaWVudEVkaXRNZXNzYWdlEhIKCm1lc3NhZ2VfaWQYASABKAQSDwoHY2hh",
+            "dF9pZBgCIAEoBBISCgpzZW5kZXJfdWlkGAMgASgEEg8KB2NvbnRlbnQYBCAB",
+            "KAkSFAoMY29udGVudF90eXBlGAUgASgJEhQKDGRlbGl2ZXJlZF9hdBgGIAEo",
+            "CSJEChBDbGllbnRQaW5NZXNzYWdlEgsKA3VpZBgBIAEoBBIPCgdjaGF0X2lk",
+            "GAIgASgEEhIKCm1lc3NhZ2VfaWQYAyABKAQiOgoTQ2xpZW50RGVsZXRlTWVz",
+            "c2FnZRIPCgdjaGF0X2lkGAEgASgEEhIKCm1lc3NhZ2VfaWQYAiABKAQiOwoZ",
+            "Q2xpZW50VW5yZWFkTWVzc2FnZXNDb3VudBIPCgdjaGF0X2lkGAEgASgEEg0K",
+            "BWNvdW50GAIgASgFIscBChNEaXNjb25uZWN0Tm90aWZ5aW5nEjcKBHR5cGUY",
+            "ASABKA4yKS5SZXNwb25zZVN0cnVjdC5EaXNjb25uZWN0Tm90aWZ5aW5nLnR5",
+            "cGVzEhMKC2Rlc2NyaXB0aW9uGAIgASgJEgwKBGNvZGUYAyABKAUiVAoFdHlw",
+            "ZXMSCwoHdW5rbm93bhAAEggKBHdhcm4QARIJCgVlcnJvchACEgsKB3RlbXBC",
+            "YW4QAxIMCghpbmFjdGl2ZRAEEg4KCmxpdHRsZUluZm8QBSKjAgoMUmVzcG9u",
+            "c2VJbmZvEjAKBHR5cGUYASABKA4yIi5SZXNwb25zZVN0cnVjdC5SZXNwb25z",
+            "ZUluZm8udHlwZXMi4AEKBXR5cGVzEgsKB3Vua25vd24QABIVChFmaWxlX2hh",
+            "c2hfcmVxdWVzdBABEhEKDWRvd25sb2FkX2ZpbGUQAhIQCgxzZW5kX21lc3Nh",
+            "Z2UQAxIQCgxyZWFkX21lc3NhZ2UQBBIQCgxlZGl0X21lc3NhZ2UQBRIPCgtw",
+            "aW5fbWVzc2FnZRAGEhIKDmRlbGV0ZV9tZXNzYWdlEAcSDwoLdXNlcl90eXBp",
+            "bmcQCBIWChJ1c2VyX29ubGluZV9zdGF0dXMQCRIcChhnZXRfdW5yZWFkX21l",
+            "c3NhZ2VfY291bnQQCiK6BQoIUmVzcG9uc2USMgoMcmVzcG9uc2VJbmZvGAEg",
+            "ASgLMhwuUmVzcG9uc2VTdHJ1Y3QuUmVzcG9uc2VJbmZvEkAKE2Rpc2Nvbm5l",
+            "Y3ROb3RpZnlpbmcYAiABKAsyIy5SZXNwb25zZVN0cnVjdC5EaXNjb25uZWN0",
+            "Tm90aWZ5aW5nEioKCGZpbGVJbmZvGAMgAygLMhguUmVzcG9uc2VTdHJ1Y3Qu",
+            "RmlsZUluZm8SKAoHZGlySW5mbxgEIAMoCzIXLlJlc3BvbnNlU3RydWN0LkRp",
+            "ckluZm8SPAoRbmFtZU9mTWFpbkV4ZUZpbGUYBSABKAsyIS5SZXNwb25zZVN0",
+            "cnVjdC5OYW1lT2ZNYWluRXhlRmlsZRI4CgxjbGllbnRBY3RpdmUYBiABKAsy",
+            "Ii5SZXNwb25zZVN0cnVjdC5DbGllbnRBY3RpdmVQYWNrZXQSMgoMY2xpZW50",
+            "VHlwaW5nGAcgASgLMhwuUmVzcG9uc2VTdHJ1Y3QuQ2xpZW50VHlwaW5nEjwK",
+            "EWNsaWVudFNlbmRNZXNzYWdlGAggASgLMiEuUmVzcG9uc2VTdHJ1Y3QuQ2xp",
+            "ZW50U2VuZE1lc3NhZ2USPAoRY2xpZW50UmVhZE1lc3NhZ2UYCSABKAsyIS5S",
+            "ZXNwb25zZVN0cnVjdC5DbGllbnRSZWFkTWVzc2FnZRI8ChFjbGllbnRFZGl0",
+            "TWVzc2FnZRgKIAEoCzIhLlJlc3BvbnNlU3RydWN0LkNsaWVudEVkaXRNZXNz",
+            "YWdlEkAKE2NsaWVudERlbGV0ZU1lc3NhZ2UYCyABKAsyIy5SZXNwb25zZVN0",
+            "cnVjdC5DbGllbnREZWxldGVNZXNzYWdlEjoKEGNsaWVudFBpbk1lc3NhZ2UY",
+            "DCABKAsyIC5SZXNwb25zZVN0cnVjdC5DbGllbnRQaW5NZXNzYWdlYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -77,7 +78,7 @@ namespace ResponseStruct {
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.NameOfMainExeFile), global::ResponseStruct.NameOfMainExeFile.Parser, new[]{ "Name" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientActivePacket), global::ResponseStruct.ClientActivePacket.Parser, new[]{ "Uid", "Online" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientTyping), global::ResponseStruct.ClientTyping.Parser, new[]{ "Uid", "ChatId", "IsTyping" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientSendMessage), global::ResponseStruct.ClientSendMessage.Parser, new[]{ "MessageId", "ChatId", "SenderUid", "Content", "ContentType", "DeliveredAt" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientSendMessage), global::ResponseStruct.ClientSendMessage.Parser, new[]{ "TempMessageId", "MessageId", "ChatId", "SenderUid", "Content", "ContentType", "DeliveredAt" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientReadMessage), global::ResponseStruct.ClientReadMessage.Parser, new[]{ "ChatId", "MessageId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientEditMessage), global::ResponseStruct.ClientEditMessage.Parser, new[]{ "MessageId", "ChatId", "SenderUid", "Content", "ContentType", "DeliveredAt" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ResponseStruct.ClientPinMessage), global::ResponseStruct.ClientPinMessage.Parser, new[]{ "Uid", "ChatId", "MessageId" }, null, null, null, null),
@@ -1326,6 +1327,7 @@ namespace ResponseStruct {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ClientSendMessage(ClientSendMessage other) : this() {
+      tempMessageId_ = other.tempMessageId_;
       messageId_ = other.messageId_;
       chatId_ = other.chatId_;
       senderUid_ = other.senderUid_;
@@ -1341,8 +1343,23 @@ namespace ResponseStruct {
       return new ClientSendMessage(this);
     }
 
+    /// <summary>Field number for the "temp_message_id" field.</summary>
+    public const int TempMessageIdFieldNumber = 1;
+    private ulong tempMessageId_;
+    /// <summary>
+    /// temp message id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong TempMessageId {
+      get { return tempMessageId_; }
+      set {
+        tempMessageId_ = value;
+      }
+    }
+
     /// <summary>Field number for the "message_id" field.</summary>
-    public const int MessageIdFieldNumber = 1;
+    public const int MessageIdFieldNumber = 2;
     private ulong messageId_;
     /// <summary>
     /// message id
@@ -1357,7 +1374,7 @@ namespace ResponseStruct {
     }
 
     /// <summary>Field number for the "chat_id" field.</summary>
-    public const int ChatIdFieldNumber = 2;
+    public const int ChatIdFieldNumber = 3;
     private ulong chatId_;
     /// <summary>
     /// chaaaaaaatik
@@ -1372,7 +1389,7 @@ namespace ResponseStruct {
     }
 
     /// <summary>Field number for the "sender_uid" field.</summary>
-    public const int SenderUidFieldNumber = 3;
+    public const int SenderUidFieldNumber = 4;
     private ulong senderUid_;
     /// <summary>
     /// id of message sender
@@ -1387,7 +1404,7 @@ namespace ResponseStruct {
     }
 
     /// <summary>Field number for the "content" field.</summary>
-    public const int ContentFieldNumber = 4;
+    public const int ContentFieldNumber = 5;
     private string content_ = "";
     /// <summary>
     /// text of the message
@@ -1402,7 +1419,7 @@ namespace ResponseStruct {
     }
 
     /// <summary>Field number for the "content_type" field.</summary>
-    public const int ContentTypeFieldNumber = 5;
+    public const int ContentTypeFieldNumber = 6;
     private string contentType_ = "";
     /// <summary>
     /// type of the message 'text', 'media', ...
@@ -1417,7 +1434,7 @@ namespace ResponseStruct {
     }
 
     /// <summary>Field number for the "delivered_at" field.</summary>
-    public const int DeliveredAtFieldNumber = 6;
+    public const int DeliveredAtFieldNumber = 7;
     private string deliveredAt_ = "";
     /// <summary>
     /// time of delivered message
@@ -1446,6 +1463,7 @@ namespace ResponseStruct {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (TempMessageId != other.TempMessageId) return false;
       if (MessageId != other.MessageId) return false;
       if (ChatId != other.ChatId) return false;
       if (SenderUid != other.SenderUid) return false;
@@ -1459,6 +1477,7 @@ namespace ResponseStruct {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (TempMessageId != 0UL) hash ^= TempMessageId.GetHashCode();
       if (MessageId != 0UL) hash ^= MessageId.GetHashCode();
       if (ChatId != 0UL) hash ^= ChatId.GetHashCode();
       if (SenderUid != 0UL) hash ^= SenderUid.GetHashCode();
@@ -1483,28 +1502,32 @@ namespace ResponseStruct {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (MessageId != 0UL) {
+      if (TempMessageId != 0UL) {
         output.WriteRawTag(8);
+        output.WriteUInt64(TempMessageId);
+      }
+      if (MessageId != 0UL) {
+        output.WriteRawTag(16);
         output.WriteUInt64(MessageId);
       }
       if (ChatId != 0UL) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(24);
         output.WriteUInt64(ChatId);
       }
       if (SenderUid != 0UL) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(32);
         output.WriteUInt64(SenderUid);
       }
       if (Content.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(Content);
       }
       if (ContentType.Length != 0) {
-        output.WriteRawTag(42);
+        output.WriteRawTag(50);
         output.WriteString(ContentType);
       }
       if (DeliveredAt.Length != 0) {
-        output.WriteRawTag(50);
+        output.WriteRawTag(58);
         output.WriteString(DeliveredAt);
       }
       if (_unknownFields != null) {
@@ -1517,28 +1540,32 @@ namespace ResponseStruct {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (MessageId != 0UL) {
+      if (TempMessageId != 0UL) {
         output.WriteRawTag(8);
+        output.WriteUInt64(TempMessageId);
+      }
+      if (MessageId != 0UL) {
+        output.WriteRawTag(16);
         output.WriteUInt64(MessageId);
       }
       if (ChatId != 0UL) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(24);
         output.WriteUInt64(ChatId);
       }
       if (SenderUid != 0UL) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(32);
         output.WriteUInt64(SenderUid);
       }
       if (Content.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(Content);
       }
       if (ContentType.Length != 0) {
-        output.WriteRawTag(42);
+        output.WriteRawTag(50);
         output.WriteString(ContentType);
       }
       if (DeliveredAt.Length != 0) {
-        output.WriteRawTag(50);
+        output.WriteRawTag(58);
         output.WriteString(DeliveredAt);
       }
       if (_unknownFields != null) {
@@ -1551,6 +1578,9 @@ namespace ResponseStruct {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (TempMessageId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TempMessageId);
+      }
       if (MessageId != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(MessageId);
       }
@@ -1580,6 +1610,9 @@ namespace ResponseStruct {
     public void MergeFrom(ClientSendMessage other) {
       if (other == null) {
         return;
+      }
+      if (other.TempMessageId != 0UL) {
+        TempMessageId = other.TempMessageId;
       }
       if (other.MessageId != 0UL) {
         MessageId = other.MessageId;
@@ -1619,26 +1652,30 @@ namespace ResponseStruct {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            MessageId = input.ReadUInt64();
+            TempMessageId = input.ReadUInt64();
             break;
           }
           case 16: {
-            ChatId = input.ReadUInt64();
+            MessageId = input.ReadUInt64();
             break;
           }
           case 24: {
+            ChatId = input.ReadUInt64();
+            break;
+          }
+          case 32: {
             SenderUid = input.ReadUInt64();
             break;
           }
-          case 34: {
+          case 42: {
             Content = input.ReadString();
             break;
           }
-          case 42: {
+          case 50: {
             ContentType = input.ReadString();
             break;
           }
-          case 50: {
+          case 58: {
             DeliveredAt = input.ReadString();
             break;
           }
@@ -1662,26 +1699,30 @@ namespace ResponseStruct {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            MessageId = input.ReadUInt64();
+            TempMessageId = input.ReadUInt64();
             break;
           }
           case 16: {
-            ChatId = input.ReadUInt64();
+            MessageId = input.ReadUInt64();
             break;
           }
           case 24: {
+            ChatId = input.ReadUInt64();
+            break;
+          }
+          case 32: {
             SenderUid = input.ReadUInt64();
             break;
           }
-          case 34: {
+          case 42: {
             Content = input.ReadString();
             break;
           }
-          case 42: {
+          case 50: {
             ContentType = input.ReadString();
             break;
           }
-          case 50: {
+          case 58: {
             DeliveredAt = input.ReadString();
             break;
           }

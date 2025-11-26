@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Parmigiano.Models
         private ulong _id;
 
         [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public ulong Id
         {
             get => _id;
@@ -23,6 +25,7 @@ namespace Parmigiano.Models
         private ulong _chatId;
 
         [JsonPropertyName("chat_id")]
+        [JsonProperty("chat_id")]
         public ulong ChatId
         {
             get => _chatId;
@@ -32,6 +35,7 @@ namespace Parmigiano.Models
         private ulong _senderUid;
 
         [JsonPropertyName("sender_uid")]
+        [JsonProperty("sender_uid")]
         public ulong SenderUid
         {
             get => _senderUid;
@@ -41,6 +45,7 @@ namespace Parmigiano.Models
         private string _content;
 
         [JsonPropertyName("content")]
+        [JsonProperty("content")]
         public string Content
         {
             get => _content;
@@ -50,6 +55,7 @@ namespace Parmigiano.Models
         private string _contentType;
 
         [JsonPropertyName("content_type")]
+        [JsonProperty("content_type")]
         public string ContentType
         {
             get => _contentType;
@@ -59,6 +65,7 @@ namespace Parmigiano.Models
         private bool _isEdited;
 
         [JsonPropertyName("is_edited")]
+        [JsonProperty("is_edited")]
         public bool IsEdited
         {
             get => _isEdited;
@@ -68,6 +75,7 @@ namespace Parmigiano.Models
         private bool _isPinned;
 
         [JsonPropertyName("is_pinned")]
+        [JsonProperty("is_pinned")]
         public bool IsPinned
         {
             get => _isPinned;
@@ -77,6 +85,7 @@ namespace Parmigiano.Models
         private DateTime? _deliveredAt;
 
         [JsonPropertyName("delivered_at")]
+        [JsonProperty("delivered_at")]
         public DateTime? DeliveredAt
         {
             get => _deliveredAt;
@@ -86,6 +95,7 @@ namespace Parmigiano.Models
         private DateTime? _readAt;
 
         [JsonPropertyName("read_at")]
+        [JsonProperty("read_at")]
         public DateTime? ReadAt
         {
             get => _readAt;
@@ -95,6 +105,7 @@ namespace Parmigiano.Models
         private string? _editContent;
 
         [JsonPropertyName("edit_content")]
+        [JsonProperty("edit_content")]
         public string? EditContent
         {
             get => _editContent;

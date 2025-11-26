@@ -17,6 +17,6 @@ namespace Parmigiano.Interface
 
         Task<string?> ChatUpdateBlocked(ChatUpdateBlockedModel chatBlocked);
 
-        Task<string?> ChatUpdateCustomBackground(ulong chatId, string filepath);
+        Task<string?> ChatUpdateCustomBackground(ulong chatId, string? filepath);
     }
 }

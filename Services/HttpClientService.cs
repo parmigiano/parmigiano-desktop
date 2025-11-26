@@ -20,9 +20,6 @@ namespace Parmigiano.Services
         private readonly NetworkService _network = new NetworkService();
         private readonly IUserConfigRepository _userConf = new UserConfigRepository();
 
-        private readonly ConcurrentQueue<DeferredRequestModel> _deferredRequests = new();
-        private bool _isSendingDeferred = false;
-
         private static bool _isAuthWindowOpen = false;
 
         public HttpClientService(string baseUrl)
@@ -38,17 +35,6 @@ namespace Parmigiano.Services
             {
                 this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this._userConf.GetString(UserConfigState.AUTH_SESSION_ID));
             }
-
-            this._network.NetworkAvailabilityChanged += async () =>
-            {
-                if (this._network.IsAvailable)
-                {
-                    await Application.Current.Dispatcher.Invoke(async () =>
-                    {
-                        await ProcessDeferredRequests();
-                    });
-                }
-            };
         }
 
         #region Public API
@@ -59,7 +45,6 @@ namespace Parmigiano.Services
         {
             if (!this._network.IsAvailable)
             {
-                EnqueueDeferred<T>(endpoint, HttpMethod.Get);
                 this.ShowError("Нет интернета. Запрос отложен.");
                 return default;
             }
@@ -91,7 +76,6 @@ namespace Parmigiano.Services
         {
             if (!this._network.IsAvailable)
             {
-                EnqueueDeferred<T>(endpoint, HttpMethod.Post, data);
                 this.ShowError("Нет интернета. Запрос отложен.");
                 return default;
             }
@@ -126,7 +110,6 @@ namespace Parmigiano.Services
         {
             if (!this._network.IsAvailable)
             {
-                EnqueueDeferred<T>(endpoint, HttpMethod.Put, data);
                 this.ShowError("Нет интернета. Запрос отложен.");
                 return default;
             }
@@ -161,7 +144,6 @@ namespace Parmigiano.Services
         {
             if (!this._network.IsAvailable)
             {
-                EnqueueDeferred<T>(endpoint, HttpMethod.Put, data);
                 this.ShowError("Нет интернета. Запрос отложен.");
                 return default;
             }
@@ -201,7 +183,6 @@ namespace Parmigiano.Services
         {
             if (!this._network.IsAvailable)
             {
-                EnqueueDeferred<T>(endpoint, HttpMethod.Delete);
                 this.ShowError("Нет интернета. Запрос отложен.");
                 return default;
             }
@@ -229,36 +210,52 @@ namespace Parmigiano.Services
 
         #region UPLOAD
 
-        public async Task<string?> UploadFile(string endpoint, string filePath)
+        public async Task<string?> UploadFile(string endpoint, string filePath, string key)
         {
             try
             {
                 using var form = new MultipartFormDataContent();
+
+                if (filePath == null)
+                {
+                    var response = await this._httpClient.PostAsync(endpoint, form);
+                    var text = await response.Content.ReadAsStringAsync();
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Logger.Error($"Ошибка загрузки: {response.StatusCode} — {text}");
+                        ShowError($"Ошибка загрузки ({response.StatusCode})");
+                        return null;
+                    }
+
+                    using var doc = JsonDocument.Parse(text);
+                    return doc.RootElement.GetProperty("url").GetString();
+                }
 
                 var stream = File.OpenRead(filePath);
                 var fileContent = new StreamContent(stream);
 
                 fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
 
-                form.Add(fileContent, "avatar", Path.GetFileName(filePath));
+                form.Add(fileContent, key, Path.GetFileName(filePath));
 
-                var response = await this._httpClient.PostAsync(endpoint, form);
-                var text = await response.Content.ReadAsStringAsync();
+                var resp = await this._httpClient.PostAsync(endpoint, form);
+                var json = await resp.Content.ReadAsStringAsync();
 
-                if (!response.IsSuccessStatusCode)
+                if (!resp.IsSuccessStatusCode)
                 {
-                    Logger.Error($"Ошибка загрузки: {response.StatusCode} — {text}");
-                    ShowError($"Ошибка загрузки ({response.StatusCode})");
+                    Logger.Error($"Ошибка загрузки: {resp.StatusCode} — {json}");
+                    ShowError($"Ошибка загрузки ({resp.StatusCode})");
                     return null;
                 }
 
-                using var doc = JsonDocument.Parse(text);
-                if (doc.RootElement.TryGetProperty("message", out var msgProp))
+                using var doc2 = JsonDocument.Parse(json);
+                if (doc2.RootElement.TryGetProperty("message", out var msgProp))
                 {
                     return msgProp.GetString();
                 }
 
-                return doc.RootElement.GetProperty("url").GetString();
+                return doc2.RootElement.GetProperty("url").GetString();
             }
             catch (Exception ex)
             {
@@ -266,96 +263,6 @@ namespace Parmigiano.Services
                 ShowError($"Ошибка загрузки ({ex.Message})");
                 return null;
             }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Deferred Requests
-
-        private void EnqueueDeferred<T>(string endpoint, HttpMethod method, object? data = null)
-        {
-            this._deferredRequests.Enqueue(new DeferredRequestModel
-            {
-                Endpoint = endpoint,
-                Method = method,
-                Data = data,
-                ResponseType = typeof(T)
-            });
-        }
-
-        #region ProcessDeferredRequests
-
-        public async Task ProcessDeferredRequests()
-        {
-            if (this._isSendingDeferred) return;
-            this._isSendingDeferred = true;
-
-            while(this._deferredRequests.TryDequeue(out var request))
-            {
-                try
-                {
-                    if (!this._network.IsAvailable)
-                    {
-                        this._deferredRequests.Enqueue(request);
-                        break;
-                    }
-
-                    switch (request.Method.Method)
-                    {
-                        case "GET":
-                            {
-                                var method = typeof(HttpClientService).GetMethod(nameof(GetAsync))!.MakeGenericMethod(request.ResponseType);
-                                await (Task)method.Invoke(this, new object[] { request.Endpoint })!;
-                                break;
-                            }
-                        case "POST":
-                            {
-                                if (request.Data is string filePath)
-                                {
-                                    await this.UploadFile(request.Endpoint, filePath);
-                                }
-                                else
-                                {
-                                    var method = typeof(HttpClientService).GetMethod(nameof(PostAsync))!.MakeGenericMethod(request.ResponseType);
-                                    await (Task)method.Invoke(this, new object[] { request.Endpoint, request.Data! })!;
-                                }
-
-                                break;
-                            }
-                        case "PUT":
-                            {
-                                var method = typeof(HttpClientService).GetMethod(nameof(PutAsync))!.MakeGenericMethod(request.ResponseType);
-                                await (Task)method.Invoke(this, new object[] { request.Endpoint, request.Data! })!;
-                                break;
-                            }
-                        case "PATCH":
-                            {
-                                var method = typeof(HttpClientService).GetMethod(nameof(PatchAsync))!.MakeGenericMethod(request.ResponseType);
-                                await (Task)method.Invoke(this, new object[] { request.Endpoint, request.Data! })!;
-                                break;
-                            }
-                        case "DELETE":
-                            {
-                                var method = typeof(HttpClientService).GetMethod(nameof(DeleteAsync))!.MakeGenericMethod(request.ResponseType);
-                                await (Task)method.Invoke(this, new object[] { request.Endpoint })!;
-                                break;
-                            }
-                        default:
-                            {
-                                Logger.Error($"Unsupported HTTP method: {request.Method}");
-                                break;
-                            }
-                    }
-                }
-                catch
-                {
-                    this._deferredRequests.Enqueue(request);
-                }
-            }
-
-            this._isSendingDeferred = false;
         }
 
         #endregion

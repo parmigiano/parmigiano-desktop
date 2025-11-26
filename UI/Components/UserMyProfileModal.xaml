@@ -125,13 +125,13 @@
                                     <BeginStoryboard>
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="HoverOverlay"
-                                         Storyboard.TargetProperty="Opacity"
-                                         To="0.6"
-                                         Duration="0:0:0.1"/>
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.6"
+                                                             Duration="0:0:0.1"/>
                                             <DoubleAnimation Storyboard.TargetName="CameraIcon"
-                                         Storyboard.TargetProperty="Opacity"
-                                         To="1"
-                                         Duration="0:0:0.1"/>
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0:0:0.1"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
@@ -140,13 +140,13 @@
                                     <BeginStoryboard>
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="HoverOverlay"
-                                         Storyboard.TargetProperty="Opacity"
-                                         To="0"
-                                         Duration="0:0:0.1"/>
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0"
+                                                             Duration="0:0:0.1"/>
                                             <DoubleAnimation Storyboard.TargetName="CameraIcon"
-                                         Storyboard.TargetProperty="Opacity"
-                                         To="0"
-                                         Duration="0:0:0.1"/>
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0"
+                                                             Duration="0:0:0.1"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>

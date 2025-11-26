@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="Parmigiano.UI.Components.ChatSettingModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Parmigiano.UI.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1100"
+             Opacity="0"
+             Visibility="Collapsed">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UI/Resources/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="Root"
+          Background="#80000000"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          MouseDown="Root_MouseDown">
+
+        <Border x:Name="Dialog"
+                Background="#111"
+                BorderBrush="#333"
+                BorderThickness="1"
+                CornerRadius="12"
+                Width="400"
+                MaxWidth="400"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="0.3"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="20,15,15,0">
+                        <Image Source="pack://application:,,,/Public/ico/x.png" 
+                               MaxWidth="19" 
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               MouseLeftButtonUp="Close_Click"
+                               Cursor="Hand">
+
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.6"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+
+                        </Image>
+                    </Border>
+
+                    <StackPanel Grid.Row="1" Margin="15,5,15,15" Orientation="Vertical" HorizontalAlignment="Left">
+                        <TextBlock Grid.Column="0" 
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Text="Обои для чата"
+                                   FontWeight="Medium"
+                                   Foreground="#fff"
+                                   FontSize="15"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Width="100" Height="100" Cursor="Hand" Margin="0,15,0,0" MouseLeftButtonUp="ChatBackground_MouseLeftButtonUp">
+                                <Rectangle x:Name="ChatBackgroundRect" RadiusX="20" RadiusY="20" RenderOptions.BitmapScalingMode="HighQuality">
+                                    <Rectangle.Fill>
+                                        <ImageBrush x:Name="ChatBackgroundImage" Stretch="UniformToFill"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <Rectangle x:Name="HoverOverlay"
+                                           Fill="Black"
+                                           Opacity="0"
+                                           RadiusX="20" RadiusY="20"/>
+
+                                <Image x:Name="CameraIcon" Opacity="0" Source="pack://application:,,,/Public/ico/camera.png" MaxWidth="25" RenderOptions.BitmapScalingMode="HighQuality" />
+
+                                <Grid.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0.6"
+                                                                 Duration="0:0:0.1"/>
+                                                <DoubleAnimation Storyboard.TargetName="CameraIcon"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1"
+                                                                 Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="HoverOverlay"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.1"/>
+                                                <DoubleAnimation Storyboard.TargetName="CameraIcon"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Grid.Triggers>
+                            </Grid>
+
+                            <Grid Grid.Column="1" Margin="20,15,0,0" Width="100" Height="100" Cursor="Hand" MouseLeftButtonUp="ChatBackgroundClear_MouseLeftButtonUp">
+                                <Rectangle RadiusX="20" RadiusY="20" RenderOptions.BitmapScalingMode="HighQuality">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="pack://application:,,,/Public/assets/chat-bg-1.png" Stretch="UniformToFill"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <Rectangle x:Name="HoverOverlayDefault"
+                                           Fill="Black"
+                                           Opacity="0"
+                                           RadiusX="20" RadiusY="20"/>
+
+                                <Grid.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="HoverOverlayDefault"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.6"
+                                                             Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="HoverOverlayDefault"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Grid.Triggers>
+                            </Grid>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

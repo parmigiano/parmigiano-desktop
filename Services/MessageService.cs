@@ -11,7 +11,7 @@ namespace Parmigiano.Services
     {
         private const int MaxMessageLength = 2500;
 
-        public static async Task SendMessageAsync(ulong chatId, string message)
+        public static async Task SendMessageAsync(ulong chatId, ulong tmpMessageId, string message)
         {
             if (string.IsNullOrWhiteSpace(message)) return;
 
@@ -21,7 +21,7 @@ namespace Parmigiano.Services
 
             try
             {
-                await TcpSendPacketsService.SendMessageAsync(chatId, prepared, "text");
+                await TcpSendPacketsService.SendMessageAsync(chatId, tmpMessageId, prepared, "text");
                 Logger.Info($"SendMessageAsync: message sent to chat {chatId}, len={prepared.Length}");
             }
             catch (Exception ex)

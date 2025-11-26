@@ -25,5 +25,7 @@
 
     <controllers:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter"/>
 
+    <controllers:PlaceholderVisibilityConverter x:Key="PlaceholderVisibilityConverter" />
+    <controllers:TypingOrOnlineConverter x:Key="TypingOrOnlineConverter" />
 
 </ResourceDictionary>

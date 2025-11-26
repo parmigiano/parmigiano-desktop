@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Parmigiano.UI.Components"
              xmlns:controllers="clr-namespace:Parmigiano.UI.Controllers"
              xmlns:vm="clr-namespace:Parmigiano.ViewModel"
@@ -42,9 +43,10 @@
                                FontSize="12"
                                Margin="0,3,0,0">
                         <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource LastOnlineConverter}">
-                                <Binding Path="SelectedUser.LastOnlineDate"/>
+                            <MultiBinding Converter="{StaticResource TypingOrOnlineConverter}">
+                                <Binding Path="SelectedUser.IsTyping"/>
                                 <Binding Path="SelectedUser.Online"/>
+                                <Binding Path="SelectedUser.LastOnlineDate"/>
                             </MultiBinding>
                         </TextBlock.Text>
 
@@ -67,7 +69,8 @@
                        MaxWidth="18"
                        VerticalAlignment="Center"
                        RenderOptions.BitmapScalingMode="HighQuality"
-                       Cursor="Hand">
+                       Cursor="Hand"
+                       MouseLeftButtonUp="ChatBackground_MouseLeftButtonUp">
                     <Image.Style>
                         <Style TargetType="Image">
                             <Setter Property="Opacity" Value="1"/>
@@ -86,22 +89,6 @@
                       HorizontalScrollBarVisibility="Hidden"
                       VerticalScrollBarVisibility="Hidden"
                       Grid.Row="1" Margin="0,0,0,75" Grid.RowSpan="2">
-
-            <ScrollViewer.Background>
-                <VisualBrush Opacity="0.085" Stretch="UniformToFill">
-                    <VisualBrush.Visual>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Image Grid.Column="0" Source="pack://application:,,,/Public/assets/chat-bg-1.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image Grid.Column="1" Source="pack://application:,,,/Public/assets/chat-bg-1.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Grid>
-                    </VisualBrush.Visual>
-                </VisualBrush>
-            </ScrollViewer.Background>
 
             <StackPanel VerticalAlignment="Center" MaxWidth="1100">
                 <StackPanel Orientation="Vertical"
@@ -152,7 +139,7 @@
                     <TextBox Grid.Column="0"
                              Text="{Binding SelectedUser.Email}"
                              Cursor="IBeam"
-                             Foreground="#999"
+                             Foreground="#ccc"
                              FontSize="13"
                              Background="Transparent"
                              BorderThickness="0"
@@ -162,6 +149,18 @@
                              HorizontalAlignment="Center"
                              Focusable="True"
                              IsTabStop="False">
+
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedUser.EmailVisible}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+
                     </TextBox>
 
                     <TextBlock Text="Самое время начать переписку — просто отправьте сообщение."
@@ -169,7 +168,7 @@
                                Margin="0,13,0,0"
                                TextWrapping="Wrap"
                                TextAlignment="Center"
-                               Foreground="#999"
+                               Foreground="#ccc"
                                FontSize="12"
                                HorizontalAlignment="Center"/>
                 </StackPanel>
@@ -363,7 +362,20 @@
                          MaxHeight="120"
                          BorderBrush="#222"
                          BorderThickness="0,1,0,0"
-                         PreviewKeyDown="MessageBox_PreviewKeyDown"/>
+                         PreviewKeyDown="MessageBox_PreviewKeyDown">
+
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ChatSetting.Blocked}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+
+                </TextBox>
 
                 <TextBlock Text="Сообщение..."
                            Foreground="#999"
@@ -371,9 +383,34 @@
                            Padding="16,13,55,13"
                            IsHitTestVisible="False"
                            VerticalAlignment="Center"
-                           Panel.ZIndex="1"
-                           Visibility="{Binding Text, ElementName=MessageBox, 
-                                        Converter={StaticResource InverseStringToVisibilityConverter}}"/>
+                           Panel.ZIndex="1">
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{StaticResource PlaceholderVisibilityConverter}">
+                            <Binding ElementName="MessageBox" Path="Text"/>
+                            <Binding Path="ChatSetting.Blocked"/>
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                </TextBlock>
+
+                <TextBlock Text="Пользователь заблокирован, вы не можете писать"
+                           Foreground="Red"
+                           FontSize="14"
+                           Padding="0,28"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ChatSetting.Blocked}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Grid>
 
             <Button Grid.Row="1"
@@ -386,6 +423,18 @@
                     BorderThickness="0"
                     Margin="0,0,10,10"
                     Cursor="Hand">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ChatSetting.Blocked}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,3">
                     <TextBlock Text="Отправить" 
                                Foreground="#fff"

@@ -30,7 +30,7 @@ namespace Parmigiano.UI.Components
         private static UserMyProfileModal _instance;
 
         private readonly Dictionary<string, Timer> _debounceTimers = new();
-        private const int DebounceDelay = 500;
+        private const int DebounceDelay = 400;
 
         private readonly Dictionary<string, string> _originalValues = new();
 
@@ -61,11 +61,13 @@ namespace Parmigiano.UI.Components
 
         private async void Toggle_Checked(object sender, RoutedEventArgs e)
         {
+            if (this._isSettingTextProgrammatically) return;
             await this.UpdateSingleToggle(sender as CheckBox, true);
         }
 
         private async void Toggle_Unchecked(object sender, RoutedEventArgs e)
         {
+            if (this._isSettingTextProgrammatically) return;
             await this.UpdateSingleToggle(sender as CheckBox, false);
         }
 
@@ -217,8 +219,7 @@ namespace Parmigiano.UI.Components
                 var fadeOut = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(70)));
                 fadeOut.Completed += (s, e) =>
                 {
-                    _instance.Visibility = Visibility.Collapsed;
-                    UserMeCard.Reload();
+                    _instance.Visibility = Visibility.Collapsed;                    
                 };
 
                 _instance.BeginAnimation(OpacityProperty, fadeOut);

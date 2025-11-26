@@ -12,7 +12,11 @@ namespace Parmigiano.Services
     {
         static Logger()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(Config.Current.LOGS_PATH)!);
+            var path = Config.Current?.LOGS_PATH;
+            if (!string.IsNullOrEmpty(path))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            }
         }
 
         private static void Log(string level, string message, string fileName)

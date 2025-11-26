@@ -9,6 +9,7 @@ using ResponseStruct;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +20,10 @@ namespace Parmigiano.ViewModel
     public class ChatViewModel : BaseView
     {
         private readonly IChatApiRepository _chatApi = new ChatApiRepository();
+
+        public event Action ChatSettingUpdated;
+
+        private DateTime _lastTypingSend = DateTime.MinValue;
 
         public ICommand SendMessageCommand { get; }
         public ICommand EditMessageCommand { get; }
@@ -33,6 +38,8 @@ namespace Parmigiano.ViewModel
             {
                 this._messageText = value;
                 OnPropertyChanged(nameof(MessageText));
+
+                _ = this.SendTypingStatus();
             }
         }
 
@@ -93,7 +100,7 @@ namespace Parmigiano.ViewModel
             this.DeleteMessageCommand = new RelayCommand(async msg => await this.DeleteMessage(msg));
             this.CopyMessageCommand = new RelayCommand(msg => this.CopyMessage(msg));
 
-            ConnectionService.Instance.OnWsEvent += HandleWebSocketEvent;
+            ConnectionService.Instance.OnWsEvent += HandleWSocketEvent;
             ConnectionService.Instance.OnTcpEvent += HandleTcpEvent;
         }
 
@@ -113,15 +120,16 @@ namespace Parmigiano.ViewModel
                 List<OnesMessageModel> messages = await this._chatApi.GetHistory(this.SelectedUser.UserUid);
 
                 ChatSettingModel chatSetting = await this._chatApi.GetChatSetting(this.SelectedUser.Id);
-                this.ChatSetting = chatSetting;
+
+                this.ChatSetting.ChatId = chatSetting.ChatId;
+                this.ChatSetting.Blocked = chatSetting.Blocked;
+                this.ChatSetting.CustomBackground = chatSetting.CustomBackground;
+
+                this.ChatSettingUpdated?.Invoke();
 
                 foreach (var message in messages)
                 {
                     message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
-                }
-
-                foreach (var message in messages)
-                {
                     this.Messages.Add(message);
                 }
             }
@@ -131,59 +139,24 @@ namespace Parmigiano.ViewModel
             }
         }
 
-        private void HandleWebSocketEvent(string evt, JObject data)
+        private void HandleWSocketEvent(string evt, JObject data)
         {
-            if (evt == Events.EVENT_USER_ONLINE)
+            if (evt == Events.EVENT_CHAT_BACKGROUND_UPDATED)
             {
-                try
+                if (this.ChatSetting == null) return;
+
+                ulong chatId = 0;
+                ulong.TryParse(data["chat_id"]?.ToString(), out chatId);
+
+                var customBackground = data["url"]?.ToString();
+
+                if (this.ChatSetting.ChatId == chatId)
                 {
-                    ulong uid = data["user_uid"]?.ToObject<ulong>() ?? 0;
-                    bool online = data["online"]?.ToObject<bool>() ?? false;
-
-                    if (this.SelectedUser == null) return;
-
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        this.SelectedUser.Online = online;
-                        this.SelectedUser.LastOnlineDate = DateTime.Now;
+                        this.ChatSetting.CustomBackground = customBackground;
+                        this.ChatSettingUpdated?.Invoke();
                     });
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error($"Ошибка обработки user_online: {ex.Message}");
-                }
-            } else if (evt == Events.EVENT_USER_NEW_MESSAGE)
-            {
-                try
-                {
-                    ulong chatId = data["chat_id"]?.ToObject<ulong>() ?? 0;
-                    ulong messageId = data["message_id"]?.ToObject<ulong>() ?? 0;
-                    ulong senderUid = data["sender_uid"]?.ToObject<ulong>() ?? 0;
-                    string content = data["content"]?.ToString();
-                    string contentType = data["content_type"]?.ToString();
-
-                    if (this.SelectedUser != null && this.SelectedUser.Id == chatId)
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            this.Messages.Add(new OnesMessageModel
-                            {
-                                Id = messageId,
-                                SenderUid = senderUid,
-                                ChatId = chatId,
-                                Content = content,
-                                ContentType = contentType,
-                                IsEdited = false,
-                                DeliveredAt = DateTime.Now,
-                                ReadAt = null,
-                                IsMine = false,
-                            });
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error($"Ошибка обработки new_message: {ex.Message}");
                 }
             }
         }
@@ -218,6 +191,11 @@ namespace Parmigiano.ViewModel
                     case { ClientEditMessage: not null }:
                         this.packetEditMessageTcp(response);
                         break;
+
+                    // client received typing user packet
+                    case { ClientTyping: not null }:
+                        this.packetTypingTcp(response);
+                        break;
                 }
             }
             catch (Exception ex)
@@ -229,6 +207,10 @@ namespace Parmigiano.ViewModel
         // COMMANDS
         private async Task SendMessage()
         {
+            Random rnd = new Random();
+
+            ulong tmpMessageId = ulong.Parse(new string(Enumerable.Range(0, 18).Select(_ => (char)('0' + rnd.Next(10))).ToArray()));
+
             if (string.IsNullOrWhiteSpace(this.MessageText)) return;
 
             string text = this.MessageText;
@@ -260,6 +242,7 @@ namespace Parmigiano.ViewModel
             {
                 var optimistic = new OnesMessageModel
                 {
+                    Id = tmpMessageId,
                     SenderUid = AppSession.CurrentUser.UserUid,
                     ChatId = this.SelectedUser?.Id ?? 0UL,
                     Content = prepared,
@@ -278,35 +261,11 @@ namespace Parmigiano.ViewModel
                 try
                 {
                     var chatId = this.SelectedUser?.Id ?? 0UL;
-                    await MessageService.SendMessageAsync(chatId, prepared);
+                    await MessageService.SendMessageAsync(chatId, tmpMessageId, prepared);
                 }
                 catch (Exception ex)
                 {
                     Logger.Tcp("SendMessage failed: " + ex.Message);
-                }
-
-                try
-                {
-                    if (ConnectionService.Instance.IsConnectedWSocket)
-                    {
-                        var payload = new
-                        {
-                            @event = "message_send",
-                            data = new
-                            {
-                                chat_id = this.SelectedUser?.Id ?? 0UL,
-                                content = prepared,
-                                content_type = "text"
-                            }
-                        };
-
-                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(payload);
-                        await Task.Run(() => ConnectionService.Instance.WebSocket?.Send(json));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error("Send WS message failed: " + ex.Message);
                 }
             }
 
@@ -369,6 +328,20 @@ namespace Parmigiano.ViewModel
             }   
         }
 
+        private async Task SendTypingStatus()
+        {
+            if (this.SelectedUser == null) return;
+
+            if ((DateTime.Now - this._lastTypingSend).TotalMilliseconds < 2000)
+            {
+                return;
+            }
+
+            this._lastTypingSend = DateTime.Now;
+
+            await TcpSendPacketsService.SendTypingAsync(this.SelectedUser.Id, !string.IsNullOrWhiteSpace(this.MessageText));
+        }
+
         #region PACKET RECEIVED MESSAGE
 
         private void packetReceivedMessageTcp(ResponseStruct.Response response)
@@ -379,12 +352,19 @@ namespace Parmigiano.ViewModel
 
                 var packet = response.ClientSendMessage;
 
+                ulong tmpMessageId = packet.TempMessageId;
                 ulong messageId = packet.MessageId;
                 ulong chatId = packet.ChatId;
                 ulong senderUid = packet.SenderUid;
                 string content = packet.Content;
                 string contentType = packet.ContentType;
                 string deliveredAt = packet.DeliveredAt;
+
+                DateTime deliveredTime;
+                if (!DateTime.TryParse(deliveredAt, out deliveredTime))
+                {
+                    deliveredTime = DateTime.Now;
+                }
 
                 string title = "Новое сообщение";
 
@@ -393,7 +373,18 @@ namespace Parmigiano.ViewModel
                     title = string.IsNullOrEmpty(this.SelectedUser.Name) ? this.SelectedUser.Username : this.SelectedUser.Name;
                 }
 
-                string notifyPayload = $"{title}|{content}|{chatId}";
+                string avatar = null;
+
+                if (this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
+                {
+                    avatar = string.IsNullOrEmpty(this.SelectedUser.Avatar) ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Public/assets/logo-bg-x250.png") : this.SelectedUser.Avatar;
+                }
+                else
+                {
+                    avatar = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Public/assets/logo-bg-x250.png");
+                }
+
+                string notifyPayload = $"{title}|{content}|{chatId}|{avatar}";
 
                 // send notification
                 _ = NotificationService.NotifyAsync(notifyPayload);
@@ -402,19 +393,37 @@ namespace Parmigiano.ViewModel
                 {
                     try
                     {
-                        if (this.SelectedUser != null && this.SelectedUser.Id == chatId || this.SelectedUser != null && this.SelectedUser.UserUid == senderUid)
+                        var existingMsg = this.Messages.FirstOrDefault(m => m.Id == tmpMessageId);
+
+                        if (existingMsg != null)
                         {
+                            // update all field
+                            existingMsg.Id = messageId;
+                            existingMsg.SenderUid = senderUid;
+                            existingMsg.ChatId = chatId;
+                            existingMsg.Content = content;
+                            existingMsg.ContentType = contentType;
+                            existingMsg.IsEdited = false;
+                            existingMsg.EditContent = content;
+                            existingMsg.DeliveredAt = deliveredTime;
+                            existingMsg.ReadAt = null;
+                            existingMsg.IsMine = senderUid == AppSession.CurrentUser.UserUid;
+                        }
+                        else if (this.SelectedUser != null && (this.SelectedUser.Id == chatId || this.SelectedUser.UserUid == senderUid))
+                        {
+                            // added new message
                             var msg = new OnesMessageModel
                             {
+                                Id = messageId,
                                 SenderUid = senderUid,
                                 ChatId = chatId,
                                 Content = content,
                                 ContentType = contentType,
                                 IsEdited = false,
                                 EditContent = content,
-                                DeliveredAt = DateTime.Now,
+                                DeliveredAt = deliveredTime,
                                 ReadAt = null,
-                                IsMine = false,
+                                IsMine = senderUid == AppSession.CurrentUser.UserUid,
                             };
 
                             this.Messages.Add(msg);
@@ -580,6 +589,35 @@ namespace Parmigiano.ViewModel
             catch (Exception ex)
             {
                 Logger.Error($"HandleTcpEvent error: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region PACKET RECEIVED TYPING
+
+        private void packetTypingTcp(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientTyping == null) return;
+
+                ulong uid = response.ClientTyping.Uid;
+                bool typing = response.ClientTyping.IsTyping;
+
+                if (this.SelectedUser == null || this.SelectedUser.UserUid != uid)
+                {
+                    return;
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.SelectedUser.IsTyping = typing;
+                    this.SelectedUser.Online = !typing;
+                });
+            }
+            catch
+            {
             }
         }
 
