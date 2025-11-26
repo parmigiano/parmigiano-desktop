@@ -76,7 +76,6 @@ message ClientPinMessagePacket {
 	uint64 uid = 1; // мой uid
     uint64 chat_id = 2; // в каком чате
 	uint64 message_id = 3; // id закрепленного сообщения
-	bool pin_status = 4;
 }
 
 // 7. Пакет когда пользователь удалил сообщение
