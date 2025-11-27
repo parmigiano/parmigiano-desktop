@@ -93,6 +93,10 @@ namespace Parmigiano.ViewModel
                     this._selectedUser = value;
                     OnPropertyChanged();
 
+                    this._currentOffset = 0;
+                    this._isLoadingOlder = false;
+                    this.Messages.Clear();
+
                     this.LoadMessagesAsync();
                 }
             }
@@ -156,6 +160,8 @@ namespace Parmigiano.ViewModel
                     message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
                     this.Messages.Add(message);
                 }
+
+                this._currentOffset = this.Messages.Count;
             }
             finally
             {

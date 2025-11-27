@@ -188,6 +188,8 @@ namespace Parmigiano.UI.Components
 
                 if (this.IsElementVisible(container, ChatScrollViewer))
                 {
+                    msg.ReadAt = DateTime.Now;
+
                     _ = vm.MarkMessageAsRead(msg);
                 }
             }
@@ -195,20 +197,21 @@ namespace Parmigiano.UI.Components
 
         private bool IsElementVisible(FrameworkElement element, ScrollViewer scroll)
         {
-            if (!element.IsVisible)
+            if (!element.IsVisible) return false;
+
+            try
+            {
+                GeneralTransform transform = element.TransformToAncestor(scroll);
+                Rect rect = transform.TransformBounds(new Rect(new Point(0, 0), element.RenderSize));
+
+                Rect viewport = new Rect(new Point(0, 0), new Size(scroll.ViewportWidth, scroll.ViewportHeight));
+
+                return rect.Bottom >= viewport.Top && rect.Top <= viewport.Bottom;
+            }
+            catch
             {
                 return false;
             }
-
-            GeneralTransform transform = element.TransformToAncestor(scroll);
-            Rect rect = transform.TransformBounds(new Rect(new Point(0, 0), element.RenderSize));
-
-            Rect viewport = new Rect(
-                new Point(0, scroll.VerticalOffset),
-                new Size(scroll.ViewportWidth, scroll.ViewportHeight)
-            );
-
-            return rect.Bottom >= viewport.Top && rect.Top <= viewport.Bottom;
         }
     }
 }
