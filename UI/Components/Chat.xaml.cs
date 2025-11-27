@@ -19,6 +19,7 @@ namespace Parmigiano.UI.Components
         public ChatViewModel ViewModel { get; } = new ChatViewModel();
 
         private bool _firstLoadDone = false;
+        private bool _isUserNearBottom = true;
 
         public Chat()
         {
@@ -41,7 +42,10 @@ namespace Parmigiano.UI.Components
             {
                 ((INotifyCollectionChanged)vm.Messages).CollectionChanged += (s, ev) =>
                 {
-                    ChatScrollViewer?.ScrollToEnd();
+                    if (ev.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        if (this._isUserNearBottom) ChatScrollViewer.ScrollToEnd();
+                    }
 
                     if (!this._firstLoadDone && vm.Messages.Any())
                     {
@@ -151,16 +155,13 @@ namespace Parmigiano.UI.Components
 
         private async void ChatScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            double distanceToBottom = ChatScrollViewer.ScrollableHeight - ChatScrollViewer.VerticalOffset;
+
+            this._isUserNearBottom = distanceToBottom < 50;
+
             this.TryMarkVisibleMessagesAsRead();
 
-            if (ChatScrollViewer.VerticalOffset < ChatScrollViewer.ScrollableHeight - 50)
-            {
-                ScrollToBottomButton.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                ScrollToBottomButton.Visibility = Visibility.Collapsed;
-            }
+            this.ScrollToBottomButton.Visibility = _isUserNearBottom ? Visibility.Collapsed : Visibility.Visible;
 
             if (this._firstLoadDone && ChatScrollViewer.VerticalOffset < 20)
             {

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace Parmigiano.ViewModel
 {
@@ -23,8 +24,8 @@ namespace Parmigiano.ViewModel
         private readonly IChatApiRepository _chatApi = new ChatApiRepository();
 
         public event Action ChatSettingUpdated;
+        public event Action<ulong> MessageReadInChat;
 
-        private DateTime _lastTypingSend = DateTime.MinValue;
         private System.Timers.Timer _typingTimer;
 
         private bool _isLoadingOlder = false;
@@ -131,7 +132,6 @@ namespace Parmigiano.ViewModel
             };
         }
 
-
         private async void LoadMessagesAsync()
         {
             if (this.SelectedUser == null)
@@ -176,31 +176,32 @@ namespace Parmigiano.ViewModel
 
         public async Task LoadOlderMessagesAsync()
         {
-            if (this._isLoadingOlder) return;
+            //if (this._isLoadingOlder) return;
 
-            this._isLoadingOlder = true;
+            //this._isLoadingOlder = true;
 
-            try
-            {
-                var olderMessages = await this._chatApi.GetPrivateChatHistory(this.SelectedUser.UserUid, this._currentOffset);
-                if (olderMessages != null && olderMessages.Any())
-                {
-                    foreach (var msg in olderMessages)
-                    {
-                        if (!Messages.Any(m => m.Id == msg.Id))
-                        {
-                            msg.IsMine = msg.SenderUid == AppSession.CurrentUser.UserUid;
-                            Messages.Insert(0, msg);
-                        }
-                    }
+            //try
+            //{
+            //    var olderMessages = await this._chatApi.GetPrivateChatHistory(this.SelectedUser.UserUid, this._currentOffset);
+            //    if (olderMessages != null && olderMessages.Any())
+            //    {
+            //        foreach (var msg in olderMessages)
+            //        {
+            //            if (!Messages.Any(m => m.Id == msg.Id))
+            //            {
+            //                msg.IsMine = msg.SenderUid == AppSession.CurrentUser.UserUid;
+            //                Messages.Insert(0, msg);
+            //            }
+            //        }
 
-                    this._currentOffset += olderMessages.Count;
-                }
-            }
-            finally
-            {
-                this._isLoadingOlder = false;
-            }
+            //        this._currentOffset += olderMessages.Count;
+            //    }
+            //}
+            //finally
+            //{
+            //    this._isLoadingOlder = false;
+            //}
+            Console.WriteLine("Load older messages");
         }
 
         #endregion
@@ -273,10 +274,6 @@ namespace Parmigiano.ViewModel
         // COMMANDS
         private async Task SendMessage()
         {
-            Random rnd = new Random();
-
-            ulong tmpMessageId = ulong.Parse(new string(Enumerable.Range(0, 18).Select(_ => (char)('0' + rnd.Next(10))).ToArray()));
-
             if (string.IsNullOrWhiteSpace(this.MessageText)) return;
 
             string text = this.MessageText;
@@ -303,18 +300,39 @@ namespace Parmigiano.ViewModel
                 }
 
                 this.EditingMessage = null;
+                this.MessageText = string.Empty;
+
+                return;
             }
-            else
+
+            if (prepared.Length > MessageService.MaxMessageLength)
             {
+                prepared = prepared.Substring(0, MessageService.MaxMessageLength);
+            }
+
+            var parts = new List<string>();
+            for (int i = 0; i < prepared.Length; i += MessageService.MaxMessagePartLength)
+            {
+                int len = Math.Min(MessageService.MaxMessagePartLength, prepared.Length - i);
+                parts.Add(prepared.Substring(i, len));
+            }
+
+            Random rnd = new Random();
+            var chatId = this.SelectedUser?.Id ?? 0UL;
+
+            foreach (var part in parts)
+            {
+                ulong tmpMessageId = ulong.Parse(new string(Enumerable.Range(0, 18).Select(_ => (char)('0' + rnd.Next(10))).ToArray()));
+
                 var optimistic = new OnesMessageModel
                 {
                     Id = tmpMessageId,
                     SenderUid = AppSession.CurrentUser.UserUid,
-                    ChatId = this.SelectedUser?.Id ?? 0UL,
-                    Content = prepared,
+                    ChatId = chatId,
+                    Content = part,
                     ContentType = "text",
                     IsEdited = false,
-                    EditContent = prepared,
+                    EditContent = part,
                     DeliveredAt = DateTime.Now,
                     ReadAt = null,
                     IsMine = true,
@@ -322,12 +340,9 @@ namespace Parmigiano.ViewModel
 
                 this.Messages.Add(optimistic);
 
-                this.MessageText = string.Empty;
-
                 try
                 {
-                    var chatId = this.SelectedUser?.Id ?? 0UL;
-                    await MessageService.SendMessageAsync(chatId, tmpMessageId, prepared);
+                    await MessageService.SendMessageAsync(chatId, tmpMessageId, part);
                 }
                 catch (Exception ex)
                 {
@@ -423,6 +438,7 @@ namespace Parmigiano.ViewModel
             try
             {
                 await TcpSendPacketsService.SendReadMessageAsync(message.ChatId, message.Id);
+                MessageReadInChat?.Invoke(message.ChatId);
             }
             catch (Exception ex)
             {

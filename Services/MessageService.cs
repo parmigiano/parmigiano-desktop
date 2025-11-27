@@ -9,7 +9,8 @@ namespace Parmigiano.Services
 {
     public static class MessageService
     {
-        private const int MaxMessageLength = 2500;
+        public static int MaxMessageLength = 3000;
+        public static int MaxMessagePartLength = 700;
 
         public static async Task SendMessageAsync(ulong chatId, ulong tmpMessageId, string message)
         {
