@@ -157,8 +157,11 @@ namespace Parmigiano.ViewModel
 
                 foreach (var message in messages)
                 {
-                    message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
-                    this.Messages.Add(message);
+                    if (!Messages.Any(m => m.Id == message.Id))
+                    {
+                        message.IsMine = message.SenderUid == AppSession.CurrentUser.UserUid;
+                        Messages.Add(message);
+                    }
                 }
 
                 this._currentOffset = this.Messages.Count;

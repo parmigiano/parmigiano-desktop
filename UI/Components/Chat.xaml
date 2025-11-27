@@ -88,10 +88,17 @@
         <Grid Grid.Row="1" Margin="0,0,0,75" Grid.RowSpan="2">
             <ScrollViewer x:Name="ChatScrollViewer"
                           HorizontalScrollBarVisibility="Hidden"
-                          VerticalScrollBarVisibility="Hidden">
+                          VerticalScrollBarVisibility="Hidden"
+                          CanContentScroll="True">
 
-                <StackPanel VerticalAlignment="Center" MaxWidth="1100">
+                <Grid VerticalAlignment="Center" MaxWidth="1100">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
                     <StackPanel Orientation="Vertical"
+                                Grid.Row="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Margin="0,40,0,0">
@@ -173,7 +180,14 @@
                                    HorizontalAlignment="Center"/>
                     </StackPanel>
 
-                    <ItemsControl ItemsSource="{Binding Messages}" x:Name="MessagesListView" Margin="0,50,0,12">
+                    <ItemsControl ItemsSource="{Binding Messages}" x:Name="MessagesListView" Grid.Row="1" Margin="0,50,0,12">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel IsVirtualizing="True"
+                                                        VirtualizationMode="Recycling"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="15,4">
@@ -344,7 +358,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
+                </Grid>
             </ScrollViewer>
 
             <Border x:Name="ScrollToBottomButton"
