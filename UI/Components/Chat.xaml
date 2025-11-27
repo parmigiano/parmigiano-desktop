@@ -85,262 +85,287 @@
             </Grid>
         </Border>
 
-        <ScrollViewer x:Name="ChatScrollViewer"
-                      HorizontalScrollBarVisibility="Hidden"
-                      VerticalScrollBarVisibility="Hidden"
-                      Grid.Row="1" Margin="0,0,0,75" Grid.RowSpan="2">
+        <Grid Grid.Row="1" Margin="0,0,0,75" Grid.RowSpan="2">
+            <ScrollViewer x:Name="ChatScrollViewer"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Hidden">
 
-            <StackPanel VerticalAlignment="Center" MaxWidth="1100">
-                <StackPanel Orientation="Vertical"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="0,40,0,0">
+                <StackPanel VerticalAlignment="Center" MaxWidth="1100">
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="0,40,0,0">
 
-                    <Grid Width="90" Height="90" ClipToBounds="False" Cursor="Hand">
-                        <Ellipse Width="90" Height="90"
-                                 Panel.ZIndex="1"
-                                 Visibility="{Binding SelectedUser.Avatar, Converter={StaticResource StringToVisibilityConverter}}" 
-                                 RenderOptions.BitmapScalingMode="HighQuality">
-                            <Ellipse.Fill>
-                                <Binding Path="SelectedUser.Avatar" Converter="{StaticResource AsyncImageConverter}" />
-                            </Ellipse.Fill>
-                        </Ellipse>
+                        <Grid Width="90" Height="90" ClipToBounds="False" Cursor="Hand">
+                            <Ellipse Width="90" Height="90"
+                                     Panel.ZIndex="1"
+                                     Visibility="{Binding SelectedUser.Avatar, Converter={StaticResource StringToVisibilityConverter}}" 
+                                     RenderOptions.BitmapScalingMode="HighQuality">
+                                <Ellipse.Fill>
+                                    <Binding Path="SelectedUser.Avatar" Converter="{StaticResource AsyncImageConverter}" />
+                                </Ellipse.Fill>
+                            </Ellipse>
 
-                        <Border Width="90" Height="90" CornerRadius="1000" 
-                                Background="{Binding SelectedUser.Username, Converter={StaticResource UsernameToColorConverter}}"
-                                Visibility="{Binding SelectedUser.Avatar, Converter={StaticResource InverseStringToVisibilityConverter}}"
-                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Width="90" Height="90" CornerRadius="1000" 
+                                    Background="{Binding SelectedUser.Username, Converter={StaticResource UsernameToColorConverter}}"
+                                    Visibility="{Binding SelectedUser.Avatar, Converter={StaticResource InverseStringToVisibilityConverter}}"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                            <TextBlock Text="{Binding SelectedUser.Username, Converter={StaticResource UsernameToInitialConverter}}"
-                                       Foreground="White"
-                                       FontWeight="Bold"
-                                       FontSize="30"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
-                    </Grid>
+                                <TextBlock Text="{Binding SelectedUser.Username, Converter={StaticResource UsernameToInitialConverter}}"
+                                           Foreground="White"
+                                           FontWeight="Bold"
+                                           FontSize="30"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
 
-                    <TextBox Grid.Column="0"
-                             Text="{Binding SelectedUser.Username}"
-                             Cursor="IBeam"
-                             Foreground="White"
-                             FontWeight="SemiBold"
-                             FontSize="17"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             VerticalAlignment="Center"
-                             HorizontalAlignment="Center"
-                             Margin="0,10,0,3"
-                             Focusable="True"
-                             IsTabStop="False"/>
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding SelectedUser.Username}"
+                                 Cursor="IBeam"
+                                 Foreground="White"
+                                 FontWeight="SemiBold"
+                                 FontSize="17"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,10,0,3"
+                                 Focusable="True"
+                                 IsTabStop="False"/>
 
-                    <TextBox Grid.Column="0"
-                             Text="{Binding SelectedUser.Email}"
-                             Cursor="IBeam"
-                             Foreground="#ccc"
-                             FontSize="13"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             VerticalAlignment="Center"
-                             HorizontalAlignment="Center"
-                             Focusable="True"
-                             IsTabStop="False">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding SelectedUser.Email}"
+                                 Cursor="IBeam"
+                                 Foreground="#ccc"
+                                 FontSize="13"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Center"
+                                 Focusable="True"
+                                 IsTabStop="False">
 
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SelectedUser.EmailVisible}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedUser.EmailVisible}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
 
-                    </TextBox>
+                        </TextBox>
 
-                    <TextBlock Text="Самое время начать переписку — просто отправьте сообщение."
-                               MaxWidth="250"
-                               Margin="0,13,0,0"
-                               TextWrapping="Wrap"
-                               TextAlignment="Center"
-                               Foreground="#ccc"
-                               FontSize="12"
-                               HorizontalAlignment="Center"/>
+                        <TextBlock Text="Самое время начать переписку — просто отправьте сообщение."
+                                   MaxWidth="250"
+                                   Margin="0,13,0,0"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Foreground="#ccc"
+                                   FontSize="12"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <ItemsControl ItemsSource="{Binding Messages}" x:Name="MessagesListView" Margin="0,50,0,12">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="15,4">
+                                    <Grid.ContextMenu>
+                                        <ContextMenu Opened="MessageContextMenu_Opened" Background="#111" Foreground="#fff" BorderBrush="#333" BorderThickness="1">
+                                            <ContextMenu.Resources>
+                                                <Style TargetType="MenuItem">
+                                                    <Setter Property="Padding" Value="10,5"/>
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Style>
+                                            </ContextMenu.Resources>
+
+                                            <MenuItem Header="Изменить"
+                                                      Command="{Binding EditMessageCommand}"
+                                                      CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                            <MenuItem Header="Удалить"
+                                                      Command="{Binding DeleteMessageCommand}"
+                                                      CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                            <MenuItem Header="Закрепить"/>
+                                            <MenuItem Header="Копировать"
+                                                      Command="{Binding CopyMessageCommand}"
+                                                      CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                        </ContextMenu>
+                                    </Grid.ContextMenu>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Background="#222"
+                                            CornerRadius="15,17,17,4"
+                                            Padding="13,4,15,4"
+                                            BorderBrush="#444"
+                                            BorderThickness="1"
+                                            HorizontalAlignment="Left"
+                                            MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth, Converter={StaticResource WidthLimitConverter}}"
+                                            Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox Grid.Column="0" 
+                                                     Cursor="IBeam"
+                                                     Foreground="White"
+                                                     FontSize="13"
+                                                     Background="Transparent"
+                                                     BorderThickness="0"
+                                                     IsReadOnly="True"
+                                                     TextWrapping="Wrap"
+                                                     Padding="0"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Left"
+                                                     Focusable="True"
+                                                     IsTabStop="False">
+                                                <TextBox.Text>
+                                                    <MultiBinding Converter="{StaticResource MessageContentConverter}">
+                                                        <Binding Path="EditContent"/>
+                                                        <Binding Path="Content"/>
+                                                    </MultiBinding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <StackPanel Grid.Column="1" 
+                                                        Orientation="Horizontal" 
+                                                        HorizontalAlignment="Right"
+                                                        Margin="10,9,0,0">
+                                                <TextBlock Text="изменено"
+                                                           Foreground="#ccc"
+                                                           FontSize="12"
+                                                           VerticalAlignment="Bottom">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+
+                                                <TextBlock Text="{Binding DeliveredAt, Converter={StaticResource UtcToLocalTimeConverter}}"
+                                                           Foreground="#ccc"
+                                                           FontSize="12"
+                                                           Margin="5,0,0,0"
+                                                           VerticalAlignment="Bottom"/>
+                                            </StackPanel>
+
+
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- #004594 -->
+                                    <Border Background="#222"
+                                            CornerRadius="17,15,4,17"
+                                            Padding="10,4,13,4"
+                                            HorizontalAlignment="Right"
+                                            BorderBrush="#444"
+                                            BorderThickness="1"
+                                            MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth, Converter={StaticResource WidthLimitConverter}}"
+                                            Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox Grid.Column="0" 
+                                                     Cursor="IBeam"
+                                                     Foreground="White"
+                                                     FontSize="13"
+                                                     Background="Transparent"
+                                                     BorderThickness="0"
+                                                     IsReadOnly="True"
+                                                     TextWrapping="Wrap"
+                                                     Padding="0"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Left"
+                                                     Focusable="True"
+                                                     IsTabStop="False">
+                                                <TextBox.Text>
+                                                    <MultiBinding Converter="{StaticResource MessageContentConverter}">
+                                                        <Binding Path="EditContent"/>
+                                                        <Binding Path="Content"/>
+                                                    </MultiBinding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                            <StackPanel Grid.Column="1" 
+                                                        Orientation="Horizontal" 
+                                                        HorizontalAlignment="Right"
+                                                        Margin="10,9,0,0">
+                                                <TextBlock Text="изменено"
+                                                           Foreground="#ccc"
+                                                           FontSize="12"
+                                                           VerticalAlignment="Bottom">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsEdited}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+
+                                                <TextBlock Text="{Binding DeliveredAt, Converter={StaticResource UtcToLocalTimeConverter}}"
+                                                           Foreground="#ccc"
+                                                           FontSize="12"
+                                                           Margin="5,0,0,0"
+                                                           VerticalAlignment="Bottom"/>
+
+                                                <Image MaxWidth="17"
+                                                       Margin="5,0,0,0"
+                                                       VerticalAlignment="Bottom"
+                                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                                       Source="{Binding ReadAt, Converter={StaticResource ReadAtToIconConverter}}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
+            </ScrollViewer>
 
-                <ItemsControl ItemsSource="{Binding Messages}" Margin="0,50,0,12">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="15,4">
-                                <Grid.ContextMenu>
-                                    <ContextMenu Opened="MessageContextMenu_Opened" Background="#111" Foreground="#fff" BorderBrush="#333" BorderThickness="1">
-                                        <ContextMenu.Resources>
-                                            <Style TargetType="MenuItem">
-                                                <Setter Property="Padding" Value="10,5"/>
-                                                <Setter Property="Cursor" Value="Hand"/>
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </Style>
-                                        </ContextMenu.Resources>
-
-                                        <MenuItem Header="Изменить"
-                                                  Command="{Binding EditMessageCommand}"
-                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                        <MenuItem Header="Удалить"
-                                                  Command="{Binding DeleteMessageCommand}"
-                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                        <MenuItem Header="Закрепить"/>
-                                        <MenuItem Header="Копировать"
-                                                  Command="{Binding CopyMessageCommand}"
-                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
-                                
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Border Background="#222"
-                                        CornerRadius="15,17,17,4"
-                                        Padding="13,4,15,4"
-                                        HorizontalAlignment="Left"
-                                        MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth, Converter={StaticResource WidthLimitConverter}}"
-                                        Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBox Grid.Column="0" 
-                                                 Cursor="IBeam"
-                                                 Foreground="White"
-                                                 FontSize="13"
-                                                 Background="Transparent"
-                                                 BorderThickness="0"
-                                                 IsReadOnly="True"
-                                                 TextWrapping="Wrap"
-                                                 Padding="0"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Focusable="True"
-                                                 IsTabStop="False">
-                                            <TextBox.Text>
-                                                <MultiBinding Converter="{StaticResource MessageContentConverter}">
-                                                    <Binding Path="EditContent"/>
-                                                    <Binding Path="Content"/>
-                                                </MultiBinding>
-                                            </TextBox.Text>
-                                        </TextBox>
-
-                                        <StackPanel Grid.Column="1" 
-                                                    Orientation="Horizontal" 
-                                                    HorizontalAlignment="Right"
-                                                    Margin="10,9,0,0">
-                                            <TextBlock Text="изменено"
-                                                       Foreground="#ccc"
-                                                       FontSize="12"
-                                                       VerticalAlignment="Bottom">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsEdited}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-
-                                            <TextBlock Text="{Binding DeliveredAt, Converter={StaticResource UtcToLocalTimeConverter}}"
-                                                       Foreground="#ccc"
-                                                       FontSize="12"
-                                                       Margin="5,0,0,0"
-                                                       VerticalAlignment="Bottom"/>
-                                        </StackPanel>
-
-
-                                    </Grid>
-                                </Border>
-
-                                <Border Background="#004594"
-                                        CornerRadius="17,15,4,17"
-                                        Padding="10,4,13,4"
-                                        HorizontalAlignment="Right"
-                                        MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=ActualWidth, Converter={StaticResource WidthLimitConverter}}"
-                                        Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBox Grid.Column="0" 
-                                                 Cursor="IBeam"
-                                                 Foreground="White"
-                                                 FontSize="13"
-                                                 Background="Transparent"
-                                                 BorderThickness="0"
-                                                 IsReadOnly="True"
-                                                 TextWrapping="Wrap"
-                                                 Padding="0"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Left"
-                                                 Focusable="True"
-                                                 IsTabStop="False">
-                                            <TextBox.Text>
-                                                <MultiBinding Converter="{StaticResource MessageContentConverter}">
-                                                    <Binding Path="EditContent"/>
-                                                    <Binding Path="Content"/>
-                                                </MultiBinding>
-                                            </TextBox.Text>
-                                        </TextBox>
-
-                                        <StackPanel Grid.Column="1" 
-                                                    Orientation="Horizontal" 
-                                                    HorizontalAlignment="Right"
-                                                    Margin="10,9,0,0">
-                                            <TextBlock Text="изменено"
-                                                       Foreground="#ccc"
-                                                       FontSize="12"
-                                                       VerticalAlignment="Bottom">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsEdited}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-
-                                            <TextBlock Text="{Binding DeliveredAt, Converter={StaticResource UtcToLocalTimeConverter}}"
-                                                       Foreground="#ccc"
-                                                       FontSize="12"
-                                                       Margin="5,0,0,0"
-                                                       VerticalAlignment="Bottom"/>
-
-                                            <Image MaxWidth="17"
-                                                   Margin="5,0,0,0"
-                                                   VerticalAlignment="Bottom"
-                                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                                   Source="{Binding ReadAt, Converter={StaticResource ReadAtToIconConverter}}"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </ScrollViewer>
+            <Border x:Name="ScrollToBottomButton"
+                    Width="34" Height="34"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="20"
+                    Background="#333"
+                    BorderBrush="#444"
+                    BorderThickness="1"
+                    Cursor="Hand"
+                    CornerRadius="50"
+                    Visibility="Collapsed"
+                    MouseLeftButtonUp="ScrollToBottomButton_MouseLeftButtonUp">
+                <Image VerticalAlignment="Center" 
+                       RenderOptions.BitmapScalingMode="HighQuality" 
+                       MaxWidth="22" 
+                       Margin="0,3,0,0" 
+                       Source="pack://application:,,,/Public/ico/chevron-down.png" />
+            </Border>
+        </Grid>
 
         <Grid Grid.Row="2" Margin="0,10,0,0" Background="#111">
             <Grid.RowDefinitions>

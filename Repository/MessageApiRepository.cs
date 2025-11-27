@@ -15,10 +15,5 @@ namespace Parmigiano.Repository
         private readonly HttpClientService _httpClient = new(Config.Current.HTTP_SERVER_ADDR);
 
         private readonly string _apiPath = "messages";
-
-        public async Task<List<OnesMessageModel>?> GetMessagesHisotry(ulong senderUid)
-        {
-            return await this._httpClient.GetAsync<List<OnesMessageModel>>($"{this._apiPath}/history/{senderUid}");
-        }
     }
 }

@@ -9,6 +9,5 @@ namespace Parmigiano.Interface
 {
     public interface IMessageApiRepository
     {
-        Task<List<OnesMessageModel>?> GetMessagesHisotry(ulong senderUid);
     }
 }

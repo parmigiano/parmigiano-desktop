@@ -34,11 +34,6 @@ namespace Parmigiano.Repository
             return await this._httpClient.GetAsync<UserInfoModel?>($"{this._apiPath}/{uid}");
         }
 
-        public async Task<List<ChatMinimalWithLMessageModel>?> GetUsersFindByUsername(string username)
-        {
-            return await this._httpClient.GetAsync<List<ChatMinimalWithLMessageModel>?>($"{this._apiPath}/find/{username}");
-        }
-
         public async Task<string> UpdateUserProfile(UserProfileUpdModel user)
         {
             return await this._httpClient.PatchAsync<string?>($"{this._apiPath}/me", user);
@@ -46,7 +41,7 @@ namespace Parmigiano.Repository
 
         public async Task<string?> UploadAvatar(string filePath)
         {
-            return await this._httpClient.UploadFile($"{this._apiPath}/upload/avatar", filePath, "avatar");
+            return await this._httpClient.UploadFile($"{this._apiPath}/me/avatar", filePath, "avatar");
         }
     }
 }

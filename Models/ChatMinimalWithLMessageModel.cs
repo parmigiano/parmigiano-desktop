@@ -128,7 +128,16 @@ namespace Parmigiano.Models
             }
         }
 
-        public bool IsTyping { get; set; }
+        private bool _isTyping;
+        public bool IsTyping
+        {
+            get => _isTyping;
+            set
+            {
+                _isTyping = value;
+                OnPropertyChanged(nameof(IsTyping));
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

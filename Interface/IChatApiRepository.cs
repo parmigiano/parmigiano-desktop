@@ -9,11 +9,17 @@ namespace Parmigiano.Interface
 {
     public interface IChatApiRepository
     {
-        Task<List<OnesMessageModel>?> GetHistory(ulong senderUid);
+        Task<List<ChatMinimalWithLMessageModel>?> GetChatsByUsername(string username);
 
         Task<List<ChatMinimalWithLMessageModel>?> GetChats();
 
         Task<ChatSettingModel?> GetChatSetting(ulong chatId);
+
+        Task<List<OnesMessageModel>?> GetPrivateChatHistory(ulong companionUid, int? offset);
+
+        Task<List<OnesMessageModel>?> GetGroupChatHistory(ulong chatId, int? offset);
+
+        Task<List<OnesMessageModel>?> GetChannelChatHistory(ulong chatId, int? offset);
 
         Task<string?> ChatUpdateBlocked(ChatUpdateBlockedModel chatBlocked);
 

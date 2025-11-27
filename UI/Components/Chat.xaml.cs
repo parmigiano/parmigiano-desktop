@@ -1,6 +1,7 @@
 ﻿using Parmigiano.ViewModel;
 using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,8 @@ namespace Parmigiano.UI.Components
     {
         public ChatViewModel ViewModel { get; } = new ChatViewModel();
 
+        private bool _firstLoadDone = false;
+
         public Chat()
         {
             InitializeComponent();
@@ -32,11 +35,18 @@ namespace Parmigiano.UI.Components
 
         private void Chat_Loaded(object sender, RoutedEventArgs e)
         {
+            ChatScrollViewer.ScrollChanged += ChatScrollViewer_ScrollChanged;
+
             if (DataContext is Parmigiano.ViewModel.ChatViewModel vm)
             {
                 ((INotifyCollectionChanged)vm.Messages).CollectionChanged += (s, ev) =>
                 {
                     ChatScrollViewer?.ScrollToEnd();
+
+                    if (!this._firstLoadDone && vm.Messages.Any())
+                    {
+                        this._firstLoadDone = true;
+                    }
                 };
             }
         }
@@ -132,6 +142,73 @@ namespace Parmigiano.UI.Components
                     Stretch = Stretch.UniformToFill
                 };
             }
+        }
+
+        private void ScrollToBottomButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ChatScrollViewer.ScrollToEnd();
+        }
+
+        private async void ChatScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            this.TryMarkVisibleMessagesAsRead();
+
+            if (ChatScrollViewer.VerticalOffset < ChatScrollViewer.ScrollableHeight - 50)
+            {
+                ScrollToBottomButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ScrollToBottomButton.Visibility = Visibility.Collapsed;
+            }
+
+            if (this._firstLoadDone && ChatScrollViewer.VerticalOffset < 20)
+            {
+                if (DataContext is ChatViewModel vm)
+                {
+                    double prevHeight = ChatScrollViewer.ExtentHeight;
+                    await vm.LoadOlderMessagesAsync();
+
+                    ChatScrollViewer.ScrollToVerticalOffset(ChatScrollViewer.ExtentHeight - prevHeight);
+                }
+            }
+        }
+
+        private void TryMarkVisibleMessagesAsRead()
+        {
+            if (DataContext is not ChatViewModel vm) return;
+
+            foreach (var msg in vm.Messages)
+            {
+                if (msg.IsMine) continue;
+                if (msg.ReadAt != null) continue;
+
+                var container = MessagesListView.ItemContainerGenerator.ContainerFromItem(msg) as FrameworkElement;
+                if (container == null) continue;
+
+                if (this.IsElementVisible(container, ChatScrollViewer))
+                {
+                    _ = vm.MarkMessageAsRead(msg);
+                }
+            }
+        }
+
+        private bool IsElementVisible(FrameworkElement element, ScrollViewer scroll)
+        {
+            if (!element.IsVisible)
+            {
+                return false;
+            }
+
+            GeneralTransform transform = element.TransformToAncestor(scroll);
+            Rect rect = transform.TransformBounds(new Rect(new Point(0, 0), element.RenderSize));
+
+            Rect viewport = new Rect(
+                new Point(0, scroll.VerticalOffset),
+                new Size(scroll.ViewportWidth, scroll.ViewportHeight)
+            );
+
+            return rect.Bottom >= viewport.Top && rect.Top <= viewport.Bottom;
         }
     }
 }

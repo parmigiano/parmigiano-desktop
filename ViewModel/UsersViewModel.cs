@@ -148,7 +148,7 @@ namespace Parmigiano.ViewModel
 
             try
             {
-                var results = await this._userApi.GetUsersFindByUsername(query);
+                var results = await this._chatApi.GetChatsByUsername(query);
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {

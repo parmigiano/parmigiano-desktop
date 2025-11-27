@@ -13,8 +13,6 @@ namespace Parmigiano.Interface
 
         Task<UserInfoModel?> GetUserProfile(ulong uid);
 
-        Task<List<ChatMinimalWithLMessageModel>?> GetUsersFindByUsername(string username);
-
         Task<string?> UploadAvatar(string filePath);
 
         Task<string?> UpdateUserProfile(UserProfileUpdModel user);

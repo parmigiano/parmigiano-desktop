@@ -67,7 +67,7 @@ namespace Parmigiano.Services
                 this._reconnectTimer = new Timer(_ =>
                 {
                     Logger.Tcp("[INFO] Попытка переподключения TCP...");
-                    Connect();
+                    this.Connect();
                 }, null, delayMs, Timeout.Infinite);
             }
         }
@@ -128,6 +128,8 @@ namespace Parmigiano.Services
             if (!this.IsConnected)
             {
                 Logger.Tcp("TCP: попытка отправки при отсутствии соединения");
+
+                this.ScheduleReconnect();
                 return;
             }
 
@@ -163,6 +165,7 @@ namespace Parmigiano.Services
             catch (Exception ex)
             {
                 Logger.Tcp("Failed send to TCP: " + ex.Message);
+
                 this.Disconnect();
                 this.ScheduleReconnect();
             }

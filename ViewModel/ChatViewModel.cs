@@ -5,6 +5,7 @@ using Parmigiano.Models;
 using Parmigiano.Repository;
 using Parmigiano.Services;
 using Parmigiano.Services.Wpf;
+using Parmigiano.UI.Components;
 using ResponseStruct;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace Parmigiano.ViewModel
         public event Action ChatSettingUpdated;
 
         private DateTime _lastTypingSend = DateTime.MinValue;
+        private System.Timers.Timer _typingTimer;
+
+        private bool _isLoadingOlder = false;
+        private int _currentOffset = 0;
 
         public ICommand SendMessageCommand { get; }
         public ICommand EditMessageCommand { get; }
@@ -104,6 +109,25 @@ namespace Parmigiano.ViewModel
             ConnectionService.Instance.OnTcpEvent += HandleTcpEvent;
         }
 
+        private void InitializeTypingTimer()
+        {
+            if (this._typingTimer != null)
+            {
+                return;
+            }
+
+            this._typingTimer = new System.Timers.Timer(3000);
+            this._typingTimer.AutoReset = false;
+            this._typingTimer.Elapsed += async (s, e) =>
+            {
+                if (this.SelectedUser != null)
+                {
+                    await TcpSendPacketsService.SendTypingAsync(this.SelectedUser.Id, false);
+                }
+            };
+        }
+
+
         private async void LoadMessagesAsync()
         {
             if (this.SelectedUser == null)
@@ -117,7 +141,7 @@ namespace Parmigiano.ViewModel
             {
                 this.Messages.Clear();
 
-                List<OnesMessageModel> messages = await this._chatApi.GetHistory(this.SelectedUser.UserUid);
+                List<OnesMessageModel> messages = await this._chatApi.GetPrivateChatHistory(this.SelectedUser.UserUid, this._currentOffset);
 
                 ChatSettingModel chatSetting = await this._chatApi.GetChatSetting(this.SelectedUser.Id);
 
@@ -138,6 +162,39 @@ namespace Parmigiano.ViewModel
                 this.IsLoading = false;
             }
         }
+
+        #region LOAD MORE MESSAGE +=30
+
+        public async Task LoadOlderMessagesAsync()
+        {
+            if (this._isLoadingOlder) return;
+
+            this._isLoadingOlder = true;
+
+            try
+            {
+                var olderMessages = await this._chatApi.GetPrivateChatHistory(this.SelectedUser.UserUid, this._currentOffset);
+                if (olderMessages != null && olderMessages.Any())
+                {
+                    foreach (var msg in olderMessages)
+                    {
+                        if (!Messages.Any(m => m.Id == msg.Id))
+                        {
+                            msg.IsMine = msg.SenderUid == AppSession.CurrentUser.UserUid;
+                            Messages.Insert(0, msg);
+                        }
+                    }
+
+                    this._currentOffset += olderMessages.Count;
+                }
+            }
+            finally
+            {
+                this._isLoadingOlder = false;
+            }
+        }
+
+        #endregion
 
         private void HandleWSocketEvent(string evt, JObject data)
         {
@@ -328,18 +385,40 @@ namespace Parmigiano.ViewModel
             }   
         }
 
-        private async Task SendTypingStatus()
+        public async Task SendTypingStatus()
+        {
+            try
+            {
+                if (this.SelectedUser == null) return;
+
+                this.InitializeTypingTimer();
+
+                if (!this.SelectedUser.IsTyping)
+                {
+                    await TcpSendPacketsService.SendTypingAsync(this.SelectedUser.Id, true);
+                }
+
+                this._typingTimer.Stop();
+                this._typingTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"SendTypingStatus: error -> {ex.Message}");
+            }
+        }
+
+        public async Task MarkMessageAsRead(OnesMessageModel message)
         {
             if (this.SelectedUser == null) return;
 
-            if ((DateTime.Now - this._lastTypingSend).TotalMilliseconds < 2000)
+            try
             {
-                return;
+                await TcpSendPacketsService.SendReadMessageAsync(message.ChatId, message.Id);
             }
-
-            this._lastTypingSend = DateTime.Now;
-
-            await TcpSendPacketsService.SendTypingAsync(this.SelectedUser.Id, !string.IsNullOrWhiteSpace(this.MessageText));
+            catch (Exception ex)
+            {
+                Logger.Error($"MarkMessageAsRead: error -> {ex.Message}");
+            }
         }
 
         #region PACKET RECEIVED MESSAGE
@@ -387,7 +466,11 @@ namespace Parmigiano.ViewModel
                 string notifyPayload = $"{title}|{content}|{chatId}|{avatar}";
 
                 // send notification
-                _ = NotificationService.NotifyAsync(notifyPayload);
+                // is not me sender
+                if (senderUid != AppSession.CurrentUser.UserUid)
+                {
+                    _ = NotificationService.NotifyAsync(notifyPayload);
+                }
 
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
@@ -505,7 +588,7 @@ namespace Parmigiano.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error("DeleteMessageFromList error: " + ex.Message);
+                        Logger.Error("MarkReadMessageFromList error: " + ex.Message);
                     }
                 }));
             }
@@ -555,7 +638,7 @@ namespace Parmigiano.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error("DeleteMessageFromList error: " + ex.Message);
+                        Logger.Error("EditMessageFromList error: " + ex.Message);
                     }
                 }));
             }
@@ -605,6 +688,8 @@ namespace Parmigiano.ViewModel
                 ulong uid = response.ClientTyping.Uid;
                 bool typing = response.ClientTyping.IsTyping;
 
+                if (uid == AppSession.CurrentUser.UserUid) return;
+
                 if (this.SelectedUser == null || this.SelectedUser.UserUid != uid)
                 {
                     return;
@@ -613,11 +698,11 @@ namespace Parmigiano.ViewModel
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     this.SelectedUser.IsTyping = typing;
-                    this.SelectedUser.Online = !typing;
                 });
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("TypingMessageFromList error: " + ex.Message);
             }
         }
 
