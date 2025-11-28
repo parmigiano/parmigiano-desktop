@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -35,6 +36,7 @@ namespace Parmigiano.ViewModel
         public ICommand EditMessageCommand { get; }
         public ICommand DeleteMessageCommand { get; }
         public ICommand CopyMessageCommand { get; }
+        public ICommand PinMessageCommand { get; }
 
         private string _messageText;
         public string MessageText
@@ -46,6 +48,17 @@ namespace Parmigiano.ViewModel
                 OnPropertyChanged(nameof(MessageText));
 
                 _ = this.SendTypingStatus();
+            }
+        }
+
+        private OnesMessageModel _pinnedMessage;
+        public OnesMessageModel PinnedMessage
+        {
+            get => _pinnedMessage;
+            set
+            {
+                _pinnedMessage = value;
+                OnPropertyChanged();
             }
         }
 
@@ -109,6 +122,7 @@ namespace Parmigiano.ViewModel
             this.EditMessageCommand = new RelayCommand(msg => this.EditMessage(msg));
             this.DeleteMessageCommand = new RelayCommand(async msg => await this.DeleteMessage(msg));
             this.CopyMessageCommand = new RelayCommand(msg => this.CopyMessage(msg));
+            this.PinMessageCommand = new RelayCommand(async msg => await this.PinMessage(msg));
 
             ConnectionService.Instance.OnWsEvent += HandleWSocketEvent;
             ConnectionService.Instance.OnTcpEvent += HandleTcpEvent;
@@ -163,6 +177,8 @@ namespace Parmigiano.ViewModel
                         Messages.Add(message);
                     }
                 }
+
+                this.PinnedMessage = messages.FirstOrDefault(m => m.IsPinned);
 
                 this._currentOffset = this.Messages.Count;
             }
@@ -257,6 +273,11 @@ namespace Parmigiano.ViewModel
                     // client received edit message packet
                     case { ClientEditMessage: not null }:
                         this.packetEditMessageTcp(response);
+                        break;
+
+                    // client received typing user packet
+                    case { ClientPinMessage: not null }:
+                        this.packetPinMessageTcp(response);
                         break;
 
                     // client received typing user packet
@@ -406,7 +427,37 @@ namespace Parmigiano.ViewModel
             catch (Exception ex)
             {
                 Logger.Error("Ошибка копирования текста: " + ex.Message);
-            }   
+            }
+        }
+
+        public async Task PinMessage(object msg)
+        {
+            if (this.SelectedUser == null) return;
+
+            if (msg is OnesMessageModel message)
+            {
+                try
+                {
+                    await TcpSendPacketsService.SendPinMessageAsync(message.ChatId, message.Id);
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        if (message != null)
+                        {
+                            var prevPinned = this.Messages.FirstOrDefault(m => m.IsPinned);
+                            if (prevPinned != null) prevPinned.IsPinned = false;
+
+                            message.IsPinned = true;
+
+                            this.PinnedMessage = message;
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"MarkMessageAsRead: error -> {ex.Message}");
+                }
+            }
         }
 
         public async Task SendTypingStatus()
@@ -697,6 +748,75 @@ namespace Parmigiano.ViewModel
             catch (Exception ex)
             {
                 Logger.Error($"HandleTcpEvent error: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region PACKET RECEIVED PIN MESSAGE
+
+        private void packetPinMessageTcp(ResponseStruct.Response response)
+        {
+            try
+            {
+                if (response?.ClientPinMessage == null) return;
+
+                ulong pinUserUid = response.ClientPinMessage.Uid;
+                ulong chatId = response.ClientPinMessage.ChatId;
+                ulong messageId = response.ClientPinMessage.MessageId;
+                bool pinStatus = response.ClientPinMessage.PinStatus;
+
+                if (this.SelectedUser == null || this.SelectedUser.UserUid != pinUserUid)
+                {
+                    return;
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var msg = this.Messages.FirstOrDefault(m => m.Id == messageId && m.ChatId == chatId);
+
+                    if (msg != null)
+                    {
+                        if (pinStatus)
+                        {
+                            var prevPinned = this.Messages.FirstOrDefault(m => m.IsPinned);
+                            if (prevPinned != null) prevPinned.IsPinned = false;
+
+                            msg.IsPinned = true;
+                            this.PinnedMessage = msg;
+                        }
+                        else
+                        {
+                            msg.IsPinned = false;
+                            if (this.PinnedMessage == msg) this.PinnedMessage = null;
+                        }
+
+                        string actionText = pinStatus ? "закрепил" : "открепил";
+                        string title = "Новое сообщение";
+
+                        if (this.SelectedUser != null && this.SelectedUser.UserUid == pinUserUid)
+                        {
+                            title = string.IsNullOrEmpty(this.SelectedUser.Name) ? this.SelectedUser.Username : this.SelectedUser.Name;
+                        }
+
+                        string avatar = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Public/assets/logo-bg-x250.png");
+                        if (this.SelectedUser != null && this.SelectedUser.UserUid == pinUserUid)
+                        {
+                            avatar = string.IsNullOrEmpty(this.SelectedUser.Avatar) ? avatar : this.SelectedUser.Avatar;
+                        }
+
+                        string notifyPayload = $"{title} {actionText} сообщение|{msg.Content}|{chatId}|{avatar}";
+
+                        if (pinUserUid != AppSession.CurrentUser.UserUid)
+                        {
+                            _ = NotificationService.NotifyAsync(notifyPayload);
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("TypingMessageFromList error: " + ex.Message);
             }
         }
 

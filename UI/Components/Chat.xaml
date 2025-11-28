@@ -25,7 +25,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#111" Padding="20,10,20,10">
+        <Border Grid.Row="0" Background="#111" Padding="20,10,20,10" BorderBrush="#222" BorderThickness="0,0,0,1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -71,6 +71,74 @@
                        RenderOptions.BitmapScalingMode="HighQuality"
                        Cursor="Hand"
                        MouseLeftButtonUp="ChatBackground_MouseLeftButtonUp">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" 
+                VerticalAlignment="Top" 
+                Panel.ZIndex="999" 
+                Background="#111" 
+                Padding="20,10,20,10"
+                BorderBrush="#222" 
+                BorderThickness="0,0,0,1"
+                Visibility="{Binding PinnedMessage, Converter={StaticResource NullToVisibilityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical" Grid.Column="0" Cursor="Hand" MouseLeftButtonUp="PinnedMessage_Click">
+                    <TextBlock Text="Закреплённое сообщение" 
+                               Grid.Row="1"
+                               Foreground="#2499ff"
+                               FontWeight="SemiBold"
+                               FontSize="13"/>
+
+                    <TextBlock Grid.Row="1"
+                               Text="{Binding PinnedMessage.Content}"
+                               FontWeight="Normal"
+                               FontSize="12"
+                               Margin="0,1,0,0">
+                        <!-- <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource TypingOrOnlineConverter}">
+                                <Binding Path="SelectedUser.IsTyping"/>
+                                <Binding Path="SelectedUser.Online"/>
+                                <Binding Path="SelectedUser.LastOnlineDate"/>
+                            </MultiBinding>
+                        </TextBlock.Text> -->
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#999"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedUser.Online}" Value="True">
+                                        <Setter Property="Foreground" Value="#fff"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <Image Source="pack://application:,,,/Public/ico/x.png"
+                       Grid.Column="1"
+                       MaxWidth="18"
+                       VerticalAlignment="Center"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Cursor="Hand">
                     <Image.Style>
                         <Style TargetType="Image">
                             <Setter Property="Opacity" Value="1"/>
@@ -207,7 +275,9 @@
                                             <MenuItem Header="Удалить"
                                                       Command="{Binding DeleteMessageCommand}"
                                                       CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                            <MenuItem Header="Закрепить"/>
+                                            <MenuItem Header="Закрепить"
+                                                      Command="{Binding PinMessageCommand}"
+                                                      CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                             <MenuItem Header="Копировать"
                                                       Command="{Binding CopyMessageCommand}"
                                                       CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>

@@ -253,13 +253,15 @@
 
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                             <Border Background="#156fd6" 
-                                                    Width="18" Height="18" 
+                                                    Width="19" Height="19" 
                                                     CornerRadius="50"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding UnreadMessageCount}" 
                                                            Foreground="#fff"
-                                                           TextAlignment="Center"/>
+                                                           FontSize="12"
+                                                           TextAlignment="Center"
+                                                           VerticalAlignment="Center"/>
                                             </Border>
 
                                             <StackPanel.Style>

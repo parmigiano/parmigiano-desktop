@@ -8,19 +8,16 @@ namespace Parmigiano.UI.Controllers
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is DateTimeOffset dto)
-            {
-                return dto.LocalDateTime.ToString("HH:mm");
-            }
+            if (value == null) return "";
 
             if (value is DateTime dt)
             {
-                if (dt.Kind == DateTimeKind.Unspecified)
-                {
-                    dt = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
-                }
+                return dt.AddHours(5).ToString("HH:mm");
+            }
 
-                return dt.ToLocalTime().ToString("HH:mm");
+            if (value is string s && DateTime.TryParse(s, out var parsed))
+            {
+                return parsed.AddHours(5).ToString("HH:mm");
             }
 
             return "";

@@ -36,22 +36,21 @@ namespace Parmigiano.UI.Components
 
         private void Chat_Loaded(object sender, RoutedEventArgs e)
         {
+            this._firstLoadDone = false;
+
             ChatScrollViewer.ScrollChanged += ChatScrollViewer_ScrollChanged;
 
             if (DataContext is Parmigiano.ViewModel.ChatViewModel vm)
             {
-                ((INotifyCollectionChanged)vm.Messages).CollectionChanged += (s, ev) =>
+                vm.PropertyChanged += (s, ev) =>
                 {
-                    if (ev.Action == NotifyCollectionChangedAction.Add)
+                    if (ev.PropertyName == nameof(vm.SelectedUser))
                     {
-                        if (this._isUserNearBottom) ChatScrollViewer.ScrollToEnd();
-                    }
-
-                    if (!this._firstLoadDone && vm.Messages.Any())
-                    {
-                        this._firstLoadDone = true;
+                        this.SubscribeToMessagesCollection(vm);
                     }
                 };
+
+                this.SubscribeToMessagesCollection(vm);
             }
         }
 
@@ -214,5 +213,56 @@ namespace Parmigiano.UI.Components
                 return false;
             }
         }
+
+        private void PinnedMessage_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is not ChatViewModel vm) return;
+
+            if (vm?.PinnedMessage == null) return;
+
+            MessagesListView.UpdateLayout();
+
+            var item = MessagesListView.ItemContainerGenerator.ContainerFromItem(vm.PinnedMessage) as FrameworkElement;
+            if (item == null) return;
+
+            var point = item.TransformToAncestor(this.ChatScrollViewer).Transform(new Point(0, 0));
+
+            this.ChatScrollViewer.ScrollToVerticalOffset(point.Y);
+        }
+
+        private void SubscribeToMessagesCollection(ChatViewModel vm)
+        {
+            this._firstLoadDone = false;
+            this._isUserNearBottom = true;
+
+            if (vm.Messages is INotifyCollectionChanged incc)
+            {
+                incc.CollectionChanged += (s, ev) =>
+                {
+                    if (ev.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        if (this._isUserNearBottom) this.ChatScrollViewer.ScrollToEnd();
+                    }
+
+                    if (!this._firstLoadDone && vm.Messages.Any())
+                    {
+                        this._firstLoadDone = true;
+                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            this.ChatScrollViewer.ScrollToEnd();
+                        }), System.Windows.Threading.DispatcherPriority.Background);
+                    }
+                };
+            }
+
+            if (vm.Messages.Any())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    this.ChatScrollViewer.ScrollToEnd();
+                }), System.Windows.Threading.DispatcherPriority.Background);
+            }
+        }
+
     }
 }

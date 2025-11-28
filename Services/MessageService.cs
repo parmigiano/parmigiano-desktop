@@ -37,11 +37,12 @@ namespace Parmigiano.Services
 
             string s = message.Trim();
 
-            // Убираем управляющие символы, кроме таба и перевода строки
-            s = Regex.Replace(s, @"[\x00-\x08\x0B\x0C\x0E-\x1F]", string.Empty);
+            s = Regex.Replace(s, @"[\x00-\x08\x0B\x0C\x0E-\x1F]", "");
 
-            // Сжимаем многократные пробелы в один (включая табы/новые строки -> пробел)
-            s = Regex.Replace(s, @"\s+", " ");
+            s = Regex.Replace(s, @"[ \t]+", " ");
+
+            s = Regex.Replace(s, @"^[ ]+", "", RegexOptions.Multiline);
+            s = Regex.Replace(s, @"[ ]+$", "", RegexOptions.Multiline);
 
             if (s.Length > MaxMessageLength)
             {

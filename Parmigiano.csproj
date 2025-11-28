@@ -583,6 +583,9 @@
   <ItemGroup>
     <Resource Include="Public\ico\chevron-down.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Public\ico\users.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

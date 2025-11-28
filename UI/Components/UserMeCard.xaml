@@ -13,6 +13,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -31,7 +32,7 @@
                     MaxWidth="16"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
-                    Margin="0,0,30,0"
+                    Margin="0,0,20,0"
                     RenderOptions.BitmapScalingMode="HighQuality"
                     Cursor="Hand"
                     MouseLeftButtonUp="Logout_MouseLeftButtonUp">
@@ -47,10 +48,30 @@
                 </Image.Style>
             </Image>
 
+            <Image Source="pack://application:,,,/Public/ico/users.png"
+                    Grid.Column="2"
+                    MaxWidth="18"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,30,0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    Cursor="Hand">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+
             <StackPanel Orientation="Horizontal" 
                         VerticalAlignment="Center" 
                         HorizontalAlignment="Right"
-                        Grid.Column="2" 
+                        Grid.Column="3" 
                         MouseLeftButtonUp="UserProfile_MouseLeftButtonUp" 
                         Cursor="Hand"
                         Background="Transparent">
