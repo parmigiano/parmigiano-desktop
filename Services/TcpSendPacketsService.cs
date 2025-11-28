@@ -190,6 +190,12 @@ namespace Parmigiano.Services
             var uid = AppSession.CurrentUser?.UserUid ?? 0UL;
 
             var req = CreateBase(RequestInfo.Types.requestTypes.PinMessage);
+            req.ClientPinMessagePacket = new ClientPinMessagePacket
+            {
+                Uid = uid,
+                ChatId = chatId,
+                MessageId = messageId,
+            };
 
             await SafeSendAsync(req);
         }

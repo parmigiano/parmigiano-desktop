@@ -430,7 +430,7 @@ namespace Parmigiano.ViewModel
             }
         }
 
-        public async Task PinMessage(object msg)
+        private async Task PinMessage(object msg)
         {
             if (this.SelectedUser == null) return;
 
