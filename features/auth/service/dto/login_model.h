@@ -9,7 +9,9 @@ struct LoginRequest {
 
     QJsonObject toJson() const {
         QJsonObject obj;
+
         obj["email"] = email;
+
         return obj;
     }
 };

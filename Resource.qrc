@@ -4,9 +4,8 @@
         <file>assets/arrow_back.svg</file>
         <file>assets/camera.svg</file>
         <file>assets/burger_menu.svg</file>
-        <file>ui/translations/ParmigianoDesktop_en_US.ts</file>
-        <file>ui/translations/ParmigianoDesktop_ru_RU.ts</file>
-        <file>ui/translations/release/ParmigianoDesktop_ru_RU.qm</file>
-        <file>ui/translations/release/ParmigianoDesktop_en_US.qm</file>
+        <file>translations/ParmigianoDesktop_en_150.ts</file>
+        <file>translations/ParmigianoDesktop_ru_RU.ts</file>
+        <file>assets/circle_alert.svg</file>
     </qresource>
 </RCC>

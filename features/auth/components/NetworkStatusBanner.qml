@@ -43,10 +43,10 @@ Item {
 
         id: networkBanner
 
-        width: parent ? parent.width : 0
+        width: parent.width
         height: 0
         clip: true
-        color: "#242f3d"
+        color: "#242424"
         state: bannerState
 
         states: [
@@ -72,7 +72,7 @@ Item {
                 name: "waiting"
                 PropertyChanges {
                     target: networkBanner
-                    color: "#242f3d"
+                    color: "#222325"
                     height: 35
                 }
 

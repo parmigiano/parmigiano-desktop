@@ -56,8 +56,6 @@ Makefile*
 
 moc_*.cpp
 
-ui_*.h
-
 qrc_*.cpp
 
 Thumbs.db
@@ -163,3 +161,5 @@ CMakeLists.txt.user*
 /build
 
 /deploy
+
+translations/release

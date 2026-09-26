@@ -6,87 +6,63 @@
 #include <QTimer>
 #include <qthread.h>
 
+#include "core/network/http_client.h"
+#include "features/auth/model/response_data.h"
+#include "features/auth/model/request_data.h"
+#include "domain/pow_process.h"
+
 BaseSource::BaseSource(QObject *parent, const QString &link)
     : QObject{parent}, _link(link)
+    , _HTTPClient(new HTTPClient())
+    , _PoWProcess(PoWProcess::getInstance())
 {}
 
-void BaseSource::request(const QJsonObject& jsonObj,
-                         std::function<void()> func,
-                         const QMap<QString, QString>& headers)
+void BaseSource::request(RequestTypes type, const RequestData& reqData)
 {
-    // if (_reply)
-    // {
-    //     //_reply->disconnect();
-    //     _reply->abort();
-    //     _reply->deleteLater();
-    //     _reply = nullptr;
-    // }
-
-    QJsonDocument jsonDoc(jsonObj);
-
-    QByteArray jsonData = jsonDoc.toJson();
-
-    QNetworkRequest request(QUrl(_link.toUtf8()));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    if (!headers.isEmpty())
+    if (_currentAttempt >= _retryAttempts)
     {
-        for(auto [name, value] : headers.asKeyValueRange())
-        {
-            request.setRawHeader(name.toUtf8(), value.toUtf8());
-        }
+        return;
     }
 
-    request.setRawHeader("X-Request-ID", "123123");
+    _currentAttempt++;
 
-    QNetworkReply* reply = _networkManager.post(request, jsonData);
-    qDebug() << reply;
+    _HTTPClient->sendRequest(
+        type,
+        reqData.jsonObj,
+        _link,
+        reqData.headers,
+        [this, type, reqData] (const QJsonObject& jsonObj, int code) {
+            // Checking for PoW, solve PoW and retry request if it need
+            // If all right call up callback
+            if (jsonObj["message"].toObject().contains("challenge"))
+            {
+                QString challenge = jsonObj["message"].toObject()["challenge"].toString();
+                uint8_t difficulty = jsonObj["message"].toObject()["difficulty"].toInt();
 
-    if (func) connect(reply, &QNetworkReply::finished, this, func);
-    else connect(reply, &QNetworkReply::finished, this, [=]() {
-        processResponse(reply);
-    });
+                _PoWProcess->solve(challenge, difficulty);
 
-    QList<QByteArray> headerList = request.rawHeaderList();
-    foreach (const QByteArray &head, headerList)
-    {
-        qDebug() << head << ":" << request.rawHeader(head);
-    }
+                auto nonce = _PoWProcess->getNonce();
+                QString value = QString::number(*nonce);
 
-    qDebug() << jsonObj;
-    qDebug() << _link;
-    qDebug() << "";
-}
+                QMap<QString, QString> headers = reqData.headers;
+                headers["pow-challenge"] = challenge;
+                headers["pow-nonce"] = value;
 
-QJsonObject BaseSource::getJSON()
-{
-    return currentJSON;
-}
+                RequestData RetryReqData;
+                RetryReqData.jsonObj = reqData.jsonObj;
+                RetryReqData.callback = reqData.callback;
+                RetryReqData.headers = headers;
 
-void BaseSource::setJSON(QJsonObject jsonObj)
-{
-    if (currentJSON != jsonObj) currentJSON = jsonObj;
-}
+                request(type, RetryReqData);
+            }
+            else
+            {
+                ResponseData result;
+                result.jsonData = jsonObj;
+                result.code = code;
 
-void BaseSource::processResponse(QNetworkReply* reply)
-{
-
-    //qDebug() << "Base method";
-    if (!reply) return;
-
-    QByteArray data = reply->readAll();
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
-    QJsonObject jsonObj = jsonDoc.object();
-
-    // if (jsonObj["message"].toObject().contains("challenge"))
-    // {
-    //     qDebug() << "CHALLENGE!!!";
-    // }
-
-    int code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    qDebug() << code;
-    emit processResponseFinished(jsonObj, code);
-
-    reply->deleteLater();
-    reply = nullptr;
+                _currentAttempt = 0;
+                reqData.callback(result);
+            }
+        });
 }

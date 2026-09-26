@@ -34,7 +34,7 @@ Item {
         property string buttonState: "default"
         state: buttonState
 
-        radius: 7
+        radius: 12
         anchors.fill: parent
 
         Behavior on color {
@@ -57,7 +57,7 @@ Item {
                 PropertyChanges {
                     target: button
 
-                    color: buttonMouseArea.containsMouse ? "#4da1ef" : "#3390ec"
+                    color: buttonMouseArea.containsMouse ? "#2b74ba" : "#3390ec"
                 }
 
                 PropertyChanges {

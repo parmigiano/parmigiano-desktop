@@ -10,13 +10,7 @@ class CreateProfileSource : public BaseSource
 public:
     explicit CreateProfileSource(QObject *parent = nullptr, const QString& link = "");
 
-    void createProfile(CreateProfileRequest& model);
-
-private:
-    //void processCode() override;
-
-signals:
-    void createFinished(int code);
+    void createProfile(const RequestData& reqData);
 
 };
 

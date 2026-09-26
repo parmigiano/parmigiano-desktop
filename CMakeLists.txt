@@ -7,7 +7,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Gui Core Qml Network)
+find_package(Qt6 REQUIRED COMPONENTS Quick Gui Core Qml Network LinguistTools)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -73,8 +73,8 @@ qt_add_qml_module(coreUI
     SOURCES
         # Core/ui
         # -->
-        core/ui/navigation_service.h
-        core/ui/navigation_service.cpp
+        core/ui/navigation_manager.h
+        core/ui/navigation_manager.cpp
         core/ui/ui_state_manager.h
         core/ui/ui_state_manager.cpp
         core/ui/clipboard_manager.h
@@ -149,7 +149,7 @@ qt_add_qml_module(featureAuth
         features/auth/components/NetworkStatusBanner.qml
         features/auth/components/TextContextMenu.qml
         features/auth/components/SwitchLanguageMenu.qml
-        features/auth/components/InfoDisplay.qml
+        features/auth/components/ErrorBanner.qml
 
         # Features/Auth/components/animations
         # -->
@@ -163,11 +163,20 @@ qt_add_qml_module(featureAuth
         # features/auth/view/CreateProfilePage.qml
         # features/auth/view/CloudPasswordPage.qml
         # features/auth/view/VerifyCodePage.qml
-        features/auth/view/LoginPage.qml
+        # features/auth/view/LoginPage.qml
     RESOURCES
         # Features/Auth/view
         # -->
         features/auth/view/js/validate.js
+        QML_FILES features/auth/view/AuthWindow.qml
+        QML_FILES features/auth/view/LoginWidget.qml
+        QML_FILES features/auth/components/StepsItem.qml
+        QML_FILES features/auth/components/FloatingLabelInput.qml
+        QML_FILES features/auth/components/StepCounter.qml
+        QML_FILES features/auth/view/VerifyCodeWidget.qml
+        QML_FILES features/auth/components/ExitDialog.qml
+        QML_FILES features/auth/components/Steps.qml
+        QML_FILES features/auth/view/CreateProfileWindow.qml
 )
 target_include_directories(featureAuth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories(featureAuth # for MOC padla takaya

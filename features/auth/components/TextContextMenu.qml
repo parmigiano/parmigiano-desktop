@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 
 Item {
     id: root
@@ -52,7 +53,7 @@ Item {
                 Text {
                     text:  menuItem.action.shortcut || ""
                     font.pointSize: 10
-                    color: "#708499"
+                    color: "#7d7d7d"
 
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
@@ -61,8 +62,9 @@ Item {
 
             background: Rectangle {
                 anchors.fill: parent
-                color: menuItem.hovered ? "#323d4a" : "#212d3b"
+                color: menuItem.hovered ? "#fff" : "#232323"
                 radius: 5
+                opacity: 0.1
 
                 Behavior on color {
                     ColorAnimation {
@@ -76,9 +78,17 @@ Item {
         background: Rectangle {
             anchors.fill: parent
 
-            color: "#212d3b"
-            border.color: '#2f3e4e'
+            color: "#232323"
+            border.color: "#373737"
             radius: 10
+            opacity: 0.95
+
+            MultiEffect {
+                source: parent
+
+                blurEnabled: true
+                blur: 0.5
+            }
         }
 
         Action {
@@ -124,7 +134,7 @@ Item {
             contentItem: Rectangle {
                 implicitWidth: 200
                 implicitHeight: 1
-                color: "#2f3e4e"
+                color: "#373737"
             }
         }
 

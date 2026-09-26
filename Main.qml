@@ -3,53 +3,61 @@ import QtQuick.Controls
 
 import ParmigianoDesktop as Logic
 import ParmigianoDesktop.FeatureAuth
+import ParmigianoDesktop.CoreUI
 
 Window {
     id: mainWindow
+
     width: 1000
     height: 640
     minimumWidth: 1000
     minimumHeight: 640
     visible: true
     title: qsTr("Parmigiano Chat")
-    color: "#18222d"
+    color: "#191a1c"
+
+    Component {
+        id: authWindow
+
+        AuthWindow {}
+    }
+
+    Component {
+        id: createProfileWindow
+
+        CreateProfileWindow {}
+    }
 
     readonly property var pagesURI: {
-        // AUTH
-        "Login": makeAuthPageURI("Login"),
-        "CreateProfile": makeAuthPageURI("CreateProfile"),
-        "VerifyCode": makeAuthPageURI("VerifyCode"),
-        "CloudPassword": makeAuthPageURI("CloudPassword"),
-
-        // MESSENGER
-    }
-
-    function makeAuthPageURI(pageId) {
-        return "qrc:/qt/qml/ParmigianoDesktop/AuthPages/ui/auth/" + pageId + "Page.qml";
-    }
-
-    function makeMessengerPageURI(pageId) {
-        return "qrc:/qt/qml/ParmigianoDesktop/MessengerPages/ui/messenger/" + pageId + "Page.qml";
+        "AuthWindow": authWindow,
+        "CreateProfileWindow": createProfileWindow
     }
 
     Connections {
-        target: Navigation
+        target: NavigationManager
 
-        function onNavigateTo(pageId) {
-            stackView.push(pagesURI[pageId])
-        }
-
-        function onNavigateBack() {
-            if (stackView.depth > 1)
+        function onNavigateTo(pageName) {
+            if (!pagesURI.hasOwnProperty(pageName))
             {
-                stackView.pop()
+                return
             }
+
+            stackView.push(pagesURI[pageName])
         }
+
+        // function onNavigateBack(windowName) {
+        //     if (stackView.depth > 1) {
+        //         authPanePulse.restart()
+        //         stackView.pop()
+        //     } else {
+        //         exit.openManual()
+        //     }
+        // }
     }
 
     StackView {
         id: stackView
         anchors.fill: parent
-        initialItem: LoginPage {}
+        initialItem: authWindow
     }
 }

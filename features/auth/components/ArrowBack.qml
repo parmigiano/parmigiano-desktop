@@ -2,22 +2,29 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 
+import ParmigianoDesktop.CoreUI
+
 Item {
     id: root
 
     property alias mouseArea: imageArea
 
+    // required property string windowName
+
     Rectangle {
         id: imageContainer
 
-        color: "transparent"
         anchors.fill: parent
+
+        color: imageArea.containsMouse ? "#242424" : "#191a1c"
+        radius: 8
 
         Image {
             id: arrowBack
 
-            sourceSize: Qt.size(25, 25)
             anchors.centerIn: parent
+
+            sourceSize: Qt.size(25, 25)
             source: "qrc:/assets/arrow_back.svg"
         }
 
@@ -25,26 +32,40 @@ Item {
             source: arrowBack
 
             anchors.fill: arrowBack
+
             colorization: 1.0
             brightness: imageArea.containsMouse ? 1.0 : 0.0
-            colorizationColor: imageArea.containsMouse ? "#fff" : "#708499"
+            colorizationColor: imageArea.containsMouse ? "#fff" : "#7d7d7d"
 
             Behavior on colorizationColor {
                 ColorAnimation {
-                    duration: 200
+                    duration: 150
                 }
             }
+
+            // Behavior on brightness {
+            //     ColorAnimation {
+            //         duration: 150
+            //     }
+            // }
         }
 
         MouseArea {
             id: imageArea
 
             anchors.fill: parent
+
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
 
             onClicked: {
-                Navigation.goBack();
+                NavigationManager.goBack();
+            }
+        }
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 150
             }
         }
     }

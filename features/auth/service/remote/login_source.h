@@ -12,8 +12,8 @@
 //     class NetworkManager;
 // }
 
-class HTTPClient;
-class PoWProcess;
+// class HTTPClient;
+// class PoWProcess;
 
 class LoginSource : public BaseSource
 {
@@ -21,20 +21,7 @@ class LoginSource : public BaseSource
 public:
     explicit LoginSource(QObject *parent = nullptr, const QString& link = "");
 
-    // void login(LoginRequest& model,
-    //            const QMap<QString, QString>& headers = {});
-
     void login(const RequestData& reqData);
-
-private:
-    HTTPClient* _HTTPClient;
-    PoWProcess* _PoWProcess;
-
-    int _retryAttempts = 2;
-    int _currentAttempt = 0;
-
-signals:
-    //void loginFinished(const ResponseData& result);
 
 };
 

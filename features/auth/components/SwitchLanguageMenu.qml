@@ -35,7 +35,7 @@ Item {
         height: 30
 
         color: rectangleMouseArea.containsMouse ? Qt.rgba(0.2, 0.56, 0.92, 0.15) : "transparent"
-        radius: 5
+        radius: 8
 
         Behavior on color {
             ColorAnimation {
@@ -105,7 +105,7 @@ Item {
 
             background: Rectangle {
                 anchors.fill: parent
-                color: menuItem.hovered ? "#323d4a" : "#212d3b"
+                color: menuItem.hovered ? "#323232" : "#202020"
                 radius: 5
 
                 Behavior on color {
@@ -122,8 +122,8 @@ Item {
 
             anchors.fill: parent
 
-            color: "#212d3b"
-            border.color: '#2f3e4e'
+            color: "#1e1f21"
+            border.color: '#373737'
             radius: 10
         }
 
@@ -143,7 +143,7 @@ Item {
             contentItem: Rectangle {
                 implicitWidth: 200
                 implicitHeight: 1
-                color: "#2f3e4e"
+                color: "#373737"
             }
         }
 

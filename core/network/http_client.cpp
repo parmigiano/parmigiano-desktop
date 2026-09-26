@@ -4,23 +4,9 @@
 #include <qjsonobject.h>
 #include <qnetworkreply.h>
 
-//HTTPClient HTTPClient::_instancePtr;
-
 HTTPClient::HTTPClient(QObject *parent)
     : _networkManager(new QNetworkAccessManager(this))
-{
-    //_networkManager = new QNetworkAccessManager(this);
-}
-
-// void HTTPClient::initialize()
-// {
-//     _networkManager = new QNetworkAccessManager(this);
-// }
-
-// HTTPClient *HTTPClient::getInstance()
-// {
-//     return &_instancePtr;
-// }
+{}
 
 void HTTPClient::sendRequest(RequestTypes type,
                              const QJsonObject &jsonData,
@@ -35,9 +21,6 @@ void HTTPClient::sendRequest(RequestTypes type,
     QNetworkReply* reply;
 
     addHeaders(&request, headers);
-    //request.setHeader(QNetworkRequest::ContentLengthHeader, jsonArray.size());
-    //qDebug().nospace() << jsonArray.data();
-    //qDebug().nospace() << jsonArray;
 
 #ifndef NDEBUG
     auto typeName = [type] () {
@@ -63,10 +46,7 @@ void HTTPClient::sendRequest(RequestTypes type,
     }
 
     qDebug() << "";
-    //qDebug() << &_networkManager;
 #endif
-
-    //_networkManager = new QNetworkAccessManager(this);
 
     switch (type)
     {
@@ -100,8 +80,6 @@ void HTTPClient::addHeaders(QNetworkRequest *request,
             request->setRawHeader(name.toUtf8(), value.toUtf8());
         }
     }
-
-    //request->setRawHeader("X-Request-ID", "123123"); // TEMP!!
 }
 
 void HTTPClient::processResponse(QNetworkReply *reply,

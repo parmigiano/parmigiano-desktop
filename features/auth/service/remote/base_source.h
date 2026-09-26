@@ -4,17 +4,19 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <functional>
 #include <qjsonobject.h>
+
+enum class RequestTypes;
+struct ResponseData;
+struct RequestData;
+class HTTPClient;
+class PoWProcess;
 
 class BaseSource : public QObject
 {
     Q_OBJECT
 public:
     explicit BaseSource(QObject *parent = nullptr, const QString& link = "");
-
-    virtual QJsonObject getJSON();
-    virtual void setJSON(QJsonObject jsonObj);
 
 protected:
     QList<QVariantMap> _data;
@@ -24,16 +26,19 @@ protected:
 
     QString _link;
 
+    int _retryAttempts = 2;
+    int _currentAttempt = 0;
+
     //virtual void processCode() = 0;
-    virtual void request(const QJsonObject& jsonObj,
-                         std::function<void()> func = nullptr,
-                         const QMap<QString, QString>& headers = {});
+    // virtual void request(const QJsonObject& jsonObj,
+    //                      std::function<void()> func = nullptr,
+    //                      const QMap<QString, QString>& headers = {});
+
+    void request(RequestTypes type, const RequestData& reqData);
 
 private:
-    void processResponse(QNetworkReply* reply);
-
-signals:
-    void processResponseFinished(QJsonObject jsonObj, int code);
+    HTTPClient* _HTTPClient;
+    PoWProcess* _PoWProcess;
 };
 
 #endif // BASE_SOURCE_H

@@ -10,15 +10,7 @@ class VerifyCodeSource : public BaseSource
 public:
     explicit VerifyCodeSource(QObject *parent = nullptr, const QString& link = "");
 
-    void verifyCode(VerifyCodeRequest& model);
-
-private:
-    //void processCode() override;
-
-signals:
-    void verifyFinished(int code);
-
-public slots:
+    void verifyCode(const RequestData& reqData);
 
 };
 

@@ -4,20 +4,20 @@
 #include <QNetworkAccessManager>
 #include <QObject>
 
+enum class RequestTypes
+{
+    POST,
+    GET,
+    PATCH,
+    PUT,
+    DELET
+};
+
 class HTTPClient : public QObject
 {
     Q_OBJECT
 public:
     typedef std::function<void(const QJsonObject&, uint16_t)> handleFunc;
-
-    enum class RequestTypes
-    {
-        POST,
-        GET,
-        PATCH,
-        DELET
-    };
-    Q_ENUM(RequestTypes)
 
     explicit HTTPClient(QObject *parent = nullptr);
     ~HTTPClient() = default;

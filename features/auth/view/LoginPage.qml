@@ -158,9 +158,9 @@ Item {
         }
     }
 
-    InfoDisplay {
-        id: banner
+    // InfoDisplay {
+    //     id: banner
 
-        width: messageWidth
-    }
+    //     width: messageWidth
+    // }
 }
