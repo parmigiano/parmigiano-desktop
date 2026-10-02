@@ -2,7 +2,7 @@
 
 #include <qjsonobject.h>
 
-#include "core/network/http_client.h"
+#include "core/network/http/http_client.h"
 
 CreateProfileSource::CreateProfileSource(QObject *parent, const QString &link)
     : BaseSource(parent, link)

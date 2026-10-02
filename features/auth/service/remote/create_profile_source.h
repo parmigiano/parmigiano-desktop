@@ -1,8 +1,7 @@
 #ifndef CREATEA_PROFILE_SOURCE_H
 #define CREATEA_PROFILE_SOURCE_H
 
-#include "features/auth/service/dto/create_profile_model.h"
-#include "base_source.h"
+#include "core/network/http/remote/base_source.h"
 
 class CreateProfileSource : public BaseSource
 {

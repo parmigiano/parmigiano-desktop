@@ -24,6 +24,7 @@ public:
     static AuthContext* getInstance();
 
     Q_INVOKABLE QString getEmail();
+    Q_INVOKABLE void setEmail(const QString& email);
 
 private:
     static AuthContext _instancePtr;
@@ -32,8 +33,6 @@ private:
 signals:
     void emailChanged(const QString& email);
 
-public slots:
-    void setEmail(const QString& email);
 };
 
 #endif // AUTH_CONTEXT_H

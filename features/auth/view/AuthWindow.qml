@@ -60,14 +60,14 @@ Item {
                 return
             }
 
-            authPanePulse.restart()
+            // authPanePulse.restart()
             stackView.push(pagesURI[pageName])
         }
 
         function onNavigateBack() {
             if (stackView.depth > 1)
             {
-                authPanePulse.restart()
+                // authPanePulse.restart()
                 stackView.pop()
             }
             else
@@ -77,47 +77,31 @@ Item {
         }
     }
 
-    SequentialAnimation {
-        id: authPanePulse
+    // SequentialAnimation {
+    //     id: authPanePulse
 
-        NumberAnimation {
-            target: authPane
-            property: "scale"
-            from: 1
-            to: 0.980
-            duration: 150
+    //     NumberAnimation {
+    //         target: authPane
+    //         property: "scale"
+    //         from: 1
+    //         to: 0.980
+    //         duration: 150
 
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
-        }
+    //         easing.type: Easing.BezierSpline
+    //         easing.bezierCurve: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
+    //     }
 
-        NumberAnimation {
-            target: authPane
-            property: "scale"
-            from: 0.980
-            to: 1
-            duration: 200
+    //     NumberAnimation {
+    //         target: authPane
+    //         property: "scale"
+    //         from: 0.980
+    //         to: 1
+    //         duration: 200
 
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
-        }
-    }
-
-    NetworkStatusBanner {
-        id: networkBanner
-
-        // Layout.alignment: Qt.AlignTop
-        // Layout.fillWidth: true
-        // Layout.preferredHeight: height
-        // Layout.maximumHeight: 35
-
-        height: implicitHeight
-        width: parent.width
-        anchors.top: parent.top
-
-
-        visible: height > 0
-    }
+    //         easing.type: Easing.BezierSpline
+    //         easing.bezierCurve: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
+    //     }
+    // }
 
     Pane {
         anchors.fill: parent
@@ -126,8 +110,7 @@ Item {
             color: "#191a1c"
         }
 
-        leftPadding: 25
-        rightPadding: 25
+        padding: 0
 
         Item {
             property real blurAmount: 0
@@ -159,23 +142,23 @@ Item {
                 // Layout.topMargin: 0
                 Layout.margins: 0
 
-                // NetworkStatusBanner {
-                //     // id: networkBanner
+                NetworkStatusBanner {
+                    // id: networkBanner
 
-                //     Layout.alignment: Qt.AlignTop
-                //     Layout.fillWidth: true
-                //     Layout.preferredHeight: height
-                //     Layout.maximumHeight: 35
+                    Layout.alignment: Qt.AlignTop
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: height
+                    Layout.maximumHeight: 35
 
-                //     visible: height > 0
-                // }
+                    visible: height > 0
+                }
 
                 RowLayout {
                     Layout.fillWidth: true
 
-                    // Layout.topMargin: 15
-                    // Layout.leftMargin: 25
-                    // Layout.rightMargin: 25
+                    Layout.topMargin: 15
+                    Layout.leftMargin: 25
+                    Layout.rightMargin: 25
 
                     ArrowBack {
                         id: arrowBack
@@ -201,17 +184,17 @@ Item {
 
                         spacing: 15
 
-                        StepCounter {
-                            id: stepCount
+                        // StepCounter {
+                        //     id: stepCount
 
-                            width: implicitWidth
-                            height: implicitHeight
+                        //     width: implicitWidth
+                        //     height: implicitHeight
 
-                            anchors.verticalCenter: parent.verticalCenter
+                        //     anchors.verticalCenter: parent.verticalCenter
 
-                            current: stackView.currentItem ? stackView.currentItem.stepCount : 1
-                            total: "2"
-                        }
+                        //     current: stackView.currentItem ? stackView.currentItem.stepCount : 1
+                        //     total: "2"
+                        // }
 
                         SwitchLanguageMenu {
                             id: langSwitcher
@@ -225,203 +208,91 @@ Item {
                 }
             }
 
-            Pane {
-                id: authPane
-
-                width: 440
-                // height: parent.height / 1.7
-                height: implicitHeight
-                // height: implicitHeight
+            ColumnLayout {
+                width: 360
 
                 anchors.centerIn: parent
 
-                transformOrigin: Item.Center
+                spacing: stackView.currentItem ? stackView.currentItem.gap : 15
 
-                clip: true
+                StackView {
+                    id: stackView
 
-                background: Rectangle {
-                    color: "#1e1f21"
-                    border.color: "#2a2b2d"
-                    border.width: 1
-                    radius: 25
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: currentItem ? currentItem.implicitHeight : 0
+
+                    initialItem: login
+
+                    pushEnter: Transition {
+                        NumberAnimation {
+                            property: "opacity"
+                            from: 0
+                            to: 1
+                            duration: 240
+                            easing.type: Easing.BezierSpline
+                            easing.bezierCurve: [0.25, 0.1, 0.25, 1, 1, 1]
+                        }
+
+                        NumberAnimation {
+                            property: "y"
+                            from: 8
+                            to: 0
+                            duration: 240
+                            easing.type: Easing.BezierSpline
+                            easing.bezierCurve: [0.25, 0.1, 0.25, 1, 1, 1]
+                        }
+                    }
+
+                    pushExit: Transition {
+                        PropertyAction {
+                            property: "opacity"
+                            value: 0
+                        }
+                    }
+
+                    popEnter: stackView.pushEnter
+                    popExit: stackView.pushExit
+
+                    replaceEnter: stackView.pushEnter
+                    replaceExit: stackView.pushExit
                 }
 
-                // leftPadding: 25
-                // rightPadding: 25
-                // topPadding: 25
-                // bottomPadding: 15
+                Action {
+                    id: clickButtonAction
 
-                padding: 25
+                    onTriggered: {
+                        const page = stackView.currentItem
 
-                Behavior on height {
-                    NumberAnimation {
-                        duration: 350
-                        easing.type: Easing.OutCubic
+                        if (page)
+                        {
+                            page.submit()
+                        }
                     }
                 }
 
-                ColumnLayout {
-                    anchors.fill: parent
-
-                    spacing: 35
-
-                    Steps {
-                        id: stepsView
-
-                        Layout.fillWidth: true
-
-                        currentStep: stackView.currentItem ? stackView.currentItem.authStep : 1
+                Shortcut {
+                    sequence: "Return" // normal human enter
+                    onActivated: {
+                        clickButtonAction.trigger();
                     }
+                }
 
-                    StackView {
-                        id: stackView
-
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: currentItem ? currentItem.implicitHeight : 0
-
-                        // clip: false
-                        initialItem: login
-
-                        onBusyChanged: {
-                            if (!busy && currentItem) {
-                                currentItem.x = 0
-                                currentItem.y = 0
-                                currentItem.opacity = 1
-                            }
-                        }
-
-                        pushEnter: Transition {
-                            ParallelAnimation {
-                                NumberAnimation {
-                                    property: "x"
-                                    from: stackView.width
-                                    to: 0
-                                    duration: 380
-                                    easing.type: Easing.BezierSpline
-                                    easing.bezierCurve: [0.4, 0.0, 0.2, 1.0, 1.0, 1.0]
-                                }
-
-                                NumberAnimation {
-                                    property: "y"
-                                    from: 8
-                                    to: 0
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-
-                                NumberAnimation {
-                                    property: "opacity"
-                                    from: 0
-                                    to: 1
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-                            }
-                        }
-
-                        pushExit: Transition {
-                            ParallelAnimation {
-                                NumberAnimation {
-                                    property: "x"
-                                    from: 0
-                                    to: -stackView.width
-                                    duration: 380
-                                    easing.type: Easing.BezierSpline
-                                    easing.bezierCurve: [0.4, 0.0, 0.2, 1.0, 1.0, 1.0]
-                                }
-
-                                NumberAnimation {
-                                    property: "y"
-                                    from: 0
-                                    to: 8
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-
-                                NumberAnimation {
-                                    property: "opacity"
-                                    from: 1
-                                    to: 0
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-                            }
-                        }
-
-                        popEnter: Transition {
-                            ParallelAnimation {
-                                NumberAnimation {
-                                    property: "x"
-                                    from: -stackView.width
-                                    to: 0
-                                    duration: 380
-                                    easing.type: Easing.BezierSpline
-                                    easing.bezierCurve: [0.4, 0.0, 0.2, 1.0, 1.0, 1.0]
-                                }
-
-                                NumberAnimation {
-                                    property: "y"
-                                    from: 8
-                                    to: 0
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-
-                                NumberAnimation {
-                                    property: "opacity"
-                                    from: 0
-                                    to: 1
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-                            }
-                        }
-
-                        popExit: Transition {
-                            ParallelAnimation {
-                                NumberAnimation {
-                                    property: "x"
-                                    from: 0
-                                    to: stackView.width
-                                    duration: 380
-                                    easing.type: Easing.BezierSpline
-                                    easing.bezierCurve: [0.4, 0.0, 0.2, 1.0, 1.0, 1.0]
-                                }
-
-                                NumberAnimation {
-                                    property: "y"
-                                    from: 0
-                                    to: 8
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-
-                                NumberAnimation {
-                                    property: "opacity"
-                                    from: 1
-                                    to: 0
-                                    duration: 240
-                                    easing.type: Easing.OutCubic
-                                }
-                            }
-                        }
+                Shortcut {
+                    sequence: "Enter" // NumPad enter
+                    onActivated: {
+                        clickButtonAction.trigger();
                     }
+                }
 
-                    ButtonConfirm {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 50
+                ButtonConfirm {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 55
 
-                        buttonTextDefault: stackView.currentItem ? stackView.currentItem.buttonText : ""
-                        buttonTextLoading: qsTr("LOADING")
+                    buttonTextDefault: stackView.currentItem ? stackView.currentItem.buttonText : ""
+                    buttonTextLoading: qsTr("LOADING")
 
-                        mouseArea.onClicked: {
-                            const page = stackView.currentItem
-
-                            if (page)
-                            {
-                                page.submit()
-                            }
-                        }
+                    mouseArea.onClicked: {
+                        clickButtonAction.trigger();
                     }
                 }
             }
@@ -433,9 +304,6 @@ Item {
             anchors.fill: parent
 
             content: content
-
-            // blur.sourceItem: content
-            // contentSource.sourceItem: root
         }
 
         ErrorBanner {
@@ -446,12 +314,6 @@ Item {
 
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-
-            // backgroungColor: "#fff9db"
-            // borderColor: "#ffe066"
-            // textColor: "#856404"
-            // buttonBackgroundColor: "#ebdca5"
-            // buttonTextColor: "#856404"
         }
     }
 }

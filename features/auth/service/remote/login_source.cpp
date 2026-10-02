@@ -3,7 +3,7 @@
 #include <QJsonObject>
 #include <QUrlQuery>
 
-#include "core/network/http_client.h"
+#include "core/network/http/http_client.h"
 
 LoginSource::LoginSource(QObject *parent, const QString &link)
     : BaseSource(parent, link)

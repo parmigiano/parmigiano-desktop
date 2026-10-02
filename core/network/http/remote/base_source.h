@@ -29,11 +29,6 @@ protected:
     int _retryAttempts = 2;
     int _currentAttempt = 0;
 
-    //virtual void processCode() = 0;
-    // virtual void request(const QJsonObject& jsonObj,
-    //                      std::function<void()> func = nullptr,
-    //                      const QMap<QString, QString>& headers = {});
-
     void request(RequestTypes type, const RequestData& reqData);
 
 private:

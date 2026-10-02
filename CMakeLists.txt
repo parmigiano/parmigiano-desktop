@@ -35,10 +35,20 @@ target_link_libraries(appParmigianoDesktop
 )
 
 add_library(core STATIC
-        # Core/Network
+        # Core/Network/http
         # -->
-        core/network/http_client.h
-        core/network/http_client.cpp
+        core/network/http/http_client.h
+        core/network/http/http_client.cpp
+
+        # Core/Network/http/model
+        # -->
+        core/network/http/model/request_data.h
+        core/network/http/model/response_data.h
+
+        # Core/Network/remote
+        # -->
+        core/network/http/remote/base_source.cpp
+        core/network/http/remote/base_source.h
 
         # Core/Config
         # -->
@@ -109,8 +119,8 @@ qt_add_qml_module(featureAuth
 
         # Features/Auth/model
         # -->
-        features/auth/model/request_data.h
-        features/auth/model/response_data.h
+        # features/auth/model/request_data.h
+        # features/auth/model/response_data.h
 
         # Features/Auth/repository
         # -->
@@ -125,8 +135,8 @@ qt_add_qml_module(featureAuth
 
         # Features/Auth/sevrice/remote
         # -->
-        features/auth/service/remote/base_source.h
-        features/auth/service/remote/base_source.cpp
+        # features/auth/service/remote/base_source.h
+        # features/auth/service/remote/base_source.cpp
         features/auth/service/remote/create_profile_source.h
         features/auth/service/remote/create_profile_source.cpp
         features/auth/service/remote/verify_code_source.h
@@ -139,17 +149,19 @@ qt_add_qml_module(featureAuth
         features/auth/viewmodel/auth_view_model.h
         features/auth/viewmodel/auth_view_model.cpp
 
-
     QML_FILES
         # Features/Auth/components
         # -->
         features/auth/components/ButtonConfirm.qml
-        features/auth/components/CustomInput.qml
         features/auth/components/ArrowBack.qml
         features/auth/components/NetworkStatusBanner.qml
         features/auth/components/TextContextMenu.qml
         features/auth/components/SwitchLanguageMenu.qml
         features/auth/components/ErrorBanner.qml
+        features/auth/components/StepsItem.qml
+        features/auth/components/StepCounter.qml
+        features/auth/components/ExitDialog.qml
+        features/auth/components/Steps.qml
 
         # Features/Auth/components/animations
         # -->
@@ -158,25 +170,16 @@ qt_add_qml_module(featureAuth
 
         # Features/Auth/view
         # -->
-        # features/auth/view/js/validate.js
-        # Features/Auth/view/js
-        # features/auth/view/CreateProfilePage.qml
-        # features/auth/view/CloudPasswordPage.qml
-        # features/auth/view/VerifyCodePage.qml
-        # features/auth/view/LoginPage.qml
+        features/auth/view/AuthWindow.qml
+        features/auth/view/LoginWidget.qml
+        features/auth/view/CreateProfileWindow.qml
+        features/auth/view/VerifyCodeWidget.qml
+
     RESOURCES
         # Features/Auth/view
         # -->
         features/auth/view/js/validate.js
-        QML_FILES features/auth/view/AuthWindow.qml
-        QML_FILES features/auth/view/LoginWidget.qml
-        QML_FILES features/auth/components/StepsItem.qml
-        QML_FILES features/auth/components/FloatingLabelInput.qml
-        QML_FILES features/auth/components/StepCounter.qml
-        QML_FILES features/auth/view/VerifyCodeWidget.qml
-        QML_FILES features/auth/components/ExitDialog.qml
-        QML_FILES features/auth/components/Steps.qml
-        QML_FILES features/auth/view/CreateProfileWindow.qml
+        QML_FILES features/auth/components/InputField.qml
 )
 target_include_directories(featureAuth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories(featureAuth # for MOC padla takaya
@@ -194,6 +197,49 @@ target_link_libraries(featureAuth
         domain
 )
 #target_link_libraries(featureAuth PRIVATE Qt6::Core)
+
+qt_add_library(featureMessenger STATIC)
+qt_add_qml_module(featureMessenger
+    URI ParmigianoDesktop.FeatureMessenger
+    VERSION 1.0
+    OUTPUT_DIRECTORY "ParmigianoDesktop/FeatureMessenger"
+    SOURCES
+        # Features/messenger/data
+        # -->
+
+        # Features/messenger/model
+        # -->
+
+        # Features/messenger/repository
+        # -->
+
+        # Features/messenger/sevrice/dto
+        # -->
+
+        # Features/messenger/sevrice/remote
+        # -->
+
+        # Features/messenger/viewmodel
+        # -->
+
+    QML_FILES
+        # Features/messenger/components
+        # -->
+
+        # Features/messenger/view
+        # -->
+)
+target_include_directories(featureMessenger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(featureMessenger # for MOC padla takaya
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/core/ui
+)
+target_link_libraries(coreUI
+    PRIVATE
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Qml
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

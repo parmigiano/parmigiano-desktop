@@ -6,5 +6,5 @@ ClipboardManager::ClipboardManager(QObject *parent)
 
 QString ClipboardManager::getClipboardData()
 {
-    return _clipboard->text();
+    return _Clipboard->text();
 }

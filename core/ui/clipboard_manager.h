@@ -14,10 +14,11 @@ class ClipboardManager : public QObject
 public:
     explicit ClipboardManager(QObject *parent = nullptr);
 
-    Q_INVOKABLE QString getClipboardData();
-
 private:
-    QClipboard* _clipboard;
+    QClipboard* _Clipboard;
+
+public slots:
+    QString getClipboardData();
 };
 
 #endif // CLIPBOARD_MANAGER_H
