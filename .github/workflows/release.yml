@@ -52,6 +52,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           NOTES: ${{ github.event.pull_request.body }}
         run: |
-          TAG="v$(tr -d '[:space:]' < VERSION)"
+          TAG="v$(tr -d '[:space:]' < VERSION.txt)"
           gh release create "$TAG" installers/*.exe --target "$(git rev-parse HEAD)" --title "$TAG" --notes "$NOTES"
           git push origin "HEAD:refs/heads/release/$TAG"
