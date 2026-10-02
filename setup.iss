@@ -3,7 +3,7 @@
 ; Non-commercial use only
 
 #define MyAppName "ParmigianoChat"
-#define VersionFile AddBackslash(SourcePath) + "VERSION"
+#define VersionFile AddBackslash(SourcePath) + "VERSION.txt"
 #if !FileExists(VersionFile)
   #error VERSION file not found next to setup.iss
 #endif
