@@ -34,7 +34,7 @@ Item {
         width: 45
         height: 30
 
-        color: rectangleMouseArea.containsMouse ? Qt.rgba(0.2, 0.56, 0.92, 0.15) : "transparent"
+        color: rectangleMouseArea.containsMouse ? "#222325" : "#191a1c"
         radius: 8
 
         Behavior on color {
@@ -52,7 +52,7 @@ Item {
 
             font.pointSize: 11
             text: qsTr("RU") // RU/EN
-            color: "#3390ec"
+            color: "#a1a2a5"
         }
 
         MouseArea {
@@ -105,7 +105,7 @@ Item {
 
             background: Rectangle {
                 anchors.fill: parent
-                color: menuItem.hovered ? "#323232" : "#202020"
+                color: menuItem.hovered ? "#2f2f2f" : "#232323"
                 radius: 5
 
                 Behavior on color {
@@ -122,7 +122,7 @@ Item {
 
             anchors.fill: parent
 
-            color: "#1e1f21"
+            color: "#232323"
             border.color: '#373737'
             radius: 10
         }
@@ -133,17 +133,6 @@ Item {
             onTriggered: {
                 LocalizationManager.changeLanguage(Pmg.RU);
                 UIStateManager.setLocalization(Pmg.RU);
-            }
-        }
-
-        MenuSeparator {
-            topPadding: 2
-            bottomPadding: 2
-
-            contentItem: Rectangle {
-                implicitWidth: 200
-                implicitHeight: 1
-                color: "#373737"
             }
         }
 

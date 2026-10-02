@@ -6,9 +6,9 @@
 #include <QTimer>
 #include <qthread.h>
 
-#include "core/network/http_client.h"
-#include "features/auth/model/response_data.h"
-#include "features/auth/model/request_data.h"
+#include "core/network/http/http_client.h"
+#include "core/network/http/model/response_data.h"
+#include "core/network/http/model/request_data.h"
 #include "domain/pow_process.h"
 
 BaseSource::BaseSource(QObject *parent, const QString &link)

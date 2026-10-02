@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 
 import ParmigianoDesktop.FeatureAuth
 import ParmigianoDesktop.CoreUI
@@ -13,6 +14,25 @@ Item {
     }
 
     ColumnLayout {
+        width: parent.width
+        height: 60
+        spacing: 0
+
+        Layout.margins: 0
+
+        NetworkStatusBanner {
+            // id: networkBanner
+
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
+            Layout.preferredHeight: height
+            Layout.maximumHeight: 35
+
+            visible: height > 0
+        }
+    }
+
+    ColumnLayout {
         width: 360
         height: implicitHeight
 
@@ -21,116 +41,171 @@ Item {
         spacing: 35
 
         ColumnLayout {
-            spacing: 5
+            spacing: 15
 
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
 
-                text: qsTr("Your profile")
+                text: qsTr("What is your name?")
                 color: "#fff"
 
                 font.bold: true
                 font.pointSize: 18
             }
 
-            Text {
-                Layout.fillWidth: true
-                horizontalAlignment: Qt.AlignHCenter
+            ColumnLayout {
+                spacing: 0
 
-                text: qsTr("This is how you will be seen in chats.")
-                color: "#7d7d7d"
+                Text {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
 
-                font.pointSize: 10
+                    text: qsTr("This is how you will be seen in chats.")
+                    color: "#a1a2a5"
 
-                wrapMode: Text.WordWrap
-            }
+                    font.pointSize: 10
 
-            Text {
-                Layout.fillWidth: true
-                horizontalAlignment: Qt.AlignHCenter
+                    wrapMode: Text.WordWrap
+                }
 
-                text: qsTr("The photo can be added later.")
-                color: "#7d7d7d"
+                Text {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
 
-                font.pointSize: 10
+                    text: qsTr("The photo can be added later.")
+                    color: "#a1a2a5"
 
-                wrapMode: Text.WordWrap
+                    font.pointSize: 10
+
+                    wrapMode: Text.WordWrap
+                }
             }
         }
 
         ColumnLayout {
-            spacing: 10
+            spacing: 15
 
-            FloatingLabelInput {
+            InputField {
                 id: nameInput
 
                 Layout.fillWidth: true
-                Layout.preferredHeight: inputContainer.height
+                Layout.preferredHeight: 55
 
-                inputLabel.text: qsTr("Name")
+                field.placeholderText: qsTr("Name")
+
+                normalColor: "#242527"
+                hoverColor: "#292a2c"
             }
 
-            FloatingLabelInput {
+            InputField {
                 id: usernameInput
 
                 Layout.fillWidth: true
-                Layout.preferredHeight: inputContainer.height
+                Layout.preferredHeight: 55
 
-                inputLabel.text: qsTr("@Username")
+                field.placeholderText: "@Username"
+
+                normalColor: "#242527"
+                hoverColor: "#292a2c"
             }
-        }
 
-        ColumnLayout {
-            spacing: 10
+            ColumnLayout {
+                spacing: 10
 
-            ButtonConfirm {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 50
+                Action {
+                    id: clickButtonAction
 
-                buttonTextDefault: qsTr("CONFIRM")
-                buttonTextLoading: qsTr("LOADING")
+                    onTriggered: {
+                        nameInput.field.focus = false
+                        usernameInput.field.focus = false
 
-                mouseArea.onClicked: {
-                    nameInput.inputField.focus = false
-                    usernameInput.inputField.focus = false
+                        let name = nameInput.field.text
+                        let username = usernameInput.field.text
 
-                    let nameCheck = Validate.validateName(nameInput.inputField.text)
-                    let usernameCheck = Validate.validateUsername(usernameInput.inputField.text)
+                        let nameCheck = Validate.validateName(name)
+                        let usernameCheck = Validate.validateUsername(username)
 
-                    if (nameCheck && usernameCheck)
-                    {
-                        nameInput.error(false, "")
-                        usernameInput.error(false, "")
+                        if (nameCheck && usernameCheck)
+                        {
+                            nameInput.error(false, "")
+                            usernameInput.error(false, "")
 
-                        viewModel.createProfile(nameInput.inputField.text, usernameInput.inputField.text, AuthContext.email)
-                    }
-                    else if (nameCheck && !usernameCheck)
-                    {
-                        usernameInput.error(true, "")
-                    }
-                    else if (!nameCheck && usernameCheck)
-                    {
-                        nameInput.error(true, "")
-                    }
-                    else
-                    {
-                        nameInput.error(true, "")
-                        usernameInput.error(true, "")
+                            console.log(123)
+
+                            viewModel.createProfile(name, username, AuthContext.email)
+                        }
+                        else if (nameCheck && !usernameCheck)
+                        {
+                            usernameInput.error(true, "")
+                        }
+                        else if (!nameCheck && usernameCheck)
+                        {
+                            nameInput.error(true, "")
+                        }
+                        else
+                        {
+                            nameInput.error(true, "")
+                            usernameInput.error(true, "")
+                        }
                     }
                 }
-            }
 
-            Text {
-                Layout.fillWidth: true
-                horizontalAlignment: Qt.AlignHCenter
+                Shortcut {
+                    sequence: "Return" // normal human enter
+                    onActivated: {
+                        clickButtonAction.trigger();
+                    }
+                }
 
-                text: qsTr("The entrance is designed as - ") + AuthContext.email
-                color: "#7d7d7d"
+                Shortcut {
+                    sequence: "Enter" // NumPad enter
+                    onActivated: {
+                        clickButtonAction.trigger();
+                    }
+                }
 
-                font.pointSize: 10
+                ButtonConfirm {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 50
 
-                wrapMode: Text.WordWrap
+                    buttonTextDefault: qsTr("Confirm")
+                    buttonTextLoading: qsTr("Loading")
+
+                    mouseArea.onClicked: {
+                        clickButtonAction.trigger();
+                    }
+                }
+
+                Row {
+                    Layout.alignment: Qt.AlignHCenter
+
+                    spacing: 0
+
+                    Text {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignHCenter
+
+                        text: qsTr("The entrance is designed as - ")
+                        color: "#a1a2a5"
+
+                        font.pointSize: 10
+
+                        wrapMode: Text.WordWrap
+                    }
+
+                    Text {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignHCenter
+
+                        text: AuthContext.email
+                        color: "#eeeeef"
+
+                        font.pointSize: 10
+
+                        wrapMode: Text.WordWrap
+                    }
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 #define REQUEST_DATA_H
 
 #include <qjsonobject.h>
-#include "features/auth/model/response_data.h"
+#include "core/network/http/model/response_data.h"
 
 struct RequestData
 {

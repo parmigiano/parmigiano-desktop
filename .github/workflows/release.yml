@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.event.pull_request.merged && github.head_ref == 'develop'
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.9.1'
+          arch: win64_msvc2022_64
+          cache: true
+
+      - name: Build
+        run: |
+          cmake -S . -B build
+          cmake --build build --config Release --parallel
+
+      - name: Deploy (windeployqt + VC redist)
+        run: |
+          New-Item -ItemType Directory -Force deploy | Out-Null
+          Copy-Item build/Release/appParmigianoDesktop.exe deploy/
+          windeployqt --release --qmldir . deploy/appParmigianoDesktop.exe
+          Invoke-WebRequest https://aka.ms/vs/17/release/vc_redist.x64.exe -OutFile deploy/VC_redist.x64.exe
+
+      - name: Build installer (Inno Setup)
+        run: |
+          choco install innosetup -y --no-progress
+          $iscc = Get-ChildItem "${env:ProgramFiles(x86)}\Inno Setup*\ISCC.exe", "$env:ProgramFiles\Inno Setup*\ISCC.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          & $iscc.FullName setup.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTES: ${{ github.event.pull_request.body }}
+        run: |
+          TAG="v$(tr -d '[:space:]' < VERSION)"
+          gh release create "$TAG" installers/*.exe --target "$(git rev-parse HEAD)" --title "$TAG" --notes "$NOTES"
+          git push origin "HEAD:refs/heads/release/$TAG"

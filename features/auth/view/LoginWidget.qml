@@ -13,14 +13,15 @@ Item {
 
     readonly property string authStep: "Email"
     readonly property int stepCount: 1
-    readonly property string buttonText: qsTr("CONTINUE")
+    readonly property int gap: 15
+    readonly property string buttonText: qsTr("Continue")
 
     implicitHeight: loginColumn.implicitHeight
 
     function submit() {
-        emailInput.inputField.focus = false
+        emailInput.field.focus = false
 
-        let email = emailInput.inputField.text
+        let email = emailInput.field.text
         let emailCheck = Validate.validateEmail(email)
 
         if (emailCheck)
@@ -43,45 +44,61 @@ Item {
 
         anchors.centerIn: parent
 
-        spacing: 35
+        spacing: 30
 
         ColumnLayout {
-
-            spacing: 5
+            spacing: 15
 
             Text {
                 Layout.fillWidth: true
+                horizontalAlignment: Qt.AlignHCenter
 
-                text: qsTr("Email address")
+                text: qsTr("Welcome back")
                 color: "#fff"
 
                 font.bold: true
-                font.pointSize: 18
+                font.pointSize: 20
             }
 
-            Text {
-                Layout.fillWidth: true
+            ColumnLayout {
+                spacing: 0
 
-                text: qsTr("The confirmation code will be sent to the specified email address.")
-                color: "#7d7d7d"
+                Text {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
 
-                font.pointSize: 10
+                    text: qsTr("Log in or create an account")
+                    color: "#a1a2a5"
 
-                wrapMode: Text.WordWrap
+                    font.pointSize: 10
+
+                    wrapMode: Text.WordWrap
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
+
+                    text: qsTr("via email.")
+                    color: "#a1a2a5"
+
+                    font.pointSize: 10
+
+                    wrapMode: Text.WordWrap
+                }
             }
         }
 
-        FloatingLabelInput {
+        InputField {
             id: emailInput
 
             Layout.fillWidth: true
-            Layout.preferredHeight: inputContainer.height //+ errorText.height
-            //fieldContainer.height: 50
+            Layout.preferredHeight: 55
 
-            //Layout.preferredHeight: 50
-            //Layout.alignment: Qt.AlignBottom
+            field.placeholderText: qsTr("Email")
 
-            inputLabel.text: qsTr("Email")
+            normalColor: "#242527"
+            hoverColor: "#292a2c"
         }
     }
 }

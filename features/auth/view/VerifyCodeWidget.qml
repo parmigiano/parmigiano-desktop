@@ -13,7 +13,18 @@ Item {
 
     readonly property string authStep: "VerifyCode"
     readonly property int stepCount: 2
-    readonly property string buttonText: qsTr("CONFIRM")
+    readonly property int gap: 30
+    readonly property string buttonText: qsTr("Confirm")
+
+    implicitHeight: verifyCodeColumn.implicitHeight
+
+    StackView.onActivated: {
+        let field = repeaterCodeFields.itemAt(0);
+
+        if (field) {
+            field.setFocusAtEnd();
+        }
+    }
 
     function submit() {
         let code = "";
@@ -30,16 +41,13 @@ Item {
 
         if (code.length == 6)
         {
-            // console.log(code);
             viewModel.verifyCode(AuthContext.email, code);
         }
         else
         {
-            console.log("no");
+            console.log("no: " + code);
         }
     }
-
-    implicitHeight: verifyCodeColumn.implicitHeight
 
     ColumnLayout {
         id: verifyCodeColumn
@@ -52,27 +60,45 @@ Item {
         spacing: 30
 
         ColumnLayout {
-            spacing: 5
+            spacing: 15
 
             Text {
                 Layout.fillWidth: true
+                horizontalAlignment: Qt.AlignHCenter
 
-                text: qsTr("Enter the code")
+                text: qsTr("Check your email")
                 color: "#fff"
 
                 font.bold: true
-                font.pointSize: 18
+                font.pointSize: 20
             }
 
-            Text {
-                Layout.fillWidth: true
+            ColumnLayout {
+                spacing: 0
 
-                text: qsTr("We have sent the confirmation code to ") + AuthContext.email
-                color: "#7d7d7d"
+                Text {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
 
-                font.pointSize: 10
+                    text: qsTr("We have sent the confirmation code to")
+                    color: "#a1a2a5"
 
-                wrapMode: Text.WordWrap
+                    font.pointSize: 10
+
+                    wrapMode: Text.WordWrap
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
+
+                    text: AuthContext.email
+                    color: "#eeeeef"
+
+                    font.pointSize: 10
+
+                    wrapMode: Text.WordWrap
+                }
             }
         }
 
@@ -118,12 +144,20 @@ Item {
                     background: Rectangle {
                         id: codeFieldBackground
 
-                        width: codeField.width
-                        height: codeField.height
-                        color: "#181818"
-                        border.color: codeField.focus ? "#1c75a9" : "#505050"
-                        border.width: 1
-                        radius: 10
+                        // color: "#181818"
+                        // border.color: codeField.focus ? "#1c75a9" : "#505050"
+                        // border.width: 1
+                        // radius: 10
+
+                        color: codeField.focus ? "#fff" : "#4b4d50"
+                        height: codeField.focus ? 2 : 1
+                        anchors.bottom: parent.bottom
+
+                        Behavior on color {
+                            ColorAnimation {
+                                duration: 100
+                            }
+                        }
                     }
 
                     function getDigitalsFromString(string) {
@@ -183,9 +217,13 @@ Item {
                         // 1-9
                         if (event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
                         {
-                            if (index !== (repeaterCodeFields.count - 1))
+                            if (index !== repeaterCodeFields.count - 1)
                             {
                                 nextItemInFocusChain(true).forceActiveFocus();
+                            }
+                            else if (index === repeaterCodeFields.count - 1)
+                            {
+                                Qt.callLater(submit);
                             }
 
                             return;
@@ -251,9 +289,9 @@ Item {
                     validator: IntValidator {}
 
                     // Disable cursor on inputing
-                    cursorDelegate: Item {
-                        visible: false
-                    }
+                    // cursorDelegate: Item {
+                    //     visible: false
+                    // }
                 }
             }
         }

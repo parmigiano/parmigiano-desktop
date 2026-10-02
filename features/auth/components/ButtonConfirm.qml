@@ -57,7 +57,7 @@ Item {
                 PropertyChanges {
                     target: button
 
-                    color: buttonMouseArea.containsMouse ? "#2b74ba" : "#3390ec"
+                    color: buttonMouseArea.containsMouse ? "#fff" : "#ececeb"
                 }
 
                 PropertyChanges {
@@ -96,7 +96,7 @@ Item {
 
             font.pointSize: 11
             font.bold: true
-            color: "white"
+            color: "#191a1c"
             anchors.centerIn: parent
         }
 

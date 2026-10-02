@@ -1,8 +1,7 @@
 #ifndef VERIFY_CODE_SOURCE_H
 #define VERIFY_CODE_SOURCE_H
 
-#include "features/auth/service/dto/verify_code_model.h"
-#include "base_source.h"
+#include "core/network/http/remote/base_source.h"
 
 class VerifyCodeSource : public BaseSource
 {

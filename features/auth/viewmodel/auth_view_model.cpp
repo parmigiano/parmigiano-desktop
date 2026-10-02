@@ -45,7 +45,7 @@ void AuthViewModel::processVerifyCodeFinished(const QString& messageHeader,
         emit const_cast<AuthViewModel*>(this)->navigateToCreateProfile();
         break;
     case AuthViewModel::Status::BadRequest:
-        qDebug() << "invalid confirmation code";
+        qDebug() << "server: invalid confirmation code";
         break;
     default:
         emit const_cast<AuthViewModel*>(this)->displayMessage(messageHeader, messageBody);

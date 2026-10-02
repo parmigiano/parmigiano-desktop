@@ -42,17 +42,21 @@ Window {
                 return
             }
 
-            stackView.push(pagesURI[pageName])
+            stackView.replace(pagesURI[pageName], StackView.Immediate)
         }
 
-        // function onNavigateBack(windowName) {
-        //     if (stackView.depth > 1) {
-        //         authPanePulse.restart()
-        //         stackView.pop()
-        //     } else {
-        //         exit.openManual()
-        //     }
-        // }
+        function onNavigateBack(windowName) {
+            if (!pagesURI.hasOwnProperty(pageName))
+            {
+                return
+            }
+
+            if (stackView.depth > 1) {
+                stackView.pop()
+            } else {
+                exit.openManual()
+            }
+        }
     }
 
     StackView {

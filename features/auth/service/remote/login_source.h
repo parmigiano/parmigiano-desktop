@@ -4,8 +4,7 @@
 #include <qjsonobject.h>
 
 //#include "features/auth/service/dto/login_model.h"
-#include "features/auth/model/request_data.h"
-#include "base_source.h"
+#include "core/network/http/remote/base_source.h"
 
 // namespace HTTP
 // {

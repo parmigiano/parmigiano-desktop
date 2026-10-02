@@ -1,6 +1,7 @@
 #include "auth_repository.h"
 
 #include "core/config/app_config.h"
+#include "core/network/http/model/request_data.h"
 
 #include "features/auth/service/dto/create_profile_model.h"
 #include "features/auth/service/dto/login_model.h"

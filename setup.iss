@@ -3,7 +3,13 @@
 ; Non-commercial use only
 
 #define MyAppName "ParmigianoChat"
-#define MyAppVersion "67"
+#define VersionFile AddBackslash(SourcePath) + "VERSION"
+#if !FileExists(VersionFile)
+  #error VERSION file not found next to setup.iss
+#endif
+#define VersionHandle FileOpen(VersionFile)
+#define MyAppVersion Trim(FileRead(VersionHandle))
+#expr FileClose(VersionHandle)
 #define MyAppPublisher "Parmigiano co"
 #define MyAppURL "https://parmigianochat.ru"
 #define MyAppExeName "appParmigianoDesktop.exe"
@@ -32,8 +38,8 @@ ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
-OutputDir=C:\Users\newol\OneDrive\Desktop\qt projects
-OutputBaseFilename=ParmigianoChat_Setup
+OutputDir=./installers
+OutputBaseFilename=ParmigianoChat_Setup_{#MyAppVersion}
 SolidCompression=yes
 WizardStyle=modern zircon
 
@@ -54,7 +60,7 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{tmp}\VC_redist.x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Проверка системы и установка Visual C++...";
+Filename: "{tmp}\VC_redist.x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "System check and installation Visual C++...";
     
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
