@@ -90,7 +90,7 @@ Item {
                 id: nameInput
 
                 Layout.fillWidth: true
-                Layout.preferredHeight: 55
+                Layout.preferredHeight: 50
 
                 field.placeholderText: qsTr("Name")
 
@@ -102,7 +102,7 @@ Item {
                 id: usernameInput
 
                 Layout.fillWidth: true
-                Layout.preferredHeight: 55
+                Layout.preferredHeight: 50
 
                 field.placeholderText: "@Username"
 
@@ -130,8 +130,6 @@ Item {
                         {
                             nameInput.error(false, "")
                             usernameInput.error(false, "")
-
-                            console.log(123)
 
                             viewModel.createProfile(name, username, AuthContext.email)
                         }

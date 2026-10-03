@@ -18,22 +18,23 @@ Item {
         }
     }
 
-    // UIStateManager {
-    //     id: stateManager
-    // }
-
     Connections {
         target: UIStateManager
 
         function onNetworkStatusChanged(status) {
+            hideBanner.stop();
+
+            let nextState = status ? "success" : "waiting";
+
+            if (networkBanner.bannerState !== nextState)
+            {
+                networkBanner.bannerState = nextState;
+                statusSwap.restart();
+            }
+
             if (status)
             {
-                networkBanner.bannerState = "success";
-                hideBanner.start();
-            }
-            else
-            {
-                networkBanner.bannerState = "waiting";
+                hideBanner.restart();
             }
         }
     }
@@ -58,11 +59,6 @@ Item {
                 }
 
                 PropertyChanges {
-                    target: statusDot
-                    visible: true
-                }
-
-                PropertyChanges {
                     target: statusText
                     text: qsTr("")
                 }
@@ -77,13 +73,13 @@ Item {
                 }
 
                 PropertyChanges {
-                    target: statusDot
-                    visible: true
+                    target: statusImage
+                    source: "qrc:/assets/no_internet.svg"
                 }
 
                 PropertyChanges {
                     target: statusText
-                    text: qsTr("Waiting...")
+                    text: qsTr("No internet")
                 }
             },
 
@@ -91,13 +87,13 @@ Item {
                 name: "success"
                 PropertyChanges {
                     target: networkBanner
-                    color: "#469551"
+                    color: "#222325"
                     height: 35
                 }
 
                 PropertyChanges {
-                    target: statusDot
-                    visible: false
+                    target: statusImage
+                    source: "qrc:/assets/internet_restored.svg"
                 }
 
                 PropertyChanges {
@@ -134,34 +130,21 @@ Item {
         }
 
         Row {
+            id: statusRow
+
             anchors.centerIn: parent
             spacing: 8
 
-            Rectangle {
-                id: statusDot
+            transform: Translate {
+                id: statusOffset
 
-                width: 6
-                height: 6
-                radius: 3
-                color: "#708499"
-                anchors.verticalCenter: parent.verticalCenter
-                visible: false
+                y: 0
+            }
 
-                SequentialAnimation on opacity {
-                    loops: Animation.Infinite
+            Image {
+                id: statusImage
 
-                    NumberAnimation {
-                        from: 0.3
-                        to: 1.0
-                        duration: 750
-                    }
-
-                    NumberAnimation {
-                        from: 1.0
-                        to: 0.3
-                        duration: 750
-                    }
-                }
+                sourceSize: Qt.size(15, 15)
             }
 
             Text {
@@ -171,6 +154,30 @@ Item {
                 color: "white"
                 font.pixelSize: 12
                 font.bold: true
+            }
+        }
+
+        ParallelAnimation {
+            id: statusSwap
+
+            NumberAnimation {
+                target: statusRow
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 260
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: [0, 0, 0.58, 1, 1, 1]
+            }
+
+            NumberAnimation {
+                target: statusOffset
+                property: "y"
+                from: 6
+                to: 0
+                duration: 260
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: [0, 0, 0.58, 1, 1, 1]
             }
         }
     }

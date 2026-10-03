@@ -93,7 +93,7 @@ Item {
             id: emailInput
 
             Layout.fillWidth: true
-            Layout.preferredHeight: 55
+            Layout.preferredHeight: 50
 
             field.placeholderText: qsTr("Email")
 

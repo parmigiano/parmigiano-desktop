@@ -25,6 +25,8 @@ public:
     static LocalizationManager* getInstance();
     void setEngine(QQmlEngine *engine);
 
+    Q_INVOKABLE void changeLanguage(Pmg::Language lang);
+
 private:
     QTranslator _Translator;
 
@@ -32,9 +34,6 @@ private:
     static QQmlEngine* _engine;
 
     void changeLocalizationTo(const QString& localizationPATH);
-
-public slots:
-    void changeLanguage(Pmg::Language lang);
 };
 
 #endif // LOCALIZATION_MANAGER_H

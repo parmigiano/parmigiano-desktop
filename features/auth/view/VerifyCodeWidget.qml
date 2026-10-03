@@ -81,6 +81,7 @@ Item {
                     horizontalAlignment: Qt.AlignHCenter
 
                     text: qsTr("We have sent the confirmation code to")
+
                     color: "#a1a2a5"
 
                     font.pointSize: 10
@@ -89,15 +90,30 @@ Item {
                 }
 
                 Text {
-                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.maximumWidth: root.width
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: AuthContext.email
-                    color: "#eeeeef"
+                    text: AuthContext.email +
+                          " <font color='#eeeeef'>\u00B7</font> " +
+                          " <a href='change_email'>" + qsTr("Change") + "</a> "
 
+                    color: "#eeeeef"
+                    linkColor: "#a0cafd"
                     font.pointSize: 10
 
                     wrapMode: Text.WordWrap
+                    textFormat: Text.StyledText
+
+                    onLinkActivated: (link) => {
+                        if (link === "change_email") {
+                            NavigationManager.goTo("Login")
+                        }
+                    }
+
+                    HoverHandler {
+                        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    }
                 }
             }
         }

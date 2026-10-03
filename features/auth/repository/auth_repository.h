@@ -8,6 +8,7 @@ class LoginSource;
 class CreateProfileSource;
 class VerifyCodeSource;
 class PoWProcess;
+class TokenManager;
 
 class AuthRepository : public QObject
 {
@@ -22,6 +23,7 @@ private:
     CreateProfileSource* _CreateProfileSource;
     VerifyCodeSource* _VerifyCodeSource;
     PoWProcess* _PoWProcess;
+    TokenManager* _TokenManager;
 
     QMap<QString, QString> defineHeaders();
     std::pair<QString, QString> defineMessage(int code);

@@ -60,14 +60,12 @@ Item {
                 return
             }
 
-            // authPanePulse.restart()
             stackView.push(pagesURI[pageName])
         }
 
         function onNavigateBack() {
             if (stackView.depth > 1)
             {
-                // authPanePulse.restart()
                 stackView.pop()
             }
             else
@@ -77,40 +75,10 @@ Item {
         }
     }
 
-    // SequentialAnimation {
-    //     id: authPanePulse
-
-    //     NumberAnimation {
-    //         target: authPane
-    //         property: "scale"
-    //         from: 1
-    //         to: 0.980
-    //         duration: 150
-
-    //         easing.type: Easing.BezierSpline
-    //         easing.bezierCurve: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
-    //     }
-
-    //     NumberAnimation {
-    //         target: authPane
-    //         property: "scale"
-    //         from: 0.980
-    //         to: 1
-    //         duration: 200
-
-    //         easing.type: Easing.BezierSpline
-    //         easing.bezierCurve: [0.25, 0.1, 0.25, 1.0, 1.0, 1.0]
-    //     }
-    // }
-
-    Pane {
+    Rectangle {
         anchors.fill: parent
 
-        background: Rectangle {
-            color: "#191a1c"
-        }
-
-        padding: 0
+        color: "#191a1c"
 
         Item {
             property real blurAmount: 0
@@ -139,62 +107,22 @@ Item {
                 height: 60
                 spacing: 0
 
-                // Layout.topMargin: 0
                 Layout.margins: 0
-
-                NetworkStatusBanner {
-                    // id: networkBanner
-
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: height
-                    Layout.maximumHeight: 35
-
-                    visible: height > 0
-                }
 
                 RowLayout {
                     Layout.fillWidth: true
 
-                    Layout.topMargin: 15
                     Layout.leftMargin: 25
                     Layout.rightMargin: 25
-
-                    ArrowBack {
-                        id: arrowBack
-
-                        Layout.preferredWidth: 35
-                        Layout.preferredHeight: 35
-
-                        Layout.alignment: Qt.AlignVCenter
-
-                        // Layout.alignment: Qt.AlignLeft | Qt.AlignTop | Qt.AlignHCenter
-                        // Layout.margins: 15
-                    }
 
                     Item {
                         Layout.fillWidth: true
                     }
 
                     Row {
-                        // Layout.fillWidth: true
-
                         Layout.alignment: Qt.AlignRight
-                        // Layout.margins: 15
 
                         spacing: 15
-
-                        // StepCounter {
-                        //     id: stepCount
-
-                        //     width: implicitWidth
-                        //     height: implicitHeight
-
-                        //     anchors.verticalCenter: parent.verticalCenter
-
-                        //     current: stackView.currentItem ? stackView.currentItem.stepCount : 1
-                        //     total: "2"
-                        // }
 
                         SwitchLanguageMenu {
                             id: langSwitcher
@@ -286,7 +214,7 @@ Item {
 
                 ButtonConfirm {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 55
+                    Layout.preferredHeight: 50
 
                     buttonTextDefault: stackView.currentItem ? stackView.currentItem.buttonText : ""
                     buttonTextLoading: qsTr("LOADING")
