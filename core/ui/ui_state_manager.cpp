@@ -25,7 +25,6 @@ void UIStateManager::setNetworkStatus(bool status)
 {
     if (_networkStatus != status)
     {
-        qDebug() << status;
         _networkStatus = status;
         emit networkStatusChanged(_networkStatus);
     }

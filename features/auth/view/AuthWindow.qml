@@ -124,14 +124,14 @@ Item {
 
                         spacing: 15
 
-                        SwitchLanguageMenu {
-                            id: langSwitcher
+                        // SwitchLanguageMenu {
+                        //     id: langSwitcher
 
-                            width: 45
-                            height: 30
+                        //     width: 45
+                        //     height: 30
 
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
+                        //     anchors.verticalCenter: parent.verticalCenter
+                        // }
                     }
                 }
             }
@@ -217,7 +217,7 @@ Item {
                     Layout.preferredHeight: 50
 
                     buttonTextDefault: stackView.currentItem ? stackView.currentItem.buttonText : ""
-                    buttonTextLoading: qsTr("LOADING")
+                    buttonTextLoading: qsTrId("auth.loading")
 
                     mouseArea.onClicked: {
                         clickButtonAction.trigger();
@@ -226,22 +226,16 @@ Item {
             }
         }
 
-        ExitDialog {
-            id: exit
+        SwitchLanguageMenu {
+            id: langSwitcher
 
-            anchors.fill: parent
+            // width: 45
+            // height: 30
 
-            content: content
-        }
-
-        ErrorBanner {
-            id: errorBanner
-
-            width: implicitWidth
-            height: implicitHeight
-
+            // x: (parent.width - width) / 2
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottomMargin: 20
         }
     }
 }

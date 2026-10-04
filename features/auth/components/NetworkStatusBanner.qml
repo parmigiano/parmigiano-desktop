@@ -5,6 +5,8 @@ import ParmigianoDesktop.CoreUI
 Item {
     id: root
 
+    property real expandedHeight: 35
+
     height: networkBanner.height
 
     Timer {
@@ -14,7 +16,8 @@ Item {
         repeat: false
 
         onTriggered: {
-            networkBanner.bannerState = "hidden"
+            statusSwap.stop();
+            statusHide.restart();
         }
     }
 
@@ -23,17 +26,13 @@ Item {
 
         function onNetworkStatusChanged(status) {
             hideBanner.stop();
+            statusHide.stop();
+            statusSwap.stop();
 
-            let nextState = status ? "success" : "waiting";
+            networkBanner.bannerState = status ? "success" : "waiting";
+            statusSwap.restart();
 
-            if (networkBanner.bannerState !== nextState)
-            {
-                networkBanner.bannerState = nextState;
-                statusSwap.restart();
-            }
-
-            if (status)
-            {
+            if (status) {
                 hideBanner.restart();
             }
         }
@@ -47,7 +46,7 @@ Item {
         width: parent.width
         height: 0
         clip: true
-        color: "#242424"
+        color: "transparent"
         state: bannerState
 
         states: [
@@ -68,8 +67,8 @@ Item {
                 name: "waiting"
                 PropertyChanges {
                     target: networkBanner
-                    color: "#222325"
-                    height: 35
+                    color: "transparent"
+                    height: root.expandedHeight
                 }
 
                 PropertyChanges {
@@ -79,7 +78,7 @@ Item {
 
                 PropertyChanges {
                     target: statusText
-                    text: qsTr("No internet")
+                    text: qsTrId("network.offline")
                 }
             },
 
@@ -87,8 +86,8 @@ Item {
                 name: "success"
                 PropertyChanges {
                     target: networkBanner
-                    color: "#222325"
-                    height: 35
+                    color: "transparent"
+                    height: root.expandedHeight
                 }
 
                 PropertyChanges {
@@ -98,7 +97,7 @@ Item {
 
                 PropertyChanges {
                     target: statusText
-                    text: qsTr("Internet restored")
+                    text: qsTrId("network.restored")
                 }
             }
         ]
@@ -178,6 +177,30 @@ Item {
                 duration: 260
                 easing.type: Easing.BezierSpline
                 easing.bezierCurve: [0, 0, 0.58, 1, 1, 1]
+            }
+        }
+
+        ParallelAnimation {
+            id: statusHide
+
+            NumberAnimation {
+                target: statusRow
+                property: "opacity"
+                to: 0
+                duration: 260
+                easing.type: Easing.InCubic
+            }
+
+            NumberAnimation {
+                target: statusOffset
+                property: "y"
+                to: -6
+                duration: 260
+                easing.type: Easing.InCubic
+            }
+
+            onFinished: {
+                networkBanner.bannerState = "hidden";
             }
         }
     }

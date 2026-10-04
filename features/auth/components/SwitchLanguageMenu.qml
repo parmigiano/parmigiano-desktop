@@ -16,26 +16,28 @@ Item {
 
         function onLocalizationChanged(lang) {
             if(lang === Pmg.RU
-                && switcherText.text !== "RU")
+                && switcherText.text !== qsTrId("language.russian"))
             {
-                switcherText.text = "RU";
+                switcherText.text = qsTrId("language.russian");
             }
             else if(lang === Pmg.EN
-                    && switcherText.text !== "EN")
+                    && switcherText.text !== qsTrId("language.english"))
             {
-                switcherText.text = "EN";
+                switcherText.text = qsTrId("language.english");
             }
         }
     }
 
+    implicitWidth: 110
+    implicitHeight: 30
+
     Rectangle {
         id: rectangle
 
-        width: 45
-        height: 30
+        anchors.fill: parent
 
         color: rectangleMouseArea.containsMouse ? "#222325" : "#191a1c"
-        radius: 8
+        radius: 6
 
         Behavior on color {
             ColorAnimation {
@@ -44,15 +46,37 @@ Item {
             }
         }
 
-        Text {
-            id: switcherText
+        Row {
+            id: textRow
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
-            font.pointSize: 11
-            text: qsTr("RU") // RU/EN
-            color: "#a1a2a5"
+            spacing: 8
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+
+                sourceSize: Qt.size(15, 15)
+                source: "qrc:/assets/language_globe.svg"
+            }
+
+            Text {
+                id: switcherText
+
+                anchors.verticalCenter: parent.verticalCenter
+
+                font.pointSize: 10
+                text: qsTrId("language.english")
+                color: "#a1a2a5"
+            }
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+
+                sourceSize: Qt.size(14, 14)
+                source: "qrc:/assets/language_chevron.svg"
+            }
         }
 
         MouseArea {
@@ -63,7 +87,7 @@ Item {
             cursorShape: Qt.PointingHandCursor
 
             onClicked: {
-                contextMenu.popup(-(contextMenu.width - rectangle.width), rectangle.height + 10);
+                contextMenu.popup((rectangle.width - contextMenu.width) / 2, -contextMenu.height - 10);
             }
         }
     }
@@ -71,7 +95,7 @@ Item {
     Menu {
         id: contextMenu
 
-        implicitWidth: 125
+        implicitWidth: 150
 
         topPadding: 5
         bottomPadding: 5
@@ -128,7 +152,7 @@ Item {
         }
 
         Action {
-            text: qsTr("Russian")
+            text: qsTrId("language.russian")
 
             onTriggered: {
                 LocalizationManager.changeLanguage(Pmg.RU);
@@ -137,7 +161,7 @@ Item {
         }
 
         Action {
-            text: qsTr("English")
+            text: qsTrId("language.english")
 
             onTriggered: {
                 LocalizationManager.changeLanguage(Pmg.EN);

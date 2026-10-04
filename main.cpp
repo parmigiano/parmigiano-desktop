@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
     LocalizationManager* _LocalizationManager = LocalizationManager::getInstance();
     _LocalizationManager->setEngine(&engine);
-    _LocalizationManager->changeLanguage(Pmg::Language::RU);
+    _LocalizationManager->changeLanguage(Pmg::Language::EN);
 
     qmlRegisterUncreatableMetaObject(
         Pmg::staticMetaObject,

@@ -15,7 +15,7 @@ Window {
     minimumWidth: 1000
     minimumHeight: 640
     visible: true
-    title: qsTr("Parmigiano Chat")
+    // title: qsTrId("app.title")
     color: "#191a1c"
 
     flags: Qt.FramelessWindowHint | Qt.Window
@@ -86,6 +86,31 @@ Window {
                 target: null
             }
 
+            // Text {
+            //     id: title
+
+            //     anchors.left: parent.left
+            //     anchors.verticalCenter: parent.verticalCenter
+            //     anchors.leftMargin: 10
+
+            //     text: qsTrId("app.title")
+            //     font.pointSize: 10
+            //     color: "#fff"
+            // }
+
+            NetworkStatusBanner {
+                // id: banner
+                height: parent.height
+
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                expandedHeight: parent.height
+
+                // z: 1
+            }
+
             Row {
                 anchors.right: parent.right
                 anchors.top: parent.top
@@ -132,10 +157,12 @@ Window {
                     color: maximizedMouseArea.containsMouse ? "#272729" : "#191a1c"
 
                     Image {
+                        id: maximizedImage
+
                         anchors.centerIn: parent
 
                         sourceSize: Qt.size(10, 10)
-                        source: "qrc:/assets/titlebar_maximize.svg"
+                        source: mainWindow.visibility === Window.Maximized ? "qrc:/assets/titlebar_restore.svg" : "qrc:/assets/titlebar_maximize.svg"
 
                         visible: true
                     }
@@ -147,7 +174,7 @@ Window {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
 
-                        onClicked: mainWindow.showMaximized()
+                        onClicked: mainWindow.visibility === Window.Maximized ? mainWindow.showNormal() : mainWindow.showMaximized()
                     }
 
                     Behavior on color {

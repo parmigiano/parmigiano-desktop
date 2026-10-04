@@ -161,11 +161,7 @@ qt_add_qml_module(featureAuth
         features/auth/components/NetworkStatusBanner.qml
         features/auth/components/TextContextMenu.qml
         features/auth/components/SwitchLanguageMenu.qml
-        features/auth/components/ErrorBanner.qml
-        features/auth/components/StepsItem.qml
-        features/auth/components/StepCounter.qml
-        features/auth/components/ExitDialog.qml
-        features/auth/components/Steps.qml
+
 
         # Features/Auth/components/animations
         # -->

@@ -57,13 +57,13 @@ std::pair<QString, QString> AuthRepository::defineMessage(int code)
 
     if (code >= 400 && code < 500)
     {
-        messageHeader = tr("Client side error");
-        messageBody = tr("Check your internet connection and try again later.");
+        messageHeader = qtTrId("error.client.title");
+        messageBody = qtTrId("error.client.body");
     }
     else if (code >= 500 || code == 0)
     {
-        messageHeader = tr("Server is unavailable");
-        messageBody = tr("Server connection error. Please try again later.");
+        messageHeader = qtTrId("error.server.title");
+        messageBody = qtTrId("error.server.body");
     }
 
     return std::make_pair(messageHeader, messageBody);

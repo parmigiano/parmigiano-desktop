@@ -14,7 +14,7 @@ Item {
     readonly property string authStep: "VerifyCode"
     readonly property int stepCount: 2
     readonly property int gap: 30
-    readonly property string buttonText: qsTr("Confirm")
+    readonly property string buttonText: qsTrId("auth.code.confirm")
 
     implicitHeight: verifyCodeColumn.implicitHeight
 
@@ -60,13 +60,13 @@ Item {
         spacing: 30
 
         ColumnLayout {
-            spacing: 15
+            spacing: 10
 
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
 
-                text: qsTr("Check your email")
+                text: qsTrId("auth.code.title")
                 color: "#fff"
 
                 font.bold: true
@@ -80,7 +80,7 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: qsTr("We have sent the confirmation code to")
+                    text: qsTrId("auth.code.instructions")
 
                     color: "#a1a2a5"
 
@@ -96,7 +96,7 @@ Item {
 
                     text: AuthContext.email +
                           " <font color='#eeeeef'>\u00B7</font> " +
-                          " <a href='change_email'>" + qsTr("Change") + "</a> "
+                          " <a href='change_email'>" + qsTrId("auth.code.change_email") + "</a> "
 
                     color: "#eeeeef"
                     linkColor: "#a0cafd"

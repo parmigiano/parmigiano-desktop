@@ -41,13 +41,13 @@ Item {
         spacing: 35
 
         ColumnLayout {
-            spacing: 15
+            spacing: 10
 
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
 
-                text: qsTr("What is your name?")
+                text: qsTrId("profile.name.title")
                 color: "#fff"
 
                 font.bold: true
@@ -61,7 +61,7 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: qsTr("This is how you will be seen in chats.")
+                    text: qsTrId("profile.name.description")
                     color: "#a1a2a5"
 
                     font.pointSize: 10
@@ -73,7 +73,7 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: qsTr("The photo can be added later.")
+                    text: qsTrId("profile.photo.hint")
                     color: "#a1a2a5"
 
                     font.pointSize: 10
@@ -92,7 +92,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
 
-                field.placeholderText: qsTr("Name")
+                field.placeholderText: qsTrId("profile.name.placeholder")
 
                 normalColor: "#242527"
                 hoverColor: "#292a2c"
@@ -167,8 +167,8 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 50
 
-                    buttonTextDefault: qsTr("Confirm")
-                    buttonTextLoading: qsTr("Loading")
+                    buttonTextDefault: qsTrId("profile.confirm")
+                    buttonTextLoading: qsTrId("profile.loading")
 
                     mouseArea.onClicked: {
                         clickButtonAction.trigger();
@@ -184,7 +184,7 @@ Item {
                         Layout.fillWidth: true
                         horizontalAlignment: Qt.AlignHCenter
 
-                        text: qsTr("The entrance is designed as - ")
+                        text: qsTrId("profile.email.caption")
                         color: "#a1a2a5"
 
                         font.pointSize: 10
