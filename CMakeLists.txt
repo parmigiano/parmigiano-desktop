@@ -172,7 +172,7 @@ qt_add_qml_module(featureAuth
         # -->
         features/auth/view/AuthWindow.qml
         features/auth/view/LoginWidget.qml
-        features/auth/view/CreateProfileWindow.qml
+        features/auth/view/CreateProfileWidget.qml
         features/auth/view/VerifyCodeWidget.qml
 
     RESOURCES

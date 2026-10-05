@@ -27,12 +27,6 @@ Window {
     }
 
     Component {
-        id: createProfileWindow
-
-        CreateProfileWindow {}
-    }
-
-    Component {
         id: messengerWindow
 
         MessengerWindow {}
@@ -40,7 +34,6 @@ Window {
 
     readonly property var pagesURI: {
         "AuthWindow": authWindow,
-        "CreateProfileWindow": createProfileWindow,
         "MessengerWindow": messengerWindow
     }
 

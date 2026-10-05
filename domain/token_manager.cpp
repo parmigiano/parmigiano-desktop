@@ -3,6 +3,7 @@
 #include <QEventLoop>
 #include <qt6keychain/keychain.h>
 #include <QCoreApplication>
+#include <QDebug>
 
 TokenManager TokenManager::_instancePtr;
 

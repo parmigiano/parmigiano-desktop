@@ -11,8 +11,6 @@ Item {
 
     required property AuthViewModel viewModel
 
-    readonly property string authStep: "Email"
-    readonly property int stepCount: 1
     readonly property int gap: 15
     readonly property string buttonText: qsTrId("auth.login.continue")
 

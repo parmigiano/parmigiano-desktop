@@ -18,7 +18,7 @@ Item {
         target: authViewModel
 
         function onDisplayMessage(messageHeader, messageBody) {
-            errorBanner.show(messageHeader, messageBody)
+            // errorBanner.show(messageHeader, messageBody)
         }
 
         function onNavigateToVerifyCode() {
@@ -26,7 +26,7 @@ Item {
         }
 
         function onNavigateToCreateProfile() {
-            NavigationManager.goTo("CreateProfileWindow")
+            NavigationManager.goTo("CreateProfileWidget")
         }
     }
 
@@ -46,9 +46,18 @@ Item {
         }
     }
 
+    Component {
+        id: createProfileWidget
+
+        CreateProfileWidget {
+            viewModel: authViewModel
+        }
+    }
+
     readonly property var pagesURI: {
         "Login": login,
-        "VerifyCode": verifyCode
+        "VerifyCode": verifyCode,
+        "CreateProfileWidget": createProfileWidget
     }
 
     Connections {
@@ -70,7 +79,7 @@ Item {
             }
             else
             {
-                exit.openManual()
+                // exit.openManual()
             }
         }
     }
@@ -229,10 +238,6 @@ Item {
         SwitchLanguageMenu {
             id: langSwitcher
 
-            // width: 45
-            // height: 30
-
-            // x: (parent.width - width) / 2
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottomMargin: 20

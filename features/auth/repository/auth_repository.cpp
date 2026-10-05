@@ -1,11 +1,6 @@
 #include "auth_repository.h"
 
 #include "core/config/app_config.h"
-#include "core/network/http/model/request_data.h"
-
-#include "features/auth/service/dto/create_profile_model.h"
-#include "features/auth/service/dto/login_model.h"
-#include "features/auth/service/dto/verify_code_model.h"
 
 #include "features/auth/service/remote/login_source.h"
 #include "features/auth/service/remote/create_profile_source.h"
@@ -69,21 +64,41 @@ std::pair<QString, QString> AuthRepository::defineMessage(int code)
     return std::make_pair(messageHeader, messageBody);
 }
 
-void AuthRepository::login(const QString &email)
+RequestData AuthRepository::buildRequest(const RequestModel &model,
+                                         std::function<void(const ResponseData&, int, std::pair<QString, QString>)> func)
 {
-    LoginRequest model{email};
-    QJsonObject jsonObj = model.toJson();
+    RequestData reqData;
     QMap<QString, QString> headers = defineHeaders();
 
-    auto onResult = [this] (const ResponseData& result)
+    auto onResult = [this, func] (const ResponseData& result)
     {
         int code = result.code;
         std::pair<QString, QString> message = defineMessage(code);
 
-        emit loginFinished(message.first, message.second, code);
+        if (func) func(result, code, message);
     };
 
-    RequestData reqData{onResult, jsonObj, headers};
+    reqData.headers = headers;
+    reqData.callback = onResult;
+
+    std::visit([&](const auto& model) {
+        QJsonObject jsonObj = model.toJson();
+        reqData.jsonObj = jsonObj;
+    }, model);
+
+    return reqData;
+}
+
+void AuthRepository::login(const QString &email)
+{
+    LoginRequest model{email};
+    RequestData reqData = buildRequest(
+        model,
+        [this] (const ResponseData& result, int code,
+               std::pair<QString, QString> message)
+        {
+            emit loginFinished(message.first, message.second, code);
+        });
 
     _LoginSource->login(reqData);
 }
@@ -93,23 +108,18 @@ void AuthRepository::createProfile(const QString &name,
                                    const QString &email)
 {
     CreateProfileRequest model{name, username, email};
-    QJsonObject jsonObj = model.toJson();
-    QMap<QString, QString> headers = defineHeaders();
-
-    auto onResult = [this] (const ResponseData& result)
-    {
-        int code = result.code;
-        std::pair<QString, QString> message = defineMessage(code);
-
-        if (code == 200)
+    RequestData reqData = buildRequest(
+        model,
+        [this] (const ResponseData& result, int code,
+               std::pair<QString, QString> message)
         {
-            _TokenManager->save(result.jsonData.value("message").toString());
-        }
+            if (code == 201)
+            {
+                _TokenManager->save(result.jsonData.value("message").toString());
+            }
 
-        emit createProfileFinished(message.first, message.second, code);
-    };
-
-    RequestData reqData{onResult, jsonObj, headers};
+            emit createProfileFinished(message.first, message.second, code);
+        });
 
     _CreateProfileSource->createProfile(reqData);
 }
@@ -117,23 +127,18 @@ void AuthRepository::createProfile(const QString &name,
 void AuthRepository::verifyCode(const QString &email, int code)
 {
     VerifyCodeRequest model{email, code};
-    QJsonObject jsonObj = model.toJson();
-    QMap<QString, QString> headers = defineHeaders();
-
-    auto onResult = [this] (const ResponseData& result)
-    {
-        int code = result.code;
-        std::pair<QString, QString> message = defineMessage(code);
-
-        if (code == 200)
+    RequestData reqData = buildRequest(
+        model,
+        [this] (const ResponseData& result, int code,
+                std::pair<QString, QString> message)
         {
-            _TokenManager->save(result.jsonData.value("message").toString());
-        }
+            if (code == 201)
+            {
+               _TokenManager->save(result.jsonData.value("message").toString());
+            }
 
-        emit verifyCodeFinished(message.first, message.second, code);
-    };
-
-    RequestData reqData{onResult, jsonObj, headers};
+            emit verifyCodeFinished(message.first, message.second, code);
+        });
 
     _VerifyCodeSource->verifyCode(reqData);
 }

@@ -30,7 +30,7 @@ public:
 
 private:
     bool _networkStatus = true;
-    Pmg::Language _localization = Pmg::Language::RU;
+    Pmg::Language _localization = Pmg::Language::EN;
 
 signals:
     void networkStatusChanged(bool status);

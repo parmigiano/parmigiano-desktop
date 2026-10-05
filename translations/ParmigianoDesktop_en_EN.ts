@@ -35,34 +35,26 @@
         </message>
     </context>
     <context>
-        <name>CreateProfileWindow</name>
-        <message id="profile.name.title">
+        <name>CreateProfileWidget</name>
+        <message id="auth.profile.name.title">
             <source>What is your name?</source>
             <translation>What is your name?</translation>
         </message>
-        <message id="profile.name.description">
+        <message id="auth.profile.name.description">
             <source>This is how you will be seen in chats.</source>
             <translation>This is how you will be seen in chats.</translation>
         </message>
-        <message id="profile.photo.hint">
+        <message id="auth.profile.photo.hint">
             <source>The photo can be added later.</source>
             <translation>The photo can be added later.</translation>
         </message>
-        <message id="profile.name.placeholder">
+        <message id="auth.profile.name.placeholder">
             <source>Name</source>
             <translation>Name</translation>
         </message>
-        <message id="profile.confirm">
+        <message id="auth.profile.confirm">
             <source>Confirm</source>
             <translation>Confirm</translation>
-        </message>
-        <message id="profile.loading">
-            <source>Loading</source>
-            <translation>Loading</translation>
-        </message>
-        <message id="profile.email.caption">
-            <source>The entrance is designed as - </source>
-            <translation>The entrance is designed as - </translation>
         </message>
     </context>
     <context>

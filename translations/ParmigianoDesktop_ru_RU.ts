@@ -35,34 +35,26 @@
         </message>
     </context>
     <context>
-        <name>CreateProfileWindow</name>
-        <message id="profile.name.title">
+        <name>CreateProfileWidget</name>
+        <message id="auth.profile.name.title">
             <source>What is your name?</source>
             <translation>Как вас зовут?</translation>
         </message>
-        <message id="profile.name.description">
+        <message id="auth.profile.name.description">
             <source>This is how you will be seen in chats.</source>
             <translation>Так ваше имя будет отображаться в чатах.</translation>
         </message>
-        <message id="profile.photo.hint">
+        <message id="auth.profile.photo.hint">
             <source>The photo can be added later.</source>
             <translation>Фото можно добавить позже.</translation>
         </message>
-        <message id="profile.name.placeholder">
+        <message id="auth.profile.name.placeholder">
             <source>Name</source>
             <translation>Имя</translation>
         </message>
-        <message id="profile.confirm">
+        <message id="auth.profile.confirm">
             <source>Confirm</source>
             <translation>Подтвердить</translation>
-        </message>
-        <message id="profile.loading">
-            <source>Loading</source>
-            <translation>Загрузка</translation>
-        </message>
-        <message id="profile.email.caption">
-            <source>The entrance is designed as - </source>
-            <translation>Вход с почтой: </translation>
         </message>
     </context>
     <context>

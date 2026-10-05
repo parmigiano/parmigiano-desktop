@@ -1,9 +1,8 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Effects
 
-// import core.UIStateManager 1.0
-// import core.types 1.0
 import ParmigianoDesktop.FeatureAuth
 import ParmigianoDesktop.CoreUI
 import Types
@@ -28,7 +27,7 @@ Item {
         }
     }
 
-    implicitWidth: 110
+    implicitWidth: textRow.implicitWidth * 1.2
     implicitHeight: 30
 
     Rectangle {
@@ -97,10 +96,10 @@ Item {
 
         implicitWidth: 150
 
-        topPadding: 5
-        bottomPadding: 5
-        leftPadding: 5
-        rightPadding: 5
+        topPadding: 8
+        bottomPadding: 8
+        leftPadding: 8
+        rightPadding: 8
 
         enter: Transition {
             NumberAnimation {
@@ -117,20 +116,31 @@ Item {
             implicitWidth: 125
             implicitHeight: 35
 
-            contentItem: Text {
-                text: menuItem.text
-                font.pointSize: 10
-                color: "#fff"
+            contentItem: RowLayout {
+                Text {
+                    Layout.alignment: Qt.AlignVCenter
 
-                leftPadding: 10
-                anchors.left: parent.left
-                verticalAlignment: Qt.AlignVCenter
+                    text: menuItem.text
+                    font.pointSize: 10
+                    color: "#fff"
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+
+                    sourceSize: Qt.size(14, 14)
+                    source: menuItem.action.image
+                }
             }
 
             background: Rectangle {
                 anchors.fill: parent
                 color: menuItem.hovered ? "#2f2f2f" : "#232323"
-                radius: 5
+                radius: 10
 
                 Behavior on color {
                     ColorAnimation {
@@ -148,11 +158,12 @@ Item {
 
             color: "#232323"
             border.color: '#373737'
-            radius: 10
+            radius: 15
         }
 
         Action {
             text: qsTrId("language.russian")
+            property url image: UIStateManager.localization === Pmg.RU ? "qrc:/assets/language_check.svg" : ""
 
             onTriggered: {
                 LocalizationManager.changeLanguage(Pmg.RU);
@@ -162,6 +173,7 @@ Item {
 
         Action {
             text: qsTrId("language.english")
+            property url image: UIStateManager.localization === Pmg.EN ? "qrc:/assets/language_check.svg" : ""
 
             onTriggered: {
                 LocalizationManager.changeLanguage(Pmg.EN);

@@ -11,8 +11,6 @@ Item {
 
     required property AuthViewModel viewModel
 
-    readonly property string authStep: "VerifyCode"
-    readonly property int stepCount: 2
     readonly property int gap: 30
     readonly property string buttonText: qsTrId("auth.code.confirm")
 
@@ -237,7 +235,8 @@ Item {
                             {
                                 nextItemInFocusChain(true).forceActiveFocus();
                             }
-                            else if (index === repeaterCodeFields.count - 1)
+                            else if (index === repeaterCodeFields.count - 1
+                                     && text.length === 0)
                             {
                                 Qt.callLater(submit);
                             }
