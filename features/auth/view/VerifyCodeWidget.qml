@@ -11,10 +11,8 @@ Item {
 
     required property AuthViewModel viewModel
 
-    readonly property string authStep: "VerifyCode"
-    readonly property int stepCount: 2
     readonly property int gap: 30
-    readonly property string buttonText: qsTr("Confirm")
+    readonly property string buttonText: qsTrId("auth.code.confirm")
 
     implicitHeight: verifyCodeColumn.implicitHeight
 
@@ -60,13 +58,13 @@ Item {
         spacing: 30
 
         ColumnLayout {
-            spacing: 15
+            spacing: 10
 
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
 
-                text: qsTr("Check your email")
+                text: qsTrId("auth.code.title")
                 color: "#fff"
 
                 font.bold: true
@@ -80,7 +78,8 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: qsTr("We have sent the confirmation code to")
+                    text: qsTrId("auth.code.instructions")
+
                     color: "#a1a2a5"
 
                     font.pointSize: 10
@@ -89,15 +88,30 @@ Item {
                 }
 
                 Text {
-                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.maximumWidth: root.width
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: AuthContext.email
-                    color: "#eeeeef"
+                    text: AuthContext.email +
+                          " <font color='#eeeeef'>\u00B7</font> " +
+                          " <a href='change_email'>" + qsTrId("auth.code.change_email") + "</a> "
 
+                    color: "#eeeeef"
+                    linkColor: "#a0cafd"
                     font.pointSize: 10
 
                     wrapMode: Text.WordWrap
+                    textFormat: Text.StyledText
+
+                    onLinkActivated: (link) => {
+                        if (link === "change_email") {
+                            NavigationManager.goTo("Login")
+                        }
+                    }
+
+                    HoverHandler {
+                        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    }
                 }
             }
         }
@@ -221,7 +235,8 @@ Item {
                             {
                                 nextItemInFocusChain(true).forceActiveFocus();
                             }
-                            else if (index === repeaterCodeFields.count - 1)
+                            else if (index === repeaterCodeFields.count - 1
+                                     && text.length === 0)
                             {
                                 Qt.callLater(submit);
                             }

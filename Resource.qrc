@@ -4,8 +4,19 @@
         <file>assets/arrow_back.svg</file>
         <file>assets/camera.svg</file>
         <file>assets/burger_menu.svg</file>
-        <file>translations/ParmigianoDesktop_en_150.ts</file>
         <file>translations/ParmigianoDesktop_ru_RU.ts</file>
         <file>assets/circle_alert.svg</file>
+        <file>assets/internet_restored.svg</file>
+        <file>assets/no_internet.svg</file>
+        <file>assets/titlebar_close.svg</file>
+        <file>assets/titlebar_maximize.svg</file>
+        <file>assets/titlebar_minimize.svg</file>
+        <file>assets/titlebar_restore.svg</file>
+        <file>assets/language_check.svg</file>
+        <file>assets/language_chevron.svg</file>
+        <file>assets/language_globe.svg</file>
+        <file>translations/ParmigianoDesktop_en_EN.ts</file>
+        <file>translations/release/ParmigianoDesktop_en_EN.qm</file>
+        <file>translations/release/ParmigianoDesktop_ru_RU.qm</file>
     </qresource>
 </RCC>

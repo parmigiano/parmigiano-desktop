@@ -1,9 +1,8 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Effects
 
-// import core.UIStateManager 1.0
-// import core.types 1.0
 import ParmigianoDesktop.FeatureAuth
 import ParmigianoDesktop.CoreUI
 import Types
@@ -16,26 +15,28 @@ Item {
 
         function onLocalizationChanged(lang) {
             if(lang === Pmg.RU
-                && switcherText.text !== "RU")
+                && switcherText.text !== qsTrId("language.russian"))
             {
-                switcherText.text = "RU";
+                switcherText.text = qsTrId("language.russian");
             }
             else if(lang === Pmg.EN
-                    && switcherText.text !== "EN")
+                    && switcherText.text !== qsTrId("language.english"))
             {
-                switcherText.text = "EN";
+                switcherText.text = qsTrId("language.english");
             }
         }
     }
 
+    implicitWidth: textRow.implicitWidth * 1.2
+    implicitHeight: 30
+
     Rectangle {
         id: rectangle
 
-        width: 45
-        height: 30
+        anchors.fill: parent
 
         color: rectangleMouseArea.containsMouse ? "#222325" : "#191a1c"
-        radius: 8
+        radius: 6
 
         Behavior on color {
             ColorAnimation {
@@ -44,15 +45,37 @@ Item {
             }
         }
 
-        Text {
-            id: switcherText
+        Row {
+            id: textRow
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
-            font.pointSize: 11
-            text: qsTr("RU") // RU/EN
-            color: "#a1a2a5"
+            spacing: 8
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+
+                sourceSize: Qt.size(15, 15)
+                source: "qrc:/assets/language_globe.svg"
+            }
+
+            Text {
+                id: switcherText
+
+                anchors.verticalCenter: parent.verticalCenter
+
+                font.pointSize: 10
+                text: qsTrId("language.english")
+                color: "#a1a2a5"
+            }
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+
+                sourceSize: Qt.size(14, 14)
+                source: "qrc:/assets/language_chevron.svg"
+            }
         }
 
         MouseArea {
@@ -63,7 +86,7 @@ Item {
             cursorShape: Qt.PointingHandCursor
 
             onClicked: {
-                contextMenu.popup(-(contextMenu.width - rectangle.width), rectangle.height + 10);
+                contextMenu.popup((rectangle.width - contextMenu.width) / 2, -contextMenu.height - 10);
             }
         }
     }
@@ -71,12 +94,12 @@ Item {
     Menu {
         id: contextMenu
 
-        implicitWidth: 125
+        implicitWidth: 150
 
-        topPadding: 5
-        bottomPadding: 5
-        leftPadding: 5
-        rightPadding: 5
+        topPadding: 8
+        bottomPadding: 8
+        leftPadding: 8
+        rightPadding: 8
 
         enter: Transition {
             NumberAnimation {
@@ -93,20 +116,31 @@ Item {
             implicitWidth: 125
             implicitHeight: 35
 
-            contentItem: Text {
-                text: menuItem.text
-                font.pointSize: 10
-                color: "#fff"
+            contentItem: RowLayout {
+                Text {
+                    Layout.alignment: Qt.AlignVCenter
 
-                leftPadding: 10
-                anchors.left: parent.left
-                verticalAlignment: Qt.AlignVCenter
+                    text: menuItem.text
+                    font.pointSize: 10
+                    color: "#fff"
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+
+                    sourceSize: Qt.size(14, 14)
+                    source: menuItem.action.image
+                }
             }
 
             background: Rectangle {
                 anchors.fill: parent
                 color: menuItem.hovered ? "#2f2f2f" : "#232323"
-                radius: 5
+                radius: 10
 
                 Behavior on color {
                     ColorAnimation {
@@ -124,11 +158,12 @@ Item {
 
             color: "#232323"
             border.color: '#373737'
-            radius: 10
+            radius: 15
         }
 
         Action {
-            text: qsTr("Russian")
+            text: qsTrId("language.russian")
+            property url image: UIStateManager.localization === Pmg.RU ? "qrc:/assets/language_check.svg" : ""
 
             onTriggered: {
                 LocalizationManager.changeLanguage(Pmg.RU);
@@ -137,7 +172,8 @@ Item {
         }
 
         Action {
-            text: qsTr("English")
+            text: qsTrId("language.english")
+            property url image: UIStateManager.localization === Pmg.EN ? "qrc:/assets/language_check.svg" : ""
 
             onTriggered: {
                 LocalizationManager.changeLanguage(Pmg.EN);

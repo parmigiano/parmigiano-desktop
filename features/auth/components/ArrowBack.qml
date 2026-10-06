@@ -26,6 +26,8 @@ Item {
 
             sourceSize: Qt.size(25, 25)
             source: "qrc:/assets/arrow_back.svg"
+
+            visible: false
         }
 
         MultiEffect {
@@ -43,11 +45,12 @@ Item {
                 }
             }
 
-            // Behavior on brightness {
-            //     ColorAnimation {
-            //         duration: 150
-            //     }
-            // }
+            Behavior on brightness {
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
 
         MouseArea {

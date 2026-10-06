@@ -1,17 +1,13 @@
 #include "auth_repository.h"
 
 #include "core/config/app_config.h"
-#include "core/network/http/model/request_data.h"
-
-#include "features/auth/service/dto/create_profile_model.h"
-#include "features/auth/service/dto/login_model.h"
-#include "features/auth/service/dto/verify_code_model.h"
 
 #include "features/auth/service/remote/login_source.h"
 #include "features/auth/service/remote/create_profile_source.h"
 #include "features/auth/service/remote/verify_code_source.h"
 
 #include "domain/pow_process.h"
+#include "domain/token_manager.h"
 
 #include <QNetworkInformation>
 #include <QMetaEnum>
@@ -19,11 +15,12 @@
 #include <qtimer.h>
 
 AuthRepository::AuthRepository(QObject *parent)
-    : QObject{parent},
-    _LoginSource(new LoginSource(nullptr, AppConfig::loginEndPoint())),
-    _CreateProfileSource(new CreateProfileSource(nullptr, AppConfig::createProfileEndPoint())),
-    _VerifyCodeSource(new VerifyCodeSource(nullptr, AppConfig::verifyCodeEndPoint())),
-    _PoWProcess(PoWProcess::getInstance())
+    : QObject{parent}
+    , _LoginSource(new LoginSource(nullptr, AppConfig::loginEndPoint()))
+    , _CreateProfileSource(new CreateProfileSource(nullptr, AppConfig::createProfileEndPoint()))
+    , _VerifyCodeSource(new VerifyCodeSource(nullptr, AppConfig::verifyCodeEndPoint()))
+    , _PoWProcess(PoWProcess::getInstance())
+    , _TokenManager(TokenManager::getInstance())
 { }
 
 QMap<QString, QString> AuthRepository::defineHeaders()
@@ -55,33 +52,53 @@ std::pair<QString, QString> AuthRepository::defineMessage(int code)
 
     if (code >= 400 && code < 500)
     {
-        messageHeader = "Client side error";
-        messageBody = "Check your internet connection and try again later.";
+        messageHeader = qtTrId("error.client.title");
+        messageBody = qtTrId("error.client.body");
     }
     else if (code >= 500 || code == 0)
     {
-        messageHeader = "Server is unavailable";
-        messageBody = "Server connection error. Please try again later.";
+        messageHeader = qtTrId("error.server.title");
+        messageBody = qtTrId("error.server.body");
     }
 
     return std::make_pair(messageHeader, messageBody);
 }
 
-void AuthRepository::login(const QString &email)
+RequestData AuthRepository::buildRequest(const RequestModel &model,
+                                         std::function<void(const ResponseData&, int, std::pair<QString, QString>)> func)
 {
-    LoginRequest model{email};
-    QJsonObject jsonObj = model.toJson();
+    RequestData reqData;
     QMap<QString, QString> headers = defineHeaders();
 
-    auto onResult = [this] (const ResponseData& result)
+    auto onResult = [this, func] (const ResponseData& result)
     {
         int code = result.code;
         std::pair<QString, QString> message = defineMessage(code);
 
-        emit loginFinished(message.first, message.second, code);
+        if (func) func(result, code, message);
     };
 
-    RequestData reqData{onResult, jsonObj, headers};
+    reqData.headers = headers;
+    reqData.callback = onResult;
+
+    std::visit([&](const auto& model) {
+        QJsonObject jsonObj = model.toJson();
+        reqData.jsonObj = jsonObj;
+    }, model);
+
+    return reqData;
+}
+
+void AuthRepository::login(const QString &email)
+{
+    LoginRequest model{email};
+    RequestData reqData = buildRequest(
+        model,
+        [this] (const ResponseData& result, int code,
+               std::pair<QString, QString> message)
+        {
+            emit loginFinished(message.first, message.second, code);
+        });
 
     _LoginSource->login(reqData);
 }
@@ -91,18 +108,18 @@ void AuthRepository::createProfile(const QString &name,
                                    const QString &email)
 {
     CreateProfileRequest model{name, username, email};
-    QJsonObject jsonObj = model.toJson();
-    QMap<QString, QString> headers = defineHeaders();
+    RequestData reqData = buildRequest(
+        model,
+        [this] (const ResponseData& result, int code,
+               std::pair<QString, QString> message)
+        {
+            if (code == 201)
+            {
+                _TokenManager->save(result.jsonData.value("message").toString());
+            }
 
-    auto onResult = [this] (const ResponseData& result)
-    {
-        int code = result.code;
-        std::pair<QString, QString> message = defineMessage(code);
-
-        emit createProfileFinished(message.first, message.second, code);
-    };
-
-    RequestData reqData{onResult, jsonObj, headers};
+            emit createProfileFinished(message.first, message.second, code);
+        });
 
     _CreateProfileSource->createProfile(reqData);
 }
@@ -110,18 +127,18 @@ void AuthRepository::createProfile(const QString &name,
 void AuthRepository::verifyCode(const QString &email, int code)
 {
     VerifyCodeRequest model{email, code};
-    QJsonObject jsonObj = model.toJson();
-    QMap<QString, QString> headers = defineHeaders();
+    RequestData reqData = buildRequest(
+        model,
+        [this] (const ResponseData& result, int code,
+                std::pair<QString, QString> message)
+        {
+            if (code == 201)
+            {
+               _TokenManager->save(result.jsonData.value("message").toString());
+            }
 
-    auto onResult = [this] (const ResponseData& result)
-    {
-        int code = result.code;
-        std::pair<QString, QString> message = defineMessage(code);
-
-        emit verifyCodeFinished(message.first, message.second, code);
-    };
-
-    RequestData reqData{onResult, jsonObj, headers};
+            emit verifyCodeFinished(message.first, message.second, code);
+        });
 
     _VerifyCodeSource->verifyCode(reqData);
 }

@@ -153,7 +153,7 @@ Item {
                 Text {
                     id: okButtonText
 
-                    text: qsTr("Oк")
+                    text: qsTr("Ok")
                     font.pointSize: 10
                     font.bold: true
                     color: okButtonMouseArea.containsMouse ? "#fff" : "#ff7777"

@@ -8,6 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick Gui Core Qml Network LinguistTools)
+find_package(Qt6Keychain CONFIG REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -67,13 +68,16 @@ target_link_libraries(core
 add_library(domain STATIC
         domain/pow_process.h
         domain/pow_process.cpp
+        domain/token_manager.h domain/token_manager.cpp
 )
 target_include_directories(domain PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(domain
     PRIVATE
         Qt6::Core
         Qt6::Gui
+        Qt6Keychain::Qt6Keychain
 )
+target_link_libraries(domain PRIVATE Qt6::Core)
 
 qt_add_library(coreUI STATIC)
 qt_add_qml_module(coreUI
@@ -157,11 +161,7 @@ qt_add_qml_module(featureAuth
         features/auth/components/NetworkStatusBanner.qml
         features/auth/components/TextContextMenu.qml
         features/auth/components/SwitchLanguageMenu.qml
-        features/auth/components/ErrorBanner.qml
-        features/auth/components/StepsItem.qml
-        features/auth/components/StepCounter.qml
-        features/auth/components/ExitDialog.qml
-        features/auth/components/Steps.qml
+        features/auth/components/InputField.qml
 
         # Features/Auth/components/animations
         # -->
@@ -172,14 +172,13 @@ qt_add_qml_module(featureAuth
         # -->
         features/auth/view/AuthWindow.qml
         features/auth/view/LoginWidget.qml
-        features/auth/view/CreateProfileWindow.qml
+        features/auth/view/CreateProfileWidget.qml
         features/auth/view/VerifyCodeWidget.qml
 
     RESOURCES
         # Features/Auth/view
         # -->
         features/auth/view/js/validate.js
-        QML_FILES features/auth/components/InputField.qml
 )
 target_include_directories(featureAuth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories(featureAuth # for MOC padla takaya
@@ -228,16 +227,15 @@ qt_add_qml_module(featureMessenger
 
         # Features/messenger/view
         # -->
+        features/messenger/view/MessengerWindow.qml
 )
-target_include_directories(featureMessenger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(featureMessenger # for MOC padla takaya
-    PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/core/ui
-)
+# target_include_directories(featureMessenger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+# target_include_directories(featureMessenger # for MOC padla takaya
+#     PUBLIC
+#         ${CMAKE_CURRENT_SOURCE_DIR}/core/ui
+# )
 target_link_libraries(coreUI
     PRIVATE
-        Qt6::Core
-        Qt6::Gui
         Qt6::Qml
 )
 

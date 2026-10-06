@@ -11,10 +11,8 @@ Item {
 
     required property AuthViewModel viewModel
 
-    readonly property string authStep: "Email"
-    readonly property int stepCount: 1
     readonly property int gap: 15
-    readonly property string buttonText: qsTr("Continue")
+    readonly property string buttonText: qsTrId("auth.login.continue")
 
     implicitHeight: loginColumn.implicitHeight
 
@@ -32,7 +30,7 @@ Item {
         }
         else
         {
-            emailInput.error(true, "Wrong email format")
+            emailInput.error(true, "")
         }
     }
 
@@ -47,13 +45,13 @@ Item {
         spacing: 30
 
         ColumnLayout {
-            spacing: 15
+            spacing: 10
 
             Text {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
 
-                text: qsTr("Welcome back")
+                text: qsTrId("auth.login.title")
                 color: "#fff"
 
                 font.bold: true
@@ -67,7 +65,7 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: qsTr("Log in or create an account")
+                    text: qsTrId("auth.login.subtitle")
                     color: "#a1a2a5"
 
                     font.pointSize: 10
@@ -79,7 +77,7 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: qsTr("via email.")
+                    text: qsTrId("auth.login.email_hint")
                     color: "#a1a2a5"
 
                     font.pointSize: 10
@@ -93,9 +91,9 @@ Item {
             id: emailInput
 
             Layout.fillWidth: true
-            Layout.preferredHeight: 55
+            Layout.preferredHeight: 50
 
-            field.placeholderText: qsTr("Email")
+            field.placeholderText: qsTrId("auth.login.email_placeholder")
 
             normalColor: "#242527"
             hoverColor: "#292a2c"

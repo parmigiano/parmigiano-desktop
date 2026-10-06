@@ -13,13 +13,13 @@ public:
     explicit NavigationManager(QObject *parent = nullptr);
     virtual ~NavigationManager() = default;
 
+    Q_INVOKABLE void goTo(QString pageName);
+    Q_INVOKABLE void goBack(/*QString windowName*/);
+
 signals:
     void navigateTo(QString pageName);
     void navigateBack(/*QString windowName*/);
 
-public slots:
-    void goTo(QString pageName);
-    void goBack(/*QString windowName*/);
 };
 
 #endif // NAVIGATION_MANAGER_H

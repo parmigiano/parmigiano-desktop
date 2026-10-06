@@ -5,6 +5,8 @@ import ParmigianoDesktop.CoreUI
 Item {
     id: root
 
+    property real expandedHeight: 35
+
     height: networkBanner.height
 
     Timer {
@@ -14,26 +16,24 @@ Item {
         repeat: false
 
         onTriggered: {
-            networkBanner.bannerState = "hidden"
+            statusSwap.stop();
+            statusHide.restart();
         }
     }
-
-    // UIStateManager {
-    //     id: stateManager
-    // }
 
     Connections {
         target: UIStateManager
 
         function onNetworkStatusChanged(status) {
-            if (status)
-            {
-                networkBanner.bannerState = "success";
-                hideBanner.start();
-            }
-            else
-            {
-                networkBanner.bannerState = "waiting";
+            hideBanner.stop();
+            statusHide.stop();
+            statusSwap.stop();
+
+            networkBanner.bannerState = status ? "success" : "waiting";
+            statusSwap.restart();
+
+            if (status) {
+                hideBanner.restart();
             }
         }
     }
@@ -46,7 +46,7 @@ Item {
         width: parent.width
         height: 0
         clip: true
-        color: "#242424"
+        color: "transparent"
         state: bannerState
 
         states: [
@@ -55,11 +55,6 @@ Item {
                 PropertyChanges {
                     target: networkBanner
                     height: 0
-                }
-
-                PropertyChanges {
-                    target: statusDot
-                    visible: true
                 }
 
                 PropertyChanges {
@@ -72,18 +67,18 @@ Item {
                 name: "waiting"
                 PropertyChanges {
                     target: networkBanner
-                    color: "#222325"
-                    height: 35
+                    color: "transparent"
+                    height: root.expandedHeight
                 }
 
                 PropertyChanges {
-                    target: statusDot
-                    visible: true
+                    target: statusImage
+                    source: "qrc:/assets/no_internet.svg"
                 }
 
                 PropertyChanges {
                     target: statusText
-                    text: qsTr("Waiting...")
+                    text: qsTrId("network.offline")
                 }
             },
 
@@ -91,18 +86,18 @@ Item {
                 name: "success"
                 PropertyChanges {
                     target: networkBanner
-                    color: "#469551"
-                    height: 35
+                    color: "transparent"
+                    height: root.expandedHeight
                 }
 
                 PropertyChanges {
-                    target: statusDot
-                    visible: false
+                    target: statusImage
+                    source: "qrc:/assets/internet_restored.svg"
                 }
 
                 PropertyChanges {
                     target: statusText
-                    text: qsTr("Internet restored")
+                    text: qsTrId("network.restored")
                 }
             }
         ]
@@ -134,34 +129,21 @@ Item {
         }
 
         Row {
+            id: statusRow
+
             anchors.centerIn: parent
             spacing: 8
 
-            Rectangle {
-                id: statusDot
+            transform: Translate {
+                id: statusOffset
 
-                width: 6
-                height: 6
-                radius: 3
-                color: "#708499"
-                anchors.verticalCenter: parent.verticalCenter
-                visible: false
+                y: 0
+            }
 
-                SequentialAnimation on opacity {
-                    loops: Animation.Infinite
+            Image {
+                id: statusImage
 
-                    NumberAnimation {
-                        from: 0.3
-                        to: 1.0
-                        duration: 750
-                    }
-
-                    NumberAnimation {
-                        from: 1.0
-                        to: 0.3
-                        duration: 750
-                    }
-                }
+                sourceSize: Qt.size(15, 15)
             }
 
             Text {
@@ -171,6 +153,54 @@ Item {
                 color: "white"
                 font.pixelSize: 12
                 font.bold: true
+            }
+        }
+
+        ParallelAnimation {
+            id: statusSwap
+
+            NumberAnimation {
+                target: statusRow
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 260
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: [0, 0, 0.58, 1, 1, 1]
+            }
+
+            NumberAnimation {
+                target: statusOffset
+                property: "y"
+                from: 6
+                to: 0
+                duration: 260
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: [0, 0, 0.58, 1, 1, 1]
+            }
+        }
+
+        ParallelAnimation {
+            id: statusHide
+
+            NumberAnimation {
+                target: statusRow
+                property: "opacity"
+                to: 0
+                duration: 260
+                easing.type: Easing.InCubic
+            }
+
+            NumberAnimation {
+                target: statusOffset
+                property: "y"
+                to: -6
+                duration: 260
+                easing.type: Easing.InCubic
+            }
+
+            onFinished: {
+                networkBanner.bannerState = "hidden";
             }
         }
     }

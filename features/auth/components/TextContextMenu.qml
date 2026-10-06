@@ -92,7 +92,7 @@ Item {
         }
 
         Action {
-            text: qsTr("Copy")
+            text: qsTrId("edit.copy")
             shortcut: "Ctrl+C"
 
             onTriggered: {
@@ -104,7 +104,7 @@ Item {
         }
 
         Action {
-            text: qsTr("Paste")
+            text: qsTrId("edit.paste")
             shortcut: "Ctrl+V"
 
             onTriggered: {
@@ -116,7 +116,7 @@ Item {
         }
 
         Action {
-            text: qsTr("Cut")
+            text: qsTrId("edit.cut")
             shortcut: "Ctrl+X"
 
             onTriggered: {
@@ -139,7 +139,7 @@ Item {
         }
 
         Action {
-            text: qsTr("Select all")
+            text: qsTrId("edit.select_all")
             shortcut: "Ctrl+A"
 
             onTriggered: {

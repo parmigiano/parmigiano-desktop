@@ -22,20 +22,20 @@ public:
     UIStateManager(const UIStateManager& other) = delete;
     UIStateManager& operator=(const UIStateManager& other) = delete;
 
+    Q_INVOKABLE void setNetworkStatus(bool status);
+    Q_INVOKABLE void setLocalization(Pmg::Language lang);
+
+    Q_INVOKABLE bool getNetworkStatus();
+    Q_INVOKABLE Pmg::Language getLocalization();
+
 private:
     bool _networkStatus = true;
-    Pmg::Language _localization = Pmg::Language::RU;
+    Pmg::Language _localization = Pmg::Language::EN;
 
 signals:
     void networkStatusChanged(bool status);
     void localizationChanged(Pmg::Language lang);
 
-public slots:
-    void setNetworkStatus(bool status);
-    void setLocalization(Pmg::Language lang);
-
-    bool getNetworkStatus();
-    Pmg::Language getLocalization();
 };
 
 #endif // UI_STATE_MANAGER_H

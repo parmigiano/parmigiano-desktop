@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" sourcelanguage="en" language="ru_RU">
+<TS version="2.1" sourcelanguage="en" language="en_EN">
     <context>
         <name>Main</name>
         <message id="app.title">
@@ -12,83 +12,83 @@
         <name>AuthRepository</name>
         <message id="error.client.title">
             <source>Client side error</source>
-            <translation>Ошибка на стороне клиента</translation>
+            <translation>Client side error</translation>
         </message>
         <message id="error.client.body">
             <source>Check your internet connection and try again later.</source>
-            <translation>Проверьте подключение к интернету и повторите попытку позже.</translation>
+            <translation>Check your internet connection and try again later.</translation>
         </message>
         <message id="error.server.title">
             <source>Server is unavailable</source>
-            <translation>Сервер недоступен</translation>
+            <translation>Server is unavailable</translation>
         </message>
         <message id="error.server.body">
             <source>Server connection error. Please try again later.</source>
-            <translation>Ошибка подключения к серверу. Повторите попытку позже.</translation>
+            <translation>Server connection error. Please try again later.</translation>
         </message>
     </context>
     <context>
         <name>AuthWindow</name>
         <message id="auth.loading">
             <source>Loading</source>
-            <translation>Загрузка</translation>
+            <translation>Loading</translation>
         </message>
     </context>
     <context>
         <name>CreateProfileWidget</name>
         <message id="auth.profile.name.title">
             <source>What is your name?</source>
-            <translation>Как вас зовут?</translation>
+            <translation>What is your name?</translation>
         </message>
         <message id="auth.profile.name.description">
             <source>This is how you will be seen in chats.</source>
-            <translation>Так ваше имя будет отображаться в чатах.</translation>
+            <translation>This is how you will be seen in chats.</translation>
         </message>
         <message id="auth.profile.photo.hint">
             <source>The photo can be added later.</source>
-            <translation>Фото можно добавить позже.</translation>
+            <translation>The photo can be added later.</translation>
         </message>
         <message id="auth.profile.name.placeholder">
             <source>Name</source>
-            <translation>Имя</translation>
+            <translation>Name</translation>
         </message>
         <message id="auth.profile.confirm">
             <source>Confirm</source>
-            <translation>Подтвердить</translation>
+            <translation>Confirm</translation>
         </message>
     </context>
     <context>
         <name>LoginWidget</name>
         <message id="auth.login.continue">
             <source>Continue</source>
-            <translation>Продолжить</translation>
+            <translation>Continue</translation>
         </message>
         <message id="auth.login.title">
             <source>Welcome back</source>
-            <translation>С возвращением</translation>
+            <translation>Welcome back</translation>
         </message>
         <message id="auth.login.subtitle">
             <source>Log in or create an account</source>
-            <translation>Войдите или создайте аккаунт</translation>
+            <translation>Log in or create an account</translation>
         </message>
         <message id="auth.login.email_hint">
             <source>via email.</source>
-            <translation>с помощью электронной почты.</translation>
+            <translation>via email.</translation>
         </message>
         <message id="auth.login.email_placeholder">
             <source>Email</source>
-            <translation>Эл. почта</translation>
+            <translation>Email</translation>
         </message>
     </context>
     <context>
         <name>NetworkStatusBanner</name>
         <message id="network.offline">
             <source>No internet</source>
-            <translation>Нет подключения к интернету</translation>
+            <translation>No internet</translation>
         </message>
         <message id="network.restored">
             <source>Internet restored</source>
-            <translation>Подключение к интернету восстановлено</translation>
+            <translation>Internet restored</translation>
         </message>
     </context>
     <context>
@@ -106,38 +106,38 @@
         <name>TextContextMenu</name>
         <message id="edit.copy">
             <source>Copy</source>
-            <translation>Копировать</translation>
+            <translation>Copy</translation>
         </message>
         <message id="edit.paste">
             <source>Paste</source>
-            <translation>Вставить</translation>
+            <translation>Paste</translation>
         </message>
         <message id="edit.cut">
             <source>Cut</source>
-            <translation>Вырезать</translation>
+            <translation>Cut</translation>
         </message>
         <message id="edit.select_all">
             <source>Select all</source>
-            <translation>Выделить всё</translation>
+            <translation>Select all</translation>
         </message>
     </context>
     <context>
         <name>VerifyCodeWidget</name>
         <message id="auth.code.confirm">
             <source>Confirm</source>
-            <translation>Подтвердить</translation>
+            <translation>Confirm</translation>
         </message>
         <message id="auth.code.title">
             <source>Check your email</source>
-            <translation>Проверьте почту</translation>
+            <translation>Check your email</translation>
         </message>
         <message id="auth.code.instructions">
             <source>We have sent the confirmation code to</source>
-            <translation>Мы отправили код подтверждения на</translation>
+            <translation>We have sent the confirmation code to</translation>
         </message>
         <message id="auth.code.change_email">
             <source>Change</source>
-            <translation>Изменить</translation>
+            <translation>Change</translation>
         </message>
     </context>
 </TS>

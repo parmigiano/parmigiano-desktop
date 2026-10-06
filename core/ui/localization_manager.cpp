@@ -39,10 +39,10 @@ void LocalizationManager::changeLanguage(Pmg::Language lang)
     switch (lang)
     {
     case Pmg::Language::RU:
-        changeLocalizationTo(":/ui/translations/release/ParmigianoDesktop_ru_RU.qm");
+        changeLocalizationTo(":/translations/release/ParmigianoDesktop_ru_RU.qm");
         break;
     case Pmg::Language::EN:
-        changeLocalizationTo(":/ui/translations/release/ParmigianoDesktop_en_US.qm");
+        changeLocalizationTo(":/translations/release/ParmigianoDesktop_en_EN.qm");
         break;
     default:
         break;
