@@ -161,7 +161,7 @@ qt_add_qml_module(featureAuth
         features/auth/components/NetworkStatusBanner.qml
         features/auth/components/TextContextMenu.qml
         features/auth/components/SwitchLanguageMenu.qml
-
+        features/auth/components/InputField.qml
 
         # Features/Auth/components/animations
         # -->
@@ -179,7 +179,6 @@ qt_add_qml_module(featureAuth
         # Features/Auth/view
         # -->
         features/auth/view/js/validate.js
-        QML_FILES features/auth/components/InputField.qml
 )
 target_include_directories(featureAuth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories(featureAuth # for MOC padla takaya

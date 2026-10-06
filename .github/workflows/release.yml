@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+env:
+  QTKEYCHAIN_VERSION: '0.17.0'
+  LIBS_DIR: C:/libs
+
 jobs:
   release:
     if: github.event.pull_request.merged && github.head_ref == 'develop'
@@ -20,6 +24,15 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
 
+      - name: Check version
+        shell: bash
+        run: |
+          TAG="v$(tr -d '[:space:]' < VERSION.txt)"
+          if [ -n "$(git ls-remote --tags origin "refs/tags/$TAG")" ]; then
+            echo "::error::Release $TAG already exists. Bump the version in VERSION.txt."
+            exit 1
+          fi
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -27,9 +40,24 @@ jobs:
           arch: win64_msvc2022_64
           cache: true
 
+      - name: Build QtKeychain (static)
+        run: |
+          git -c advice.detachedHead=false clone --depth 1 --branch $env:QTKEYCHAIN_VERSION https://github.com/frankosterfeld/qtkeychain.git "$env:LIBS_DIR/qtkeychain-src"
+          cmake -S "$env:LIBS_DIR/qtkeychain-src" -B "$env:LIBS_DIR/qtkeychain-build" -DBUILD_SHARED_LIBS=OFF -DBUILD_TRANSLATIONS=OFF "-DCMAKE_INSTALL_PREFIX=$env:LIBS_DIR/qtkeychain"
+          cmake --build "$env:LIBS_DIR/qtkeychain-build" --config Release --parallel
+          cmake --install "$env:LIBS_DIR/qtkeychain-build" --config Release
+
+      - name: Compile translations
+        run: |
+          New-Item -ItemType Directory -Force translations/release | Out-Null
+          foreach ($ts in Get-ChildItem translations/*.ts) {
+            lrelease -idbased $ts.FullName -qm "translations/release/$($ts.BaseName).qm"
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
       - name: Build
         run: |
-          cmake -S . -B build
+          cmake -S . -B build "-DQt6Keychain_DIR=$env:LIBS_DIR/qtkeychain/lib/cmake/Qt6Keychain"
           cmake --build build --config Release --parallel
 
       - name: Deploy (windeployqt + VC redist)

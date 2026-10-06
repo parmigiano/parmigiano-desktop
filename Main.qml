@@ -15,8 +15,6 @@ Window {
     minimumWidth: 1000
     minimumHeight: 640
     visible: true
-    // title: qsTrId("app.title")
-    color: "#191a1c"
 
     flags: Qt.FramelessWindowHint | Qt.Window
 
@@ -66,6 +64,8 @@ Window {
     ColumnLayout {
         anchors.fill: parent
 
+        spacing: 0
+
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 30
@@ -79,20 +79,7 @@ Window {
                 target: null
             }
 
-            // Text {
-            //     id: title
-
-            //     anchors.left: parent.left
-            //     anchors.verticalCenter: parent.verticalCenter
-            //     anchors.leftMargin: 10
-
-            //     text: qsTrId("app.title")
-            //     font.pointSize: 10
-            //     color: "#fff"
-            // }
-
             NetworkStatusBanner {
-                // id: banner
                 height: parent.height
 
                 anchors.top: parent.top
@@ -100,9 +87,17 @@ Window {
                 anchors.right: parent.right
 
                 expandedHeight: parent.height
-
-                // z: 1
             }
+
+            // Text {
+            //     anchors.verticalCenter: parent.verticalCenter
+            //     leftPadding: 10
+
+            //     text: qsTrId("app.title")
+            //     color: "#a1a2a5"
+
+            //     font.pointSize: 10
+            // }
 
             Row {
                 anchors.right: parent.right
@@ -208,13 +203,6 @@ Window {
                         }
                     }
                 }
-
-                // Button {
-                //     text: "X"
-                //     Layout.preferredWidth: 30
-                //     Layout.preferredHeight: 30
-                //     onClicked: mainWindow.close()
-                // }
             }
         }
 
@@ -226,6 +214,7 @@ Window {
                 id: stackView
                 anchors.fill: parent
                 initialItem: authWindow
+                // initialItem: messengerWindow
             }
         }
     }
