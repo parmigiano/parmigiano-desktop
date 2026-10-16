@@ -5,22 +5,21 @@
 #include <QCoreApplication>
 #include <QDebug>
 
-TokenManager TokenManager::_instancePtr;
-
 TokenManager::TokenManager(QObject *parent)
     : QObject{parent}
 {}
 
 TokenManager *TokenManager::getInstance()
 {
-    return &_instancePtr;
+    static TokenManager tokenManager;
+    return &tokenManager;
 }
 
-void TokenManager::save(const QString &token)
+void TokenManager::save(const QString& name, const QString &token)
 {
     QKeychain::WritePasswordJob job(QCoreApplication::applicationName());
     job.setAutoDelete(false);
-    job.setKey(_key);
+    job.setKey(name);
     job.setTextData(token);
 
     QEventLoop loop;
@@ -29,11 +28,11 @@ void TokenManager::save(const QString &token)
     loop.exec();
 }
 
-QString TokenManager::load()
+QString TokenManager::token(const QString& name)
 {
     QKeychain::ReadPasswordJob job(QCoreApplication::applicationName());
     job.setAutoDelete(false);
-    job.setKey(_key);
+    job.setKey(name);
 
     QEventLoop loop;
     QObject::connect(&job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);

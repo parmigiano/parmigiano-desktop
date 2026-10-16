@@ -17,11 +17,11 @@ Item {
     implicitHeight: createProfileColumn.implicitHeight
 
     function submit() {
-        nameInput.field.focus = false
-        usernameInput.field.focus = false
+        nameInput.focus = false
+        usernameInput.focus = false
 
-        let name = nameInput.field.text
-        let username = usernameInput.field.text
+        let name = nameInput.text
+        let username = usernameInput.text
 
         let nameCheck = Validate.validateName(name)
         let usernameCheck = Validate.validateUsername(username)
@@ -31,7 +31,7 @@ Item {
             nameInput.error(false, "")
             usernameInput.error(false, "")
 
-            viewModel.createProfile(name, username, AuthContext.email)
+            viewModel.createProfile(name, username, viewModel.email)
         }
         else if (nameCheck && !usernameCheck)
         {
@@ -110,10 +110,10 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
 
-                field.placeholderText: qsTrId("auth.profile.name.placeholder")
+                placeholderText: qsTrId("auth.profile.name.placeholder")
 
-                normalColor: "#242527"
-                hoverColor: "#292a2c"
+                // normalColor: "#242527"
+                // hoverColor: "#292a2c"
             }
 
             InputField {
@@ -122,10 +122,10 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
 
-                field.placeholderText: "@Username"
+                placeholderText: "@Username"
 
-                normalColor: "#242527"
-                hoverColor: "#292a2c"
+                // normalColor: "#242527"
+                // hoverColor: "#292a2c"
             }
         }
     }

@@ -5,7 +5,7 @@
 #include "features/auth/repository/auth_repository.h"
 
 AuthViewModel::AuthViewModel(QObject *parent)
-    : _AuthRepository(new AuthRepository())
+    : _AuthRepository(new AuthRepository(this))
 {
     connect(_AuthRepository, &AuthRepository::loginFinished,
            this, &AuthViewModel::processLoginFinished);
@@ -15,6 +15,19 @@ AuthViewModel::AuthViewModel(QObject *parent)
 
     connect(_AuthRepository, &AuthRepository::createProfileFinished,
             this, &AuthViewModel::processCreateProfileFinished);
+}
+
+QString AuthViewModel::email()
+{
+    return _email;
+}
+
+void AuthViewModel::setEmail(QString email)
+{
+    if (_email != email)
+    {
+        _email = email;
+    }
 }
 
 void AuthViewModel::processLoginFinished(const QString& messageHeader,
@@ -34,22 +47,22 @@ void AuthViewModel::processLoginFinished(const QString& messageHeader,
 
 void AuthViewModel::processVerifyCodeFinished(const QString& messageHeader,
                                               const QString& messageBody,
+                                              const QString& step,
                                               int code) const
 {
-    switch (code)
+    // switch (code)
+    // {
+    // case AuthViewModel::Status::BadRequest:
+    //     qDebug() << "server: invalid confirmation code";
+    //     return;
+    // default:
+    //     emit const_cast<AuthViewModel*>(this)->displayMessage(messageHeader, messageBody);
+    //     return;
+    // }
+
+    if (step == "registration")
     {
-    case AuthViewModel::Status::Ok:
-        qDebug() << "navigate to messanger";
-        break;
-    case AuthViewModel::Status::Accepted:
         emit const_cast<AuthViewModel*>(this)->navigateToCreateProfile();
-        break;
-    case AuthViewModel::Status::BadRequest:
-        qDebug() << "server: invalid confirmation code";
-        break;
-    default:
-        emit const_cast<AuthViewModel*>(this)->displayMessage(messageHeader, messageBody);
-        break;
     }
 }
 

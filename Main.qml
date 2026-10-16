@@ -118,7 +118,7 @@ Window {
                         sourceSize: Qt.size(10, 10)
                         source: "qrc:/assets/titlebar_minimize.svg"
 
-                        visible: true
+                        // visible: true
                     }
 
                     MouseArea {
@@ -152,7 +152,7 @@ Window {
                         sourceSize: Qt.size(10, 10)
                         source: mainWindow.visibility === Window.Maximized ? "qrc:/assets/titlebar_restore.svg" : "qrc:/assets/titlebar_maximize.svg"
 
-                        visible: true
+                        // visible: true
                     }
 
                     MouseArea {
@@ -184,7 +184,7 @@ Window {
                         sourceSize: Qt.size(10, 10)
                         source: "qrc:/assets/titlebar_close.svg"
 
-                        visible: true
+                        // visible: true
                     }
 
                     MouseArea {
@@ -213,8 +213,8 @@ Window {
             StackView {
                 id: stackView
                 anchors.fill: parent
-                initialItem: authWindow
-                // initialItem: messengerWindow
+                // initialItem: authWindow
+                initialItem: messengerWindow
             }
         }
     }

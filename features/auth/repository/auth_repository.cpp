@@ -16,9 +16,9 @@
 
 AuthRepository::AuthRepository(QObject *parent)
     : QObject{parent}
-    , _LoginSource(new LoginSource(nullptr, AppConfig::loginEndPoint()))
-    , _CreateProfileSource(new CreateProfileSource(nullptr, AppConfig::createProfileEndPoint()))
-    , _VerifyCodeSource(new VerifyCodeSource(nullptr, AppConfig::verifyCodeEndPoint()))
+    , _LoginSource(new LoginSource(this, AppConfig::loginEndPoint()))
+    , _CreateProfileSource(new CreateProfileSource(this, AppConfig::createProfileEndPoint()))
+    , _VerifyCodeSource(new VerifyCodeSource(this, AppConfig::verifyCodeEndPoint()))
     , _PoWProcess(PoWProcess::getInstance())
     , _TokenManager(TokenManager::getInstance())
 { }
@@ -26,15 +26,15 @@ AuthRepository::AuthRepository(QObject *parent)
 QMap<QString, QString> AuthRepository::defineHeaders()
 {
     QMap<QString, QString> headers;
-    auto nonce = _PoWProcess->getNonce();
-    QString challenge = _PoWProcess->getChallenge();
+    auto nonce = _PoWProcess->nonce();
+    QString challenge = _PoWProcess->challenge();
 
     if (!challenge.isEmpty())
     {
         headers["pow-challenge"] = challenge;
     }
 
-    if (nonce.has_value())
+    if (nonce)
     {
         QString value = QString::number(*nonce);
         headers["pow-nonce"] = value;
@@ -107,7 +107,7 @@ void AuthRepository::createProfile(const QString &name,
                                    const QString &username,
                                    const QString &email)
 {
-    CreateProfileRequest model{name, username, email};
+    CreateProfileRequest model{name, username, email, _TokenManager->token("registration_token")};
     RequestData reqData = buildRequest(
         model,
         [this] (const ResponseData& result, int code,
@@ -115,7 +115,7 @@ void AuthRepository::createProfile(const QString &name,
         {
             if (code == 201)
             {
-                _TokenManager->save(result.jsonData.value("message").toString());
+                _TokenManager->save("session_id", result.jsonData.value("message").toString());
             }
 
             emit createProfileFinished(message.first, message.second, code);
@@ -132,12 +132,12 @@ void AuthRepository::verifyCode(const QString &email, int code)
         [this] (const ResponseData& result, int code,
                 std::pair<QString, QString> message)
         {
-            if (code == 201)
+            if (code == 200)
             {
-               _TokenManager->save(result.jsonData.value("message").toString());
+                _TokenManager->save("registration_token", result.jsonData.value("registration_token").toString());
             }
 
-            emit verifyCodeFinished(message.first, message.second, code);
+            emit verifyCodeFinished(message.first, message.second, result.jsonData.value("next").toString(), code);
         });
 
     _VerifyCodeSource->verifyCode(reqData);

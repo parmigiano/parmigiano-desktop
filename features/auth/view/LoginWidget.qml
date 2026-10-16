@@ -17,15 +17,15 @@ Item {
     implicitHeight: loginColumn.implicitHeight
 
     function submit() {
-        emailInput.field.focus = false
+        emailInput.focus = false
 
-        let email = emailInput.field.text
+        let email = emailInput.text
         let emailCheck = Validate.validateEmail(email)
 
         if (emailCheck)
         {
             emailInput.error(false, "")
-            AuthContext.email = email
+            viewModel.email = email
             viewModel.login(email)
         }
         else
@@ -93,10 +93,10 @@ Item {
             Layout.fillWidth: true
             Layout.preferredHeight: 50
 
-            field.placeholderText: qsTrId("auth.login.email_placeholder")
+            placeholderText: qsTrId("auth.login.email_placeholder")/*
 
             normalColor: "#242527"
-            hoverColor: "#292a2c"
+            hoverColor: "#292a2c"*/
         }
     }
 }

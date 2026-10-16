@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>assets/logo.png</file>
-        <file>assets/arrow_back.svg</file>
         <file>assets/camera.svg</file>
         <file>assets/burger_menu.svg</file>
         <file>translations/ParmigianoDesktop_ru_RU.ts</file>
@@ -18,5 +17,7 @@
         <file>translations/ParmigianoDesktop_en_EN.ts</file>
         <file>translations/release/ParmigianoDesktop_en_EN.qm</file>
         <file>translations/release/ParmigianoDesktop_ru_RU.qm</file>
+        <file>assets/logout_icon.svg</file>
+        <file>assets/arrow_back.svg</file>
     </qresource>
 </RCC>

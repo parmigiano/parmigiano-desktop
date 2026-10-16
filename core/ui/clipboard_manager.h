@@ -10,7 +10,7 @@ class QClipboard;
 class ClipboardManager : public QObject
 {
     Q_OBJECT
-    //QML_ELEMENT
+    QML_ELEMENT
 public:
     explicit ClipboardManager(QObject *parent = nullptr);
 

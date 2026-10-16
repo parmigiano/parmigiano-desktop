@@ -8,6 +8,7 @@ struct CreateProfileRequest {
     QString name;
     QString username;
     QString email;
+    QString registrationToken;
 
     QJsonObject toJson() const {
         QJsonObject obj;
@@ -15,6 +16,7 @@ struct CreateProfileRequest {
         obj["name"] = name;
         obj["username"] = username;
         obj["email"] = email;
+        obj["registration_token"] = registrationToken;
 
         return obj;
     }

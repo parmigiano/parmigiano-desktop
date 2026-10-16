@@ -62,6 +62,7 @@ signals:
 
     void verifyCodeFinished(const QString& messageHeader,
                             const QString& messageBody,
+                            const QString& step,
                             int code);
 
 };

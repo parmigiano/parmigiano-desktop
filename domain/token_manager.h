@@ -15,13 +15,8 @@ public:
 
     static TokenManager* getInstance();
 
-    void save(const QString& token);
-    QString load();
-
-private:
-    static TokenManager _instancePtr;
-
-    const QString _key = "token";
+    void save(const QString& name, const QString& token);
+    QString token(const QString& name);
 
 signals:
 };

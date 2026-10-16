@@ -20,11 +20,11 @@ public:
     std::optional<int> solve(const QString& challenge, uint16_t difficulty);
 
     // Nonce
-    std::optional<int> getNonce();
+    std::optional<int> nonce();
     void setNonce(int nonce);
 
     // Challenge
-    QString getChallenge();
+    QString challenge();
     void setChallenge(const QString& challenge);
 
 private:

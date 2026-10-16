@@ -17,52 +17,44 @@ BaseSource::BaseSource(QObject *parent, const QString &link)
     , _PoWProcess(PoWProcess::getInstance())
 {}
 
-void BaseSource::request(RequestTypes type, const RequestData& reqData)
+void BaseSource::request(RequestTypes type, const RequestData& reqData, int attempts)
 {
-    if (_currentAttempt >= _retryAttempts)
+    if (attempts == 0)
     {
         return;
     }
-
-    _currentAttempt++;
 
     _HTTPClient->sendRequest(
         type,
         reqData.jsonObj,
         _link,
         reqData.headers,
-        [this, type, reqData] (const QJsonObject& jsonObj, int code) {
+        [this, type, reqData, attempts] (const QJsonObject& jsonObj, int code) {
             // Checking for PoW, solve PoW and retry request if it need
             // If all right call up callback
-            if (jsonObj["message"].toObject().contains("challenge"))
+            QJsonObject message = jsonObj["message"].toObject();
+            if (message.contains("challenge") && attempts > 1)
             {
-                QString challenge = jsonObj["message"].toObject()["challenge"].toString();
-                uint8_t difficulty = jsonObj["message"].toObject()["difficulty"].toInt();
+                QString challenge = message["challenge"].toString();
+                uint8_t difficulty = message["difficulty"].toInt();
 
-                _PoWProcess->solve(challenge, difficulty);
+                auto nonce = _PoWProcess->solve(challenge, difficulty);
+                if (nonce)
+                {
+                    RequestData retryReqData = reqData;
+                    retryReqData.headers["pow-challenge"] = challenge;
+                    retryReqData.headers["pow-nonce"] = QString::number(*nonce);
 
-                auto nonce = _PoWProcess->getNonce();
-                QString value = QString::number(*nonce);
-
-                QMap<QString, QString> headers = reqData.headers;
-                headers["pow-challenge"] = challenge;
-                headers["pow-nonce"] = value;
-
-                RequestData RetryReqData;
-                RetryReqData.jsonObj = reqData.jsonObj;
-                RetryReqData.callback = reqData.callback;
-                RetryReqData.headers = headers;
-
-                request(type, RetryReqData);
+                    // qDebug() << attempts;
+                    request(type, retryReqData, attempts - 1);
+                    return;
+                }
             }
-            else
-            {
-                ResponseData result;
-                result.jsonData = jsonObj;
-                result.code = code;
 
-                _currentAttempt = 0;
-                reqData.callback(result);
-            }
+            ResponseData result;
+            result.jsonData = jsonObj;
+            result.code = code;
+
+            reqData.callback(result);
         });
 }

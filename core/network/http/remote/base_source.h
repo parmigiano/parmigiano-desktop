@@ -26,10 +26,7 @@ protected:
 
     QString _link;
 
-    int _retryAttempts = 2;
-    int _currentAttempt = 0;
-
-    void request(RequestTypes type, const RequestData& reqData);
+    void request(RequestTypes type, const RequestData& reqData, int attempts = 2);
 
 private:
     HTTPClient* _HTTPClient;

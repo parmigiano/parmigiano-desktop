@@ -14,6 +14,10 @@ Item {
     readonly property int gap: 30
     readonly property string buttonText: qsTrId("auth.code.confirm")
 
+    ClipboardManager {
+        id: clipboardManager
+    }
+
     implicitHeight: verifyCodeColumn.implicitHeight
 
     StackView.onActivated: {
@@ -39,7 +43,7 @@ Item {
 
         if (code.length == 6)
         {
-            viewModel.verifyCode(AuthContext.email, code);
+            viewModel.verifyCode(viewModel.email, code);
         }
         else
         {
@@ -92,7 +96,7 @@ Item {
                     Layout.maximumWidth: root.width
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: AuthContext.email +
+                    text: viewModel.email +
                           " <font color='#eeeeef'>\u00B7</font> " +
                           " <a href='change_email'>" + qsTrId("auth.code.change_email") + "</a> "
 
@@ -181,7 +185,7 @@ Item {
                         {
                             let ch = string[i];
 
-                            if (ch > '0' && ch < '9')
+                            if (ch >= '0' && ch <= '9')
                             {
                                 digitals.push(ch);
                             }
@@ -270,7 +274,7 @@ Item {
                         {
                             if (index === repeaterCodeFields.count - 1) return;
 
-                            let clipboardText = ClipboardManager.getClipboardData();
+                            let clipboardText = clipboardManager.getClipboardData();
                             let digitals = getDigitalsFromString(clipboardText);
 
                             digitals = digitals.slice(0, repeaterCodeFields.count - index);
@@ -286,6 +290,11 @@ Item {
                             }
 
                             setFocusAtEnd();
+
+                            if (digitals.length === 6)
+                            {
+                                Qt.callLater(submit);
+                            }
                         }
                     }
 

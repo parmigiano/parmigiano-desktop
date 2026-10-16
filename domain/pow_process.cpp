@@ -15,17 +15,12 @@ PoWProcess *PoWProcess::getInstance()
 
 std::optional<int> PoWProcess::solve(const QString &challenge, uint16_t difficulty)
 {
-    QString challengeStart = challenge.left(challenge.indexOf(':'));
-    unsigned int challengeEnd = challenge.section(':', 1).toUInt();
-
     for(uint16_t i = 0; i < _attemptsToSolve; ++i)
     {
-        QString str = challengeStart + ":" + QString::number(challengeEnd + i);
+        QString str = challenge + QString::number(i);
 
         if(isSolved(str, difficulty))
         {
-            //qDebug() << str;
-            //nonce_ = i;
             setNonce(i);
             setChallenge(challenge);
             return i;
@@ -45,7 +40,7 @@ std::optional<int> PoWProcess::solve(const QString &challenge, uint16_t difficul
 //     return false;
 // }
 
-std::optional<int> PoWProcess::getNonce()
+std::optional<int> PoWProcess::nonce()
 {
     return _nonce;
 }
@@ -55,7 +50,7 @@ void PoWProcess::setNonce(int nonce)
     if (_nonce != nonce) _nonce = nonce;
 }
 
-QString PoWProcess::getChallenge()
+QString PoWProcess::challenge()
 {
     return _challenge;
 }

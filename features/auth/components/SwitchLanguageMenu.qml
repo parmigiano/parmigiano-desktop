@@ -71,6 +71,8 @@ Item {
             }
 
             Image {
+                id: chevron
+
                 anchors.verticalCenter: parent.verticalCenter
 
                 sourceSize: Qt.size(14, 14)
@@ -87,7 +89,28 @@ Item {
 
             onClicked: {
                 contextMenu.popup((rectangle.width - contextMenu.width) / 2, -contextMenu.height - 10);
+                chevronUp.start();
             }
+        }
+
+        RotationAnimation {
+            id: chevronUp
+
+            target: chevron
+            to: 180
+            duration: 360
+            direction: RotationAnimation.Clockwise
+            easing.type: Easing.OutCubic
+        }
+
+        RotationAnimation {
+            id: chevronDown
+
+            target: chevron
+            to: 360
+            duration: 360
+            direction: RotationAnimation.Clockwise
+            easing.type: Easing.OutCubic
         }
     }
 
@@ -159,6 +182,14 @@ Item {
             color: "#232323"
             border.color: '#373737'
             radius: 15
+        }
+
+        onAboutToShow: {
+            chevronUp.start();
+        }
+
+        onAboutToHide: {
+            chevronDown.start();
         }
 
         Action {
