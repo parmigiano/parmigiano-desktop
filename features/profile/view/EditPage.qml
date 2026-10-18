@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import ParmigianoDesktop.SharedUI
+import ParmigianoDesktop.FeatureProfile
 
 ColumnLayout {
     id: root
@@ -40,6 +41,30 @@ ColumnLayout {
         //     color: "red"
         // }
 
+        spacing: 15
 
+        InputField {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
+
+            field.maximumLength: 24
+            labelText: qsTrId("Name")
+        }
+
+        InputField {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
+
+            field.maximumLength: 24
+            labelText: qsTrId("Username")
+        }
+
+        InputField {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
+
+            field.maximumLength: 24
+            labelText: qsTrId("About")
+        }
     }
 }

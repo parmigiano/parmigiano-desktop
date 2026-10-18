@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 import ParmigianoDesktop.FeatureAuth
 import ParmigianoDesktop.CoreUI
-import "js/validate.js" as Validate
+import ParmigianoDesktop.SharedUI
 
 Item {
     id: root

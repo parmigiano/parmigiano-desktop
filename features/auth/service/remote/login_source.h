@@ -1,7 +1,7 @@
 #ifndef LOGIN_SOURCE_H
 #define LOGIN_SOURCE_H
 
-#include "core/network/http/remote/base_source.h"
+#include "shared/service/remote/base_source.h"
 
 class LoginSource : public BaseSource
 {

@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 import ParmigianoDesktop.FeatureAuth
 import ParmigianoDesktop.CoreUI
-import "js/validate.js" as Validate
+import ParmigianoDesktop.SharedUI
 
 Item {
     id: root
@@ -93,7 +93,10 @@ Item {
             Layout.fillWidth: true
             Layout.preferredHeight: 50
 
-            placeholderText: qsTrId("auth.login.email_placeholder")/*
+            placeholderText: qsTrId("auth.login.email_placeholder")
+
+            maximumLength: 254
+            /*
 
             normalColor: "#242527"
             hoverColor: "#292a2c"*/

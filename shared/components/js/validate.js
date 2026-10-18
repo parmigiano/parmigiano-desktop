@@ -1,3 +1,5 @@
+.pragma library
+
 function validateString(string, regExp) {
     if (string.length === 0) return false;
     return regExp.test(string);

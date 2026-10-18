@@ -4,7 +4,7 @@ import QtQuick.Controls
 
 import ParmigianoDesktop.FeatureAuth
 import ParmigianoDesktop.CoreUI
-import "js/validate.js" as Validate
+import ParmigianoDesktop.SharedUI
 
 Item {
     id: root
@@ -112,6 +112,8 @@ Item {
 
                 placeholderText: qsTrId("auth.profile.name.placeholder")
 
+                maximumLength: 24
+
                 // normalColor: "#242527"
                 // hoverColor: "#292a2c"
             }
@@ -123,6 +125,8 @@ Item {
                 Layout.preferredHeight: 50
 
                 placeholderText: "@Username"
+
+                maximumLength: 24
 
                 // normalColor: "#242527"
                 // hoverColor: "#292a2c"

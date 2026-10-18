@@ -1,7 +1,7 @@
 #ifndef VERIFY_CODE_SOURCE_H
 #define VERIFY_CODE_SOURCE_H
 
-#include "core/network/http/remote/base_source.h"
+#include "shared/service/remote/base_source.h"
 
 class VerifyCodeSource : public BaseSource
 {

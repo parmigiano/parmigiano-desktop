@@ -7,8 +7,8 @@
 #include <qthread.h>
 
 #include "core/network/http/http_client.h"
-#include "core/network/http/model/response_data.h"
-#include "core/network/http/model/request_data.h"
+#include "shared/model/response_data.h"
+#include "shared/model/request_data.h"
 #include "domain/pow_process.h"
 
 BaseSource::BaseSource(QObject *parent, const QString &link)

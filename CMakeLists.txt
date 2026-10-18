@@ -42,16 +42,6 @@ add_library(core STATIC
         core/network/http/http_client.h
         core/network/http/http_client.cpp
 
-        # Core/Network/http/model
-        # -->
-        core/network/http/model/request_data.h
-        core/network/http/model/response_data.h
-
-        # Core/Network/remote
-        # -->
-        core/network/http/remote/base_source.cpp
-        core/network/http/remote/base_source.h
-
         # Core/Config
         # -->
         core/config/app_config.h
@@ -62,7 +52,6 @@ target_link_libraries(core
     PRIVATE
         Qt6::Core
         Qt6::Gui
-        Qt6::Network
         Qt6::Qml
 )
 
@@ -115,18 +104,34 @@ add_library(shared STATIC
         # -->
         shared/model/user_store.h
         shared/model/user_store.cpp
+        shared/model/request_data.h
+        shared/model/response_data.h
 
         # shared/data
         # -->
         shared/data/user_profile.h
+
+        # shared/repository
+        # -->
+        shared/repository/base_repository.h
+        shared/repository/base_repository.cpp
+
+        # shared/service/remote
+        # -->
+        shared/service/remote/base_source.cpp
+        shared/service/remote/base_source.h
 )
 target_include_directories(shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(shared
     PRIVATE
         Qt6::Core
+        Qt6::Network
 )
 
 qt_add_library(sharedUI STATIC)
+set_source_files_properties(shared/components/js/validate.js PROPERTIES
+    QT_QML_SOURCE_TYPENAME Validate
+)
 qt_add_qml_module(sharedUI
     URI ParmigianoDesktop.SharedUI
     VERSION 1.0
@@ -136,6 +141,10 @@ qt_add_qml_module(sharedUI
         # -->
         shared/components/FieldFrame.qml
         shared/components/TextContextMenu.qml
+
+        # shared/components/js
+        # -->
+        shared/components/js/validate.js
 )
 
 qt_add_library(featureAuth STATIC)
@@ -200,11 +209,6 @@ qt_add_qml_module(featureAuth
         features/auth/view/LoginWidget.qml
         features/auth/view/CreateProfileWidget.qml
         features/auth/view/VerifyCodeWidget.qml
-
-    RESOURCES
-        # Features/Auth/view
-        # -->
-        features/auth/view/js/validate.js
 )
 target_include_directories(featureAuth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories(featureAuth # for MOC padla takaya
@@ -220,6 +224,7 @@ target_link_libraries(featureAuth
         core
         coreUI
         domain
+        shared
         sharedUI
 )
 #target_link_libraries(featureAuth PRIVATE Qt6::Core)

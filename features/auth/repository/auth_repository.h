@@ -8,7 +8,7 @@
 #include "features/auth/service/dto/login_model.h"
 #include "features/auth/service/dto/verify_code_model.h"
 
-#include "core/network/http/model/request_data.h"
+#include "shared/model/request_data.h"
 
 class LoginSource;
 class CreateProfileSource;

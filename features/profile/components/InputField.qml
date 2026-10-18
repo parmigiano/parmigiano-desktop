@@ -1,38 +1,103 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
-import ParmigianoDesktop.CoreUI
+import ParmigianoDesktop.SharedUI
 
-Item {
+FieldFrame {
     id: root
 
-    TextField {
-        id: field
+    property alias field: field
+    property string labelText: ""
+    property bool hasError: false
 
-        verticalAlignment: Text.AlignVCenter
-        leftPadding: 15
-        placeholderTextColor: "#909195"
-        color: "white"
-        font.pointSize: 11
-        selectionColor: "#053ba7"
+    hovered: field.hovered
+    focused: field.activeFocus
+    error: hasError
 
-        background: FieldFrame {
-            hovered: field.hovered
-            focused: field.activeFocus
-            error: field.hasError
+    function error(isError, message) {
+        root.hasError = isError
+        // root.errorMessage = isError ? message : ""
+    }
+
+    ColumnLayout {
+        anchors.fill: parent
+        // Layout.fillWidth: true
+        // Layout.fillHeight: true
+
+        Item {
+            Layout.fillHeight: true
         }
 
-        TapHandler {
-            acceptedButtons: Qt.RightButton
-            onTapped: contextMenu.menu.popup()
+        Text {
+            id: label
+
+            // Layout.fillHeight: true
+            // Layout.alignment: Qt.AlignVCenter
+
+            leftPadding: 15
+            // anchors.fill: parent
+            // verticalAlignment: Text.AlignVCenter
+            // z: 1
+            // y: (root.height - label.height) / 3
+
+            text: labelText
+            font.pointSize: 10
+            color: "#909195"
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: 120
+                }
+            }
+
+            // Rectangle {
+            //     anchors.fill: parent
+            //     color: "#181818"
+            //     z: -1
+            // }
         }
 
-        TextContextMenu {
-            id: contextMenu
+        TextField {
+            id: field
 
-            target: root
+            Layout.fillWidth: true
+            // Layout.fillHeight: true
+            // Layout.alignment: Qt.AlignVCenter
+
+            verticalAlignment: Qt.AlignVCenter
+            leftPadding: 15
+            placeholderTextColor: "#909195"
+            color: "white"
+            font.pointSize: 11
+            selectionColor: "#053ba7"
+
+            background: null
+
+            // background: FieldFrame {
+            //     hovered: root.hovered
+            //     focused: root.activeFocus
+            //     // error: field.hasError
+            // }
+
+            TapHandler {
+                acceptedButtons: Qt.RightButton
+                onTapped: contextMenu.menu.popup()
+            }
+
+            TextContextMenu {
+                id: contextMenu
+
+                target: root
+            }
+
+            onTextEdited: root.error(false, "")
         }
 
-        onTextEdited: root.error(false, "")
+        Item {
+            Layout.fillHeight: true
+        }
     }
 }
+
+
