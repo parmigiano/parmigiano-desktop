@@ -4,13 +4,12 @@
 #include <QCryptographicHash>
 #include <QByteArray>
 
-PoWProcess PoWProcess::_instancePtr;
-
 PoWProcess::PoWProcess(QObject *parent) {}
 
 PoWProcess *PoWProcess::getInstance()
 {
-    return &_instancePtr;
+    static PoWProcess poWProcess;
+    return &poWProcess;
 }
 
 std::optional<int> PoWProcess::solve(const QString &challenge, uint16_t difficulty)

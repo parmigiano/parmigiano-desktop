@@ -41,6 +41,7 @@ add_library(core STATIC
         # -->
         core/network/http/http_client.h
         core/network/http/http_client.cpp
+        core/network/http/http_response_status.h
 
         # Core/Config
         # -->
@@ -102,14 +103,14 @@ target_link_libraries(domain PRIVATE Qt6::Core)
 add_library(shared STATIC
         # shared/model
         # -->
-        shared/model/user_store.h
-        shared/model/user_store.cpp
         shared/model/request_data.h
         shared/model/response_data.h
+        shared/model/user_profile.h
 
         # shared/data
         # -->
-        shared/data/user_profile.h
+        shared/data/user_store.h
+        shared/data/user_store.cpp
 
         # shared/repository
         # -->
@@ -120,6 +121,7 @@ add_library(shared STATIC
         # -->
         shared/service/remote/base_source.cpp
         shared/service/remote/base_source.h
+        shared/model/request_result.h
 )
 target_include_directories(shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(shared
@@ -141,6 +143,7 @@ qt_add_qml_module(sharedUI
         # -->
         shared/components/FieldFrame.qml
         shared/components/TextContextMenu.qml
+        shared/components/ButtonConfirm.qml
 
         # shared/components/js
         # -->
@@ -177,12 +180,6 @@ qt_add_qml_module(featureAuth
         # -->
         # features/auth/service/remote/base_source.h
         # features/auth/service/remote/base_source.cpp
-        features/auth/service/remote/create_profile_source.h
-        features/auth/service/remote/create_profile_source.cpp
-        features/auth/service/remote/verify_code_source.h
-        features/auth/service/remote/verify_code_source.cpp
-        features/auth/service/remote/login_source.h
-        features/auth/service/remote/login_source.cpp
 
         # Features/Auth/viewmodel
         # -->
@@ -192,8 +189,6 @@ qt_add_qml_module(featureAuth
     QML_FILES
         # Features/Auth/components
         # -->
-        features/auth/components/ButtonConfirm.qml
-
         features/auth/components/NetworkStatusBanner.qml
         features/auth/components/SwitchLanguageMenu.qml
         features/auth/components/InputField.qml
@@ -209,6 +204,7 @@ qt_add_qml_module(featureAuth
         features/auth/view/LoginWidget.qml
         features/auth/view/CreateProfileWidget.qml
         features/auth/view/VerifyCodeWidget.qml
+        SOURCES features/auth/service/remote/auth_source.h features/auth/service/remote/auth_source.cpp
 )
 target_include_directories(featureAuth PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
 target_include_directories(featureAuth # for MOC padla takaya
@@ -294,11 +290,21 @@ qt_add_qml_module(featureProfile
     OUTPUT_DIRECTORY "ParmigianoDesktop/FeatureProfile"
     QML_FILES
         features/profile/view/ProfileWidget.qml
-        features/profile/components/ProfileDialog.qml
         features/profile/view/ProfilePage.qml
         features/profile/view/EditPage.qml
-        SOURCES features/profile/viewmodel/profile_view_model.h features/profile/viewmodel/profile_view_model.cpp
-        QML_FILES features/profile/components/InputField.qml
+
+        features/profile/components/ProfileDialog.qml
+        features/profile/components/ProfileInput.qml
+    SOURCES
+        features/profile/viewmodel/profile_view_model.h
+        features/profile/viewmodel/profile_view_model.cpp
+        SOURCES features/profile/repository/profile_repository.h features/profile/repository/profile_repository.cpp
+        SOURCES features/profile/service/remote/profile_source.h features/profile/service/remote/profile_source.cpp
+)
+target_include_directories(featureProfile PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} )
+target_include_directories(featureProfile # for MOC padla takaya
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/features/profile/viewmodel
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

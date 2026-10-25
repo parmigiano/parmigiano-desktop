@@ -41,7 +41,7 @@ Item {
                 return
             }
 
-            stackView.replace(pagesURI[pageName], StackView.Immediate)
+            stackView.replace(pagesURI[pageName])
         }
 
         function onNavigateBack() {
@@ -119,7 +119,7 @@ Item {
         }
 
         onAboutToShow: {
-            stackView.replace(profilePage, StackView.Immediate)
+            stackView.replace(profilePage)
         }
 
         ColumnLayout {
@@ -166,6 +166,57 @@ Item {
                 Layout.preferredHeight: currentItem ? currentItem.implicitHeight : 0
 
                 initialItem: profilePage
+
+                pushEnter: Transition {
+                    NumberAnimation {
+                        property: "opacity";
+                        from: 0;
+                        to: 1;
+                        duration: 150;
+                        easing.type: Easing.OutQuad
+                    }
+                }
+
+                pushExit: Transition {
+                    PropertyAction {
+                        property: "opacity";
+                        value: 0
+                    }
+                }
+
+                popEnter: Transition {
+                    NumberAnimation {
+                        property: "opacity";
+                        from: 0;
+                        to: 1;
+                        duration: 150;
+                        easing.type: Easing.OutQuad
+                    }
+                }
+
+                popExit: Transition {
+                    PropertyAction {
+                        property: "opacity";
+                        value: 0
+                    }
+                }
+
+                replaceEnter: Transition {
+                    NumberAnimation {
+                        property: "opacity";
+                        from: 0;
+                        to: 1;
+                        duration: 150;
+                        easing.type: Easing.OutQuad
+                    }
+                }
+
+                replaceExit: Transition {
+                    PropertyAction {
+                        property: "opacity";
+                        value: 0
+                    }
+                }
             }
         }
     }

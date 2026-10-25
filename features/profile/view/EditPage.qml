@@ -34,37 +34,57 @@ ColumnLayout {
     }
 
     ColumnLayout {
-        // Rectangle {
-        //     Layout.fillWidth: true
-        //     Layout.preferredHeight: 10
 
-        //     color: "red"
-        // }
+        spacing: 12
 
-        spacing: 15
-
-        InputField {
+        ProfileInput {
             Layout.fillWidth: true
-            Layout.preferredHeight: 60
+            Layout.preferredHeight: 56
 
-            field.maximumLength: 24
+            maximumLength: 24
             labelText: qsTrId("Name")
         }
 
-        InputField {
+        ProfileInput {
             Layout.fillWidth: true
-            Layout.preferredHeight: 60
+            Layout.preferredHeight: 56
 
-            field.maximumLength: 24
+            maximumLength: 24
             labelText: qsTrId("Username")
         }
 
-        InputField {
+        ProfileInput {
+            id: about
             Layout.fillWidth: true
-            Layout.preferredHeight: 60
+            Layout.preferredHeight: 90
+            // Layout.preferredHeight: field.height + 56
 
-            field.maximumLength: 24
+            multiline: true
+            maximumLength: 70
             labelText: qsTrId("About")
+
+            Text {
+                anchors.right: parent.right
+                anchors.rightMargin: 14
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 9
+
+                text: about.field.length + "/" + about.maximumLength
+                color: "#909195"
+                font.pointSize: 8
+            }
+        }
+    }
+
+    ButtonConfirm {
+        Layout.fillWidth: true
+        Layout.preferredHeight: 50
+
+        buttonTextDefault: qsTrId("Save")
+        buttonTextLoading: qsTrId("auth.loading")
+
+        mouseArea.onClicked: {
+            // clickButtonAction.trigger();
         }
     }
 }

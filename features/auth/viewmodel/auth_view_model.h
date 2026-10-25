@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QtQml/qqmlregistration.h>
 
+#include "shared/model/request_result.h"
+
 class AuthRepository;
 
 class AuthViewModel : public QObject
@@ -24,17 +26,7 @@ public:
 
 private:
     AuthRepository* _AuthRepository;
-
     QString _email;
-
-    enum Status {
-        Unknown = 0,
-        Ok = 200,
-        Accepted = 202,
-        BadRequest = 400,
-        NotFound = 404,
-        InternalError = 500
-    };
 
 signals:
     void emailChanged();
@@ -44,18 +36,9 @@ signals:
     void displayMessage(QString header, const QString& body);
 
 public slots:
-    void processLoginFinished(const QString& messageHeader,
-                              const QString& messageBody,
-                              int code) const;
-
-    void processVerifyCodeFinished(const QString& messageHeader,
-                                   const QString& messageBody,
-                                   const QString& step,
-                                   int code) const;
-
-    void processCreateProfileFinished(const QString& messageHeader,
-                                      const QString& messageBody,
-                                      int code) const;
+    void processLoginFinished(RequestResult result);
+    void processCreateProfileFinished(RequestResult result);
+    void processVerifyCodeFinished(RequestResult result, const QString& step);
 };
 
 #endif // AUTH_VIEW_MODEL_H

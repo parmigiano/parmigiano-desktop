@@ -11,8 +11,8 @@
 #include "shared/model/request_data.h"
 #include "domain/pow_process.h"
 
-BaseSource::BaseSource(QObject *parent, const QString &link)
-    : QObject{parent}, _link(link)
+BaseSource::BaseSource(QObject *parent)
+    : QObject{parent}
     , _HTTPClient(new HTTPClient())
     , _PoWProcess(PoWProcess::getInstance())
 {}
@@ -27,7 +27,7 @@ void BaseSource::request(RequestTypes type, const RequestData& reqData, int atte
     _HTTPClient->sendRequest(
         type,
         reqData.jsonObj,
-        _link,
+        reqData.url,
         reqData.headers,
         [this, type, reqData, attempts] (const QJsonObject& jsonObj, int code) {
             // Checking for PoW, solve PoW and retry request if it need
@@ -45,7 +45,6 @@ void BaseSource::request(RequestTypes type, const RequestData& reqData, int atte
                     retryReqData.headers["pow-challenge"] = challenge;
                     retryReqData.headers["pow-nonce"] = QString::number(*nonce);
 
-                    // qDebug() << attempts;
                     request(type, retryReqData, attempts - 1);
                     return;
                 }

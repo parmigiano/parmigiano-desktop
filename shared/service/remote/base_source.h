@@ -16,15 +16,13 @@ class BaseSource : public QObject
 {
     Q_OBJECT
 public:
-    explicit BaseSource(QObject *parent = nullptr, const QString& link = "");
+    explicit BaseSource(QObject *parent = nullptr);
 
 protected:
     QList<QVariantMap> _data;
     QNetworkAccessManager _networkManager;
     QNetworkReply* _reply = nullptr;
     QJsonObject currentJSON;
-
-    QString _link;
 
     void request(RequestTypes type, const RequestData& reqData, int attempts = 2);
 

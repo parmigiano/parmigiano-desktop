@@ -5,9 +5,18 @@ import QtQuick.Effects
 import QtQuick.Window
 
 import ParmigianoDesktop.FeatureSidebar
+import ParmigianoDesktop.FeatureProfile
 
 Item {
     id: root
+
+    ProfileViewModel {
+        id: profileViewModel
+    }
+
+    Component.onCompleted: {
+        profileViewModel.fillProfileData()
+    }
 
     Rectangle {
         anchors.fill: parent

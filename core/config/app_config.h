@@ -13,6 +13,8 @@ namespace AppConfig {
     inline QString passwordLoginEndPoint() { return QString(authBaseURL) + "auth/login"; }
     inline QString logoutEndPoint() { return QString(authBaseURL) + "auth/logout"; }
     inline QString deleteAccountEndPoint() { return QString(authBaseURL) + "auth/delete"; }
+
+    inline QString getProfileEndPoint() { return QString(baseURL) + "users/me"; }
 }
 
 #endif // CONFIG_H

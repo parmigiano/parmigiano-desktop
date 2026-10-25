@@ -6,6 +6,7 @@ import QtQuick.Window
 
 import ParmigianoDesktop.FeatureAuth
 import ParmigianoDesktop.CoreUI
+import ParmigianoDesktop.SharedUI
 
 Item {
     id: root

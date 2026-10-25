@@ -8,6 +8,10 @@ Item {
 
     implicitHeight: profileRow.implicitHeight
 
+    ProfileViewModel {
+        id: viewModel
+    }
+
     Rectangle {
         anchors.fill: parent
 

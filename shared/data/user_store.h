@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "shared/data/user_profile.h"
+#include "shared/model/user_profile.h"
 
 class UserStore : public QObject
 {

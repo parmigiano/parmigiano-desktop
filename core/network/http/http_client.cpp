@@ -54,6 +54,7 @@ void HTTPClient::sendRequest(RequestTypes type,
         reply = _networkManager->post(request, jsonArray);
         break;
     case RequestTypes::GET:
+        reply = _networkManager->get(request);
         break;
     case RequestTypes::PATCH:
         break;

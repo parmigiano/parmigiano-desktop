@@ -4,42 +4,21 @@
 #include <QObject>
 #include <QString>
 
-#include "features/auth/service/dto/create_profile_model.h"
-#include "features/auth/service/dto/login_model.h"
-#include "features/auth/service/dto/verify_code_model.h"
+#include "shared/repository/base_repository.h"
+#include "shared/model/request_result.h"
 
-#include "shared/model/request_data.h"
-
-class LoginSource;
-class CreateProfileSource;
-class VerifyCodeSource;
+class AuthSource;
 class PoWProcess;
-class TokenManager;
-struct RequestData;
 
-class AuthRepository : public QObject
+class AuthRepository : public BaseRepository
 {
     Q_OBJECT
 public:
-
     explicit AuthRepository(QObject *parent = nullptr);
     virtual ~AuthRepository() = default;
 
 private:
-    using RequestModel = std::variant<CreateProfileRequest,
-                                      LoginRequest,
-                                      VerifyCodeRequest>;
-
-    LoginSource* _LoginSource;
-    CreateProfileSource* _CreateProfileSource;
-    VerifyCodeSource* _VerifyCodeSource;
-    PoWProcess* _PoWProcess;
-    TokenManager* _TokenManager;
-
-    QMap<QString, QString> defineHeaders();
-    std::pair<QString, QString> defineMessage(int code);
-    RequestData buildRequest(const RequestModel& model,
-                             std::function<void(const ResponseData&, int, std::pair<QString, QString>)> func);
+    AuthSource* _AuthSource;
 
 public:
     void login(const QString& email);
@@ -52,18 +31,9 @@ public:
                     int code);
 
 signals:
-    void loginFinished(const QString& messageHeader,
-                       const QString& messageBody,
-                       int code);
-
-    void createProfileFinished(const QString& messageHeader,
-                               const QString& messageBody,
-                               int code);
-
-    void verifyCodeFinished(const QString& messageHeader,
-                            const QString& messageBody,
-                            const QString& step,
-                            int code);
+    void loginFinished(RequestResult result);
+    void createProfileFinished(RequestResult result);
+    void verifyCodeFinished(RequestResult result, const QString& step);
 
 };
 

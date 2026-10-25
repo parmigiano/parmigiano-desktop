@@ -10,6 +10,7 @@ struct RequestData
     std::function<void(const ResponseData&)> callback;
     QJsonObject jsonObj;
     QMap<QString, QString> headers;
+    QString url;
 };
 
 #endif // REQUEST_DATA_H

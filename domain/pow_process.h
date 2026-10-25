@@ -28,7 +28,7 @@ public:
     void setChallenge(const QString& challenge);
 
 private:
-    static PoWProcess _instancePtr;
+    // static PoWProcess _instancePtr;
     std::optional<int> _nonce;
     int _attemptsToSolve = 10000;
     QString _challenge = "";

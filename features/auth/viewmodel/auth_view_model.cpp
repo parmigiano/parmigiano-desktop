@@ -3,6 +3,7 @@
 #include <QMetaEnum>
 
 #include "features/auth/repository/auth_repository.h"
+#include "core/network/http/http_response_status.h"
 
 AuthViewModel::AuthViewModel(QObject *parent)
     : _AuthRepository(new AuthRepository(this))
@@ -10,11 +11,11 @@ AuthViewModel::AuthViewModel(QObject *parent)
     connect(_AuthRepository, &AuthRepository::loginFinished,
            this, &AuthViewModel::processLoginFinished);
 
-    connect(_AuthRepository, &AuthRepository::verifyCodeFinished,
-            this, &AuthViewModel::processVerifyCodeFinished);
-
     connect(_AuthRepository, &AuthRepository::createProfileFinished,
             this, &AuthViewModel::processCreateProfileFinished);
+
+    connect(_AuthRepository, &AuthRepository::verifyCodeFinished,
+            this, &AuthViewModel::processVerifyCodeFinished);
 }
 
 QString AuthViewModel::email()
@@ -30,25 +31,33 @@ void AuthViewModel::setEmail(QString email)
     }
 }
 
-void AuthViewModel::processLoginFinished(const QString& messageHeader,
-                                         const QString& messageBody,
-                                         int code) const
+void AuthViewModel::processLoginFinished(RequestResult result)
 {
-    switch (code)
+    switch (result.code)
     {
-    case AuthViewModel::Status::Ok:
+    case HTTPStatus::Ok:
         emit const_cast<AuthViewModel*>(this)->navigateToVerifyCode();
         break;
     default:
-        emit const_cast<AuthViewModel*>(this)->displayMessage(messageHeader, messageBody);
+        emit const_cast<AuthViewModel*>(this)->displayMessage(result.messageHeader, result.messageBody);
         break;
     }
 }
 
-void AuthViewModel::processVerifyCodeFinished(const QString& messageHeader,
-                                              const QString& messageBody,
-                                              const QString& step,
-                                              int code) const
+void AuthViewModel::processCreateProfileFinished(RequestResult result)
+{
+    switch (result.code)
+    {
+    case HTTPStatus::Ok:
+        qDebug() << "navigate to messanger";
+        break;
+    default:
+        emit const_cast<AuthViewModel*>(this)->displayMessage(result.messageHeader, result.messageBody);
+        break;
+    }
+}
+
+void AuthViewModel::processVerifyCodeFinished(RequestResult result, const QString& step)
 {
     // switch (code)
     // {
@@ -63,21 +72,6 @@ void AuthViewModel::processVerifyCodeFinished(const QString& messageHeader,
     if (step == "registration")
     {
         emit const_cast<AuthViewModel*>(this)->navigateToCreateProfile();
-    }
-}
-
-void AuthViewModel::processCreateProfileFinished(const QString& messageHeader,
-                                                 const QString& messageBody,
-                                                 int code) const
-{
-    switch (code)
-    {
-    case AuthViewModel::Status::Ok:
-        qDebug() << "navigate to messanger";
-        break;
-    default:
-        emit const_cast<AuthViewModel*>(this)->displayMessage(messageHeader, messageBody);
-        break;
     }
 }
 
